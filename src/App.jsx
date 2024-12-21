@@ -18,23 +18,53 @@ import Comments from './pages/Comments';
 import Contact from './pages/Contact';
 import Authentication from './pages/Authentication';
 import Profile from './pages/Profile';
+import PrivateRoute from './components/PrivateRoute';
 
 
 
 function App() {
   return (
-    <Router className="bg-gray-100 min-h-screen">
+    <Router>
       <Header/>
       <Routes>
-        <Route path="/home" element={<Home/>}/>
-        <Route path="/spaces" element={<Spaces/>}/>
-        <Route path="/spaces/:id" element={<SpaceDetails />} />
-        <Route path="/comments" element={<Comments />} />
-        <Route path="/contact" element={<Contact/>}/>
         <Route path="/login" element={<Authentication />} />
         <Route path="/register" element={<Authentication />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="*" element={<Navigate replace to="/home"/>}/>
+
+        <Route path="/home" element={
+          <PrivateRoute>
+            <Home/>
+          </PrivateRoute>
+          }/>
+        <Route path="/spaces" element={
+          <PrivateRoute>
+            <Spaces/>
+          </PrivateRoute>
+          }/>
+        <Route path="/spaces/:id" element={
+          <PrivateRoute>
+            <SpaceDetails />
+          </PrivateRoute>
+          }/>
+        <Route path="/comments" element={
+          <PrivateRoute>
+            <Comments />
+          </PrivateRoute>
+          }/>
+        <Route path="/contact" element={
+          <PrivateRoute>
+            <Contact/>
+          </PrivateRoute>
+          }/> 
+        <Route path="/profile" element={
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+          }/>
+        <Route path="*" element={
+          <PrivateRoute>
+            <Navigate replace to="/home"/>
+          </PrivateRoute>
+          }/>
       </Routes>
       <Footer/>
     </Router>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-export default function Login() {
+export default function Login({user,setUser}) {
+
   const [initPassword, setInitPassword] = useState(false);
-  const [user, setUser] = useState(null);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,27 +66,17 @@ export default function Login() {
     }
 };
 
-const fetchWithAuth = async (url, options = {}) => {
-    const token = localStorage.getItem("authToken");
-    if (!token) throw new Error("No se encontró el token de autenticación");
+    const fetchWithAuth = async (url, options = {}) => {
+        const token = localStorage.getItem("authToken");
+       if (!token) throw new Error("No se encontró el token de autenticación");
 
-    const headers = {
-        ...options.headers,
-        Authorization: `Bearer ${token}`, // Incluye el token en el encabezado
-    };
+      const headers = {
+          ...options.headers,
+          Authorization: `Bearer ${token}`, // Incluye el token en el encabezado
+       };
 
     return fetch(url, { ...options, headers });
 };
-
-
-//LOGOUT
-const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    setUser(null);
-    console.log("Sesión cerrada");
-};
-
-
 
 
   const initPasswordVisibility = () => {

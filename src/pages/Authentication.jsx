@@ -3,13 +3,13 @@ import { useState } from 'react';
 import Register from '../components/Register';
 import Login from '../components/Login';
 
-export default function Authentication(){
+export default function Authentication({user,setUser}){
 
     return(
         <div className="flex mt-12">
           <Register/>
 
-          <Login/>  
+          <Login user={user} setUser={setUser}/>  
         </div>
     )
 }

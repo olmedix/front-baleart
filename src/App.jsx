@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { AuthProvider } from './contexts/AuthContext';
 
 //components
 import Header from './components/Header';
@@ -25,15 +25,14 @@ import PrivateRoute from './components/PrivateRoute';
 
 function App() {
 
-  const [user, setUser] = useState(null);
-
 
 
   return (
+    <AuthProvider>
     <Router>
-      <Header setUser={setUser}/>
+      <Header/>
       <Routes>
-        <Route path="/login" element={<Authentication user={user} setUser={setUser} />} />
+        <Route path="/login" element={<Authentication />} />
 
         <Route path="/home" element={
           <PrivateRoute>
@@ -73,6 +72,7 @@ function App() {
       </Routes>
       <Footer/>
     </Router>
+    </AuthProvider>
   )
 }
 

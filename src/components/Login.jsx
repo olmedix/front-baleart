@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {login, getUser} from '../services/api';
+import { useAuth } from "../hooks/useAuth";
 
-export default function Login({user,setUser}) {
+export default function Login() {
 
+  const {setUser} = useAuth();
   const navigate = useNavigate();
   const [initPassword, setInitPassword] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -12,23 +15,17 @@ export default function Login({user,setUser}) {
   useEffect(() => {
     const validateUser = async () => {
         try {
-            const response = await fetchWithAuth("http://baleart.test/api/user");
-            if (response.ok) {
-                const userData = await response.json();
+                const userData = await getUser();
                 setUser(userData);
-            } else {
-                console.error("No autorizado");
-                setUser(null);
-                localStorage.removeItem("authToken"); // Limpia el token si no es válido
-            }
         } catch (error) {
-            console.error("Error validando usuario:", error);
+            console.error("Error validando usuario:", error.message);
             setUser(null);
+            localStorage.removeItem("authToken");
         }
     };
 
-    validateUser();
-}, []);
+      validateUser();
+    }, [setUser]);
 
 
   const handleLoginChange = (e) => {
@@ -41,46 +38,21 @@ export default function Login({user,setUser}) {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setLoginError(null);
+    setIsSubmitting(true);
 
     try {
-        const response = await fetch("http://baleart.test/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(loginData),
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem("authToken", data.access_token); // Guarda el token en localStorage
+            const data = await login(loginData);
+            localStorage.setItem("authToken", data.access_token);
             setUser({ email: loginData.email }); // Simula el usuario autenticado
             navigate('/home');
             console.log("Login exitoso:", data);
-        } else {
-            const errorData = await response.json();
-            setLoginError(errorData.message || "Error de inicio de sesión");
-        }
     } catch (error) {
-        console.error("Error durante la conexión:", error);
-        setLoginError("No se pudo conectar con el servidor");
+        console.error("Error durante la conexión:", error.message);
+        setLoginError(error.message);
     }finally {
         setIsSubmitting(false); // Permite nuevos envíos
     }
-};
-
-    const fetchWithAuth = async (url, options = {}) => {
-        const token = localStorage.getItem("authToken");
-       if (!token) throw new Error("No se encontró el token de autenticación");
-
-      const headers = {
-          ...options.headers,
-          Authorization: `Bearer ${token}`, // Incluye el token en el encabezado
-       };
-
-    return fetch(url, { ...options, headers });
-};
-
+  };
 
   const initPasswordVisibility = () => {
     setInitPassword(!initPassword);
@@ -88,7 +60,7 @@ export default function Login({user,setUser}) {
 
   return (
     <div className="w-1/2 mx-auto">
-      <h2 className="text-3xl font-semibold mb-8">Iniciar sesión</h2>
+      <h2 className="text-3xl font-semibold mb-8">Inicia sessió</h2>
       <form
         className="px-5 bg-gray-300 p-4 rounded-xl"
         onSubmit={handleLoginSubmit}
@@ -113,7 +85,7 @@ export default function Login({user,setUser}) {
           htmlFor="password"
           className="block text-left font-bold ml-2 mb-2 text-lg"
         >
-          Contraseña <span className="text-red-500">*</span>
+          Contrassenya <span className="text-red-500">*</span>
         </label>
         <div className="relative w-full">
           <input
@@ -142,7 +114,7 @@ export default function Login({user,setUser}) {
           type="submit"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Enviando..." : "INICIAR SESIÓN"}
+          {isSubmitting ? "Enviant..." : "INICIA SESSIÓ"}
         </button>
       </form>
     </div>

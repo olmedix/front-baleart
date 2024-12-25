@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../hooks/useAuth";
 
-export default function Navigation({setUser}){
+export default function Navigation(){
 
+    const {user,setUser} = useAuth();
     const navigate = useNavigate();
     //LOGOUT
     const handleLogout = () => {
@@ -20,8 +22,10 @@ export default function Navigation({setUser}){
           <li className="nav__item"><NavLink to="/comments">Comentaris</NavLink></li>
           <li className="nav__item"><NavLink to="/contact">Contacte</NavLink></li>
           <li className="nav__item"><NavLink to="/profile">Perfil</NavLink></li>
-          <li className="nav__item"><NavLink to="/login">Inicia/Registra&apos;t</NavLink></li>
-          <li className="nav__item"><button onClick={handleLogout}>Logout</button></li>
+          { !user ? <li className="nav__item"><NavLink to="/login">Inicia/Registra&apos;t</NavLink></li> :
+                    <li className="nav__item"><button onClick={handleLogout}>Logout</button></li>
+          }
+          
         </ul>
       </nav>
   )

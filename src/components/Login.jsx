@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login({user,setUser}) {
 
+  const navigate = useNavigate();
   const [initPassword, setInitPassword] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState(null);
@@ -53,6 +55,7 @@ export default function Login({user,setUser}) {
             const data = await response.json();
             localStorage.setItem("authToken", data.access_token); // Guarda el token en localStorage
             setUser({ email: loginData.email }); // Simula el usuario autenticado
+            navigate('/home');
             console.log("Login exitoso:", data);
         } else {
             const errorData = await response.json();

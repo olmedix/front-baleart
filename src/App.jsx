@@ -34,7 +34,6 @@ function App() {
       <Header setUser={setUser}/>
       <Routes>
         <Route path="/login" element={<Authentication user={user} setUser={setUser} />} />
-        <Route path="/register" element={<Authentication />} />
 
         <Route path="/home" element={
           <PrivateRoute>

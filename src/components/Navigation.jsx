@@ -1,11 +1,14 @@
 import { NavLink } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export default function Navigation({setUser}){
 
+    const navigate = useNavigate();
     //LOGOUT
     const handleLogout = () => {
       localStorage.removeItem("authToken");
       setUser(null);
+      navigate('/login'); 
       console.log("Sesión cerrada");
     };
 
@@ -16,9 +19,8 @@ export default function Navigation({setUser}){
           <li className="nav__item"><NavLink to="/spaces">Espais</NavLink></li>
           <li className="nav__item"><NavLink to="/comments">Comentaris</NavLink></li>
           <li className="nav__item"><NavLink to="/contact">Contacte</NavLink></li>
-          <li className="nav__item"><NavLink to="/login">Iniciar sessió</NavLink></li>
-          <li className="nav__item"><NavLink to="/register">Registrarse</NavLink></li>
           <li className="nav__item"><NavLink to="/profile">Perfil</NavLink></li>
+          <li className="nav__item"><NavLink to="/login">Inicia/Registra&apos;t</NavLink></li>
           <li className="nav__item"><button onClick={handleLogout}>Logout</button></li>
         </ul>
       </nav>

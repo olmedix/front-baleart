@@ -71,3 +71,68 @@ export const register = async (registerData) => {
 
   return response.json();
 };
+
+//USER
+
+/**
+ * Obtiene los datos de un usuario por su email.
+ * @param {string} email - Email del usuario.
+ * @returns {Promise<object>} - Datos del usuario.
+ */
+export const getUserByEmail = async (email) => {
+  const response = await fetchWithAuth(`user/${email}`, {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(
+      errorData.message || "Error al obtener los datos del usuario"
+    );
+  }
+
+  return response.json();
+};
+
+/**
+ * Actualiza los datos de un usuario por su email.
+ * @param {string} email - Email del usuario.
+ * @param {object} updatedData - Datos a actualizar.
+ * @returns {Promise<object>} - Datos actualizados del usuario.
+ */
+export const updateUserByEmail = async (email, updatedData) => {
+  const response = await fetchWithAuth(`user/${email}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(
+      errorData.message || "Error al actualizar los datos del usuario"
+    );
+  }
+
+  return response.json();
+};
+
+/**
+ * Elimina un usuario por su email.
+ * @param {string} email - Email del usuario.
+ * @returns {Promise<object>} - Respuesta del servidor tras la eliminación.
+ */
+export const deleteUserByEmail = async (email) => {
+  const response = await fetchWithAuth(`user/${email}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Error al eliminar el usuario");
+  }
+
+  return response.json();
+};

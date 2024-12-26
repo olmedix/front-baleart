@@ -85,7 +85,7 @@ export default function Login() {
           htmlFor="password"
           className="block text-left font-bold ml-2 mb-2 text-lg"
         >
-          Contrassenya <span className="text-red-500">*</span>
+          Contrasenya <span className="text-red-500">*</span>
         </label>
         <div className="relative w-full">
           <input
@@ -93,7 +93,7 @@ export default function Login() {
             id="password"
             name="password"
             required
-            placeholder="Contraseña..."
+            placeholder="Contrasenya..."
             className="block p-3 rounded-xl border border-gray-300 w-full pr-10"
             onChange={handleLoginChange}
           />

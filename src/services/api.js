@@ -49,3 +49,25 @@ export const getUser = async () => {
   if (!response.ok) throw new Error("No autorizado");
   return response.json();
 };
+
+/**
+ * Realiza una petición de registro.
+ * @param {object} registerData - Datos de registro (name, email, password).
+ * @returns {Promise<object>} - Datos de respuesta del servidor.
+ */
+export const register = async (registerData) => {
+  const response = await fetch(`${API_BASE_URL}/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(registerData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Error en el registro");
+  }
+
+  return response.json();
+};

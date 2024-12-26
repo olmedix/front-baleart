@@ -25,7 +25,7 @@ export default function Login() {
     };
 
       validateUser();
-    }, [setUser]);
+    }, []);
 
 
   const handleLoginChange = (e) => {
@@ -44,13 +44,14 @@ export default function Login() {
             const data = await login(loginData);
             localStorage.setItem("authToken", data.access_token);
             setUser({ email: loginData.email }); // Simula el usuario autenticado
+            localStorage.setItem("authEmail",loginData.email) //Para usar en el componente Profile
             navigate('/home');
             console.log("Login exitoso:", data);
     } catch (error) {
         console.error("Error durante la conexión:", error.message);
         setLoginError(error.message);
     }finally {
-        setIsSubmitting(false); // Permite nuevos envíos
+        setIsSubmitting(false);
     }
   };
 

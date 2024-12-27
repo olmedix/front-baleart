@@ -58,16 +58,16 @@ export default function Profile(){
           <h3 className="ml-5 font-semibold text-2xl mb-5">Dades personals</h3>
 
           <h4 className="font-semibold ml-5">Nom</h4>
-          <p className="ml-5 mb-5">{user.data.nombre}</p>
+          <p className="ml-5 mb-5">{user.data?.nombre || 'Nombre no disponible'}</p>
 
           <h4 className="font-semibold ml-5">Cognoms</h4>
-          <p className="ml-5 mb-5">{user.data.apellido}</p>
+          <p className="ml-5 mb-5">{user.data?.apellido ||'Nombre no disponible'}</p>
 
           <h4 className="font-semibold ml-5">Email</h4>
-          <p className="ml-5 mb-5">{user.data.email}</p>
+          <p className="ml-5 mb-5">{user.data.email || 'Nombre no disponible'}</p>
 
           <h4 className="font-semibold ml-5">Telèfon</h4>
-          <p className="ml-5 mb-5">{user.data.telefono}</p>
+          <p className="ml-5 mb-5">{user.data.telefono || 'Nombre no disponible'}</p>
 
         </div>
         

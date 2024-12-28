@@ -1,10 +1,19 @@
+import Card from "../components/Card";
 
 export default function Spaces(){
     return(
         <>
-        <h1>Listado de Espacios (Directory):</h1>
-        <p>Visualización de espacios filtrados, ordenados y paginados.</p>
-        <p>Barra de búsqueda y filtros avanzados (nombre, tipo de espacio, modalitats artístiques, etc.).</p>
-        </>
+
+        <Card 
+            typeSpace="Museo" 
+            name="Es baluart" 
+            municipality="Palma" 
+            photo="/baluard.jpg"
+            modalities={["Danza", "Teatro", "Música"]} 
+            score={2} 
+            votes={6}
+        />
+
+         </>
     )
 }

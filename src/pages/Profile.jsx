@@ -18,7 +18,6 @@ export default function Profile(){
         setIsLoading(true);
         const userFetch = await getUserByEmail(userEmail);
         setUser(userFetch);
-        console.log(user);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -64,10 +63,10 @@ export default function Profile(){
           <p className="ml-5 mb-5">{user.data?.apellido ||'Nombre no disponible'}</p>
 
           <h4 className="font-semibold ml-5">Email</h4>
-          <p className="ml-5 mb-5">{user.data.email || 'Nombre no disponible'}</p>
+          <p className="ml-5 mb-5">{user.data?.email || 'Nombre no disponible'}</p>
 
           <h4 className="font-semibold ml-5">Telèfon</h4>
-          <p className="ml-5 mb-5">{user.data.telefono || 'Nombre no disponible'}</p>
+          <p className="ml-5 mb-5">{user.data?.telefono || 'Nombre no disponible'}</p>
 
         </div>
         

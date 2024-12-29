@@ -12,6 +12,65 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
         return stars;
     };
 
+    function renderModalities(modalitat){
+
+        let imgModality = "/imgs/modalities/";
+
+        switch(modalitat){
+            case "Pintura":
+                imgModality += "pintura.jpg";
+                break;
+            case "Escultura":
+                imgModality += "escultura.jpg";
+                break;
+            case "Fotografia":
+                imgModality += "fotografia.jpg";
+                break;
+            case "Videoart":
+                imgModality += "videoArt.jpg";
+                break;
+            case "Grafiti":
+                imgModality += "graffiti.jpg";
+                break;
+            case "Instal·lació":
+                imgModality += "instalacion.jpg";
+                break;
+            case "Performance":
+                imgModality += "performance.jpg";
+                break;
+            case "Teixits":
+                imgModality += "tejidos.jpg";
+                break;
+            case "Joies":
+                imgModality += "joyas.jpg";
+                break;
+            case "Il·lustració":
+                imgModality += "ilustracion.jpg";
+                break;
+            case "Música":
+                imgModality += "musica.jpg";
+                break;
+            case "Estampació":
+                imgModality += "estampacion.jpg";
+                break;
+            case "Vidre":
+                imgModality += "vidrio.jpg";
+                break;
+            default:
+                return "Sense Modalitat";
+        }
+
+        return (
+            <img 
+                className="w-20 h-20 border-2 border-green-800 rounded-lg shadow-md shadow-green-500 hover:scale-125" 
+                src={imgModality}
+                title={modalitat} 
+                alt={modalitat} 
+            />
+        );
+
+    }
+
     return (
         <article className="w-4/5 py-5 mt-5 bg-slate-400 shadow-xl shadow-stone-500 rounded-2xl items-center justify-center">
             <section className="w-4/5 mx-auto relative">
@@ -43,10 +102,12 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                             Municipi: <span className="font-normal">{municipality}</span>
                         </li>
                         <li>
-                            <ul className="list-disc">
+                            <ul className="flex gap-2 ">
                                 Modalitats:
                                     {modalities.map((modality) => (
-                                        <li className="font-normal" key={modality}>{`${modality}`}</li>
+                                        <li key={modality}>
+                                            {renderModalities(modality)}
+                                        </li>
                                     ))}
                             </ul>
                         </li>

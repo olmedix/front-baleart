@@ -62,7 +62,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
 
         return (
             <img 
-                className="w-20 h-20 border-2 border-green-800 rounded-lg shadow-md shadow-green-500 hover:scale-125" 
+                className="w-20 h-20 border-2 border-green-800 rounded-lg shadow-md shadow-green-500 " 
                 src={imgModality}
                 title={modalitat} 
                 alt={modalitat} 
@@ -105,6 +105,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                             <ul className="flex gap-2 ">
                                 Modalitats:
                                     {modalities.map((modality) => (
+
                                         <li key={modality}>
                                             {renderModalities(modality)}
                                         </li>

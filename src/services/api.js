@@ -1,5 +1,19 @@
 const API_BASE_URL = "http://baleart.test/api";
 
+export const fetchSpaces = async () => {
+  const token = localStorage.getItem("authToken");
+  const response = await fetch(`${API_BASE_URL}/spaces`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) throw new Error("Error al obtener los espacios");
+  const result = await response.json();
+  return result.data;
+};
+
 /**
  * Realiza una petición con autenticación.
  * @param {string} endpoint - Endpoint de la API.

@@ -72,7 +72,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
     }
 
     return (
-        <article className="w-4/5 py-5 mt-5 bg-slate-400 shadow-xl shadow-stone-500 rounded-2xl items-center justify-center">
+        <article className="w-4/5 py-5 my-5 bg-slate-400 shadow-offset shadow-xl shadow-white rounded-2xl items-center justify-center">
             <section className="w-4/5 mx-auto relative">
                 <div className="my-1 py-5 ">
                 <img
@@ -116,12 +116,15 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                 </div>
 
                 <div className="ml-auto text-right mr-2">
-                    <p className="text-green-800">{renderStars()} 
-                        <span className="pl-2">
-                            <i className="fa-solid fa-hashtag"></i>
-                             {votes} vots
-                        </span> 
+                    <p 
+                        className="text-green-800">{renderStars()} 
                     </p>
+                        <p className="pl-2 text-green-800">
+                            <i className="fa-solid fa-hashtag text-xl mr-1"></i>
+                             {votes} 
+                             {votes === 1 ? "vot": "vots"}
+                        </p> 
+                    
                 </div>
 
             </section>

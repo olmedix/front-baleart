@@ -12,7 +12,6 @@ export default function Spaces(){
     useEffect(() => {
 
         const loadSpaces = async () => {
-
             try {
                 const data = await fetchSpaces();
                 setSpaces(data);
@@ -26,6 +25,7 @@ export default function Spaces(){
         loadSpaces();
     }, []);
 
+    
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error!</p>;
@@ -33,7 +33,7 @@ export default function Spaces(){
     return(
         <>
 
-            <CardList spaces={spaces} />
+            <CardList spaces={spaces} setSpaces={setSpaces} />
       
          </>
     )

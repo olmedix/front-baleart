@@ -2,7 +2,7 @@ import Card from "./Card";
 
 import { useState } from "react";
 
-export default function CardList({ spaces,setSpaces }) {
+export default function CardList({ spaces }) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -22,10 +22,6 @@ export default function CardList({ spaces,setSpaces }) {
         }
     };
 
-    setSpaces(spaces.sort((a, b) => b.puntuacion_total - a.puntuacion_total));
-
-
-
     return (
         <div className="bg-gray-800 rounded-tl-lg rounded-tr-lg p-8 flex flex-col items-center">
             {currentItems.map((space) => (
@@ -43,26 +39,26 @@ export default function CardList({ spaces,setSpaces }) {
             }
 
             <div>
-            <button 
-                className= {currentPage === 1 ?
-                    "bg-gray-500 text-gray-200 mt-3 py-2 px-5 rounded-full mr-2 font-semibold ": 
-                    "bg-white mt-3 py-2 px-5 rounded-full mr-2 font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"   
-                }
-                onClick={() => handlePageChange("prev")}
-                disabled={currentPage === 1}
-            >
-                Anterior
-            </button>
-            <button
-                className= {currentPage === totalPages ?
-                    "bg-gray-500 text-gray-200 mt-3 py-2 px-5 rounded-full mr-2 font-semibold ":
-                    "bg-white mt-3 py-2 px-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"
-                }
-                onClick={() => handlePageChange("next")}
-                disabled={currentPage === totalPages}
-            >
-                Siguiente
-            </button>
+                <button 
+                    className= {currentPage === 1 ?
+                        "bg-gray-500 text-gray-200 mt-3 py-2 px-5 rounded-full mr-2 font-semibold ": 
+                        "bg-white mt-3 py-2 px-5 rounded-full mr-2 font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"   
+                    }
+                    onClick={() => handlePageChange("prev")}
+                    disabled={currentPage === 1}
+                >
+                    Anterior
+                </button>
+                <button
+                    className= {currentPage === totalPages ?
+                        "bg-gray-500 text-gray-200 mt-3 py-2 px-5 rounded-full mr-2 font-semibold ":
+                        "bg-white mt-3 py-2 px-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"
+                    }
+                    onClick={() => handlePageChange("next")}
+                    disabled={currentPage === totalPages}
+                >
+                    Seguent
+                </button>
             </div>
         </div>
     );

@@ -56,6 +56,9 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
             case "Vidre":
                 imgModality += "vidrio.jpg";
                 break;
+                case "Vídeo":
+                    imgModality += "video.jpg";
+                    break;
             default:
                 return "Sense Modalitat";
         }
@@ -117,7 +120,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
 
                 <div className="ml-auto text-right mr-2">
                     <p 
-                        className="text-green-800">{renderStars()} 
+                        className="text-green-800 whitespace-nowrap">{renderStars()} 
                     </p>
                         <p className="pl-2 text-green-800">
                             <i className="fa-solid fa-hashtag text-xl mr-1"></i>

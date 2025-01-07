@@ -1,13 +1,17 @@
 import { useState,useEffect } from "react";
-import { fetchSpaces } from "../services/api";
+import { fetchMunicipalities, fetchSpaces } from "../services/api";
 
 import CardList from "../components/CardList";
+import { use } from "react";
 
 export default function Spaces(){
 
     const [spaces, setSpaces] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [loadingMunicipality, setLoadingMunicipality] = useState(true);
+    const [errorMunicipality, setErrorMunicipality] = useState(null);
+
     const [filters, setFilters] = useState({
         name: "",
         typeSpace: "",
@@ -19,7 +23,22 @@ export default function Spaces(){
     const typeSpaces = ["Museu","Galeria","Sala d’exposicions","Centre Cultural","Seu Institucional","Hotel","Palau","Refugi","Casal","Església","Biblioteca","Teatre","Apartament","Habitatge Unifamiliar","Oficina","Club Esportiu","Castell","Jardins","Hospital","Cementiri","Parc","Piscina","Barri","Passatge","Far"];
     const modalities = ["Pintura", "Escultura", "Fotografia", "Videoart", "Grafiti", "Instal·lació", "Performance", "Teixits", "Joies", "Il·lustració", "Música", "Vídeo", "Estampació", "Vidre"];
     const services = ["Adaptat discapacitats","Admet mascotes","Aire condicionat","Biblioteca","Arxiu","Tallers","Cafeteria","Aparcament","Concerts","Visites concertades","Wifi","Conferències","Teatre","Banys","Guia"];  
+    const [municipalities,setMunicipalities] = useState([]);
 
+    useEffect(() => {
+        const loadMunicipalities = async () => {
+            try {
+                const data = await fetchMunicipalities();
+                // Extrae los nombres de los municipios
+                setMunicipalities(data.map((municipality) => municipality.name)); 
+            } catch (error) {
+                setErrorMunicipality(error.message);
+            } finally {
+                setLoadingMunicipality(false);
+            }
+        };
+        loadMunicipalities();
+    }, []);
 
     useEffect(() => {
 
@@ -39,9 +58,8 @@ export default function Spaces(){
     }, []);
 
     
-
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error!</p>;
+    if (loading || loadingMunicipality) return <p>Loading...</p>;
+    if (error) return <p>Error</p>;
 
     return(
         <>
@@ -58,6 +76,23 @@ export default function Spaces(){
                 />
                 </label>
 
+                <label htmlFor="typeSpace">Municipis
+                    <select
+                        id="municipality"
+                        value={filters.municipality}
+                        onChange={(e) => handleFilterChange("municipality", e.target.value)}
+                    >
+                        {<option value="">Tots</option>}
+                        {municipalities?.map((municipality) => (
+                                
+                                <option key={municipality} value={municipality}>
+                                    { municipality}
+                                </option>
+                            ))
+                        }
+                    </select>
+                </label>
+
                 <label htmlFor="typeSpace">Tipus d&apos;espai
                     <select
                         id="typeSpace"
@@ -72,6 +107,21 @@ export default function Spaces(){
                                 </option>
                             ))
                         }
+                    </select>
+                </label>
+
+                <label htmlFor="score">Puntuació
+                    <select
+                        id="score"
+                        value={filters.score}
+                        onChange={(e) => handleFilterChange("score", e.target.value)}
+                    >
+                        {<option value="">Tots</option>}
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </label>
 

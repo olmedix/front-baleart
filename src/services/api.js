@@ -14,6 +14,21 @@ export const fetchSpaces = async () => {
   return result.data;
 };
 
+export const fetchMunicipalities = async () => {
+  const token = localStorage.getItem("authToken");
+  const response = await fetch(`${API_BASE_URL}/municipalities`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) throw new Error("Error al obtener los municipios");
+  const result = await response.json();
+  console.log(result);
+  return result;
+};
+
 /**
  * Realiza una petición con autenticación.
  * @param {string} endpoint - Endpoint de la API.

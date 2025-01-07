@@ -2,7 +2,6 @@ import { useState,useEffect } from "react";
 import { fetchMunicipalities, fetchSpaces } from "../services/api";
 
 import CardList from "../components/CardList";
-import { use } from "react";
 
 export default function Spaces(){
 
@@ -15,10 +14,10 @@ export default function Spaces(){
     const [filters, setFilters] = useState({
         name: "",
         typeSpace: "",
-        modality: "",
-        service: "",
         municipality: "",
         score: "",
+        modality: [],
+        service: [],
     });
     const typeSpaces = ["Museu","Galeria","Sala d’exposicions","Centre Cultural","Seu Institucional","Hotel","Palau","Refugi","Casal","Església","Biblioteca","Teatre","Apartament","Habitatge Unifamiliar","Oficina","Club Esportiu","Castell","Jardins","Hospital","Cementiri","Parc","Piscina","Barri","Passatge","Far"];
     const modalities = ["Pintura", "Escultura", "Fotografia", "Videoart", "Grafiti", "Instal·lació", "Performance", "Teixits", "Joies", "Il·lustració", "Música", "Vídeo", "Estampació", "Vidre"];
@@ -45,6 +44,7 @@ export default function Spaces(){
         const loadSpaces = async () => {
             try {
                 const data = await fetchSpaces();
+                console.log(data);
                 const sortData = data.sort((a, b) => b.puntuacion_total - a.puntuacion_total);
                 setSpaces(sortData);
             }catch(error){
@@ -57,9 +57,48 @@ export default function Spaces(){
         loadSpaces();
     }, []);
 
+    const handleFilterChange = (filterType, value) => {
+        setFilters((prevFilters) => {
+            const currentValues = prevFilters[filterType] || [];
+            if (currentValues.includes(value)) {
+                return {
+                    ...prevFilters,
+                    [filterType]: currentValues.filter((item) => item !== value),
+                };
+            } else {
+                return {
+                    ...prevFilters,
+                    [filterType]: [...currentValues, value],
+                };
+            }
+        });
+    };
+    
+
+    const filterspace = spaces.filter((space) => {
+        return (
+            (!filters.name || space.nombre?.toLowerCase().includes(filters.name.toLowerCase())) &&
+            (filters.typeSpace ? space.tipo_espacio.name === filters.typeSpace : true) &&
+            (filters.municipality ? space.direccion.municipio === filters.municipality : true) &&
+            (filters.score ? space.puntuacion_total === parseInt(filters.score) : true) &&
+            (filters.modality.length === 0 || filters.modality.every((modality) => 
+                space.modalidades.some((s) => s.nombre === modality))) &&
+            (filters.service.length === 0 || filters.service.every((service) => 
+                space.servicios.some((s) => s.nombre === service)
+            ))
+            
+        );
+    });
+
     
     if (loading || loadingMunicipality) return <p>Loading...</p>;
-    if (error) return <p>Error</p>;
+    if (error || errorMunicipality) {
+        return (
+            <p>
+                {error ? `Error loading spaces: ${error}` : `Error loading municipalities: ${errorMunicipality}`}
+            </p>
+        );
+    }
 
     return(
         <>
@@ -134,7 +173,7 @@ export default function Spaces(){
                                     type="checkbox"
                                     value={modality}
                                     checked={filters.modality.includes(modality)}
-                                    onChange={() => handleCategoryChange(modality)}
+                                    onChange={() => handleFilterChange("modality",modality)}
                                 />
                                 {modality}
                             </label>
@@ -150,7 +189,7 @@ export default function Spaces(){
                                     type="checkbox"
                                     value={service}
                                     checked={filters.service.includes(service)}
-                                    onChange={() => handleCategoryChange(service)}
+                                    onChange={() => handleFilterChange("service",service)}
                                 />
                                 {service}
                             </label>
@@ -158,7 +197,7 @@ export default function Spaces(){
                 </fieldset>
             </form>
 
-            <CardList spaces={spaces} />
+            <CardList spaces={filterspace} />
       
          </>
     )

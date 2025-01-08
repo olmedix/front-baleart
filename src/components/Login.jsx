@@ -115,9 +115,16 @@ export default function Login() {
           type="submit"
           disabled={isSubmitting}
         >
+
           {isSubmitting ? "Enviant..." : "INICIA SESSIÓ"}
         </button>
       </form>
+      <button
+          className="my-5 py-4 text-red-400 text-xl font-semibold rounded-full"
+          onClick={() => navigate('/forgot-password')}
+        >
+          He oblidat la contrasenya
+        </button>
     </div>
   );
 }

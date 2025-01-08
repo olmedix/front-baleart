@@ -17,6 +17,7 @@ import Spaces from './pages/Spaces';
 import SpaceDetails from './pages/SpaceDetails';
 import Comments from './pages/Comments';
 import Contact from './pages/Contact';
+import ForgotPassword from './pages/ForgotPassword';
 import Authentication from './pages/Authentication';
 import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
@@ -63,6 +64,11 @@ function App() {
           <PrivateRoute>
             <Profile />
           </PrivateRoute>
+          }/>
+        <Route path="/forgot-password" element={
+         
+            <ForgotPassword />
+          
           }/>
         <Route path="*" element={
           <PrivateRoute>

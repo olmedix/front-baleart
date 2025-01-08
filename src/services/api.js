@@ -139,6 +139,7 @@ export const updateUserByEmail = async (email, updatedData) => {
 
   if (!response.ok) {
     const errorData = await response.json();
+    console.error("Error:", errorData);
     throw new Error(
       errorData.message || "Error al actualizar los datos del usuario"
     );

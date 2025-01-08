@@ -33,7 +33,7 @@ export default function Profile(){
         setIsLoading(true);
         await deleteUserByEmail(userEmail);
         alert("Cuenta eliminada con éxito");
-        localStorage.clear(); // Limpia el almacenamiento local
+        localStorage.clear();
         window.location.href = "/login"; // Redirige al login
       } catch (err) {
         setError(err.message);
@@ -57,29 +57,16 @@ export default function Profile(){
           <h3 className="ml-5 font-semibold text-2xl mb-5">Dades personals</h3>
 
           <h4 className="font-semibold ml-5">Nom</h4>
-          <p className="ml-5 mb-5">{user.data?.nombre || 'Nombre no disponible'}</p>
+          <p className="ml-5 mb-5">{user.data?.nombre || 'Nom no disponible'}</p>
 
           <h4 className="font-semibold ml-5">Cognoms</h4>
-          <p className="ml-5 mb-5">{user.data?.apellido ||'Nombre no disponible'}</p>
+          <p className="ml-5 mb-5">{user.data?.apellido ||'Cognoms no disponible'}</p>
 
           <h4 className="font-semibold ml-5">Email</h4>
-          <p className="ml-5 mb-5">{user.data?.email || 'Nombre no disponible'}</p>
+          <p className="ml-5 mb-5">{user.data?.email || 'Email no disponible'}</p>
 
           <h4 className="font-semibold ml-5">Telèfon</h4>
-          <p className="ml-5 mb-5">{user.data?.telefono || 'Nombre no disponible'}</p>
-
-        </div>
-        
-        <div className="flex items-center">
-          <ModalForm  setUser={setUser} userEmail={userEmail}/>
-        </div>
-      </div>
-
-      <div className="flex justify-between border-b-2 border-stone-500 py-3">
-
-        <div className="w-3/5 text-left">
-
-        <h3 className="ml-5 font-semibold text-2xl mb-5">Restablir Contrasenya</h3>
+          <p className="ml-5 mb-5">{user.data?.telefono || 'Telèfon no disponible'}</p>
 
           <h4 className="font-semibold ml-5">Contrasenya</h4>
           <p className="ml-5">**********</p>
@@ -87,13 +74,7 @@ export default function Profile(){
         </div>
         
         <div className="flex items-center">
-          <button 
-            className="content-end bg-amber-300 transition duration-500 hover:bg-black hover:text-amber-300  border-2 font-semibold border-stone-500 py-3 px-14" type="button"
-         
-          >
-          <i className="fa-solid fa-pencil mr-1"></i>
-            Editar
-          </button>
+          <ModalForm  setUser={setUser} userEmail={userEmail}/>
         </div>
       </div>
 

@@ -76,12 +76,18 @@ export default function Spaces(){
     
 
     const filterspace = spaces.filter((space) => {
-        return (
-            (!filters.name || space.nombre?.toLowerCase().includes(filters.name.toLowerCase())) &&
-            (filters.typeSpace ? space.tipo_espacio.name === filters.typeSpace : true) &&
-            (filters.municipality ? space.direccion.municipio === filters.municipality : true) &&
-            (filters.score ? space.puntuacion_total === parseInt(filters.score) : true) &&
-            (filters.modality.length === 0 || filters.modality.every((modality) => 
+        const { textFilters, arrayFilters } = filters;
+    
+        // Filtrar por texto
+        const matchesTextFilters = 
+            (!textFilters.name || space.nombre.toLowerCase().includes(textFilters.name.toLowerCase())) &&
+            (!textFilters.typeSpace || space.tipo_espacio.name === textFilters.typeSpace) &&
+            (!textFilters.municipality || space.direccion.municipio === textFilters.municipality) &&
+            (!textFilters.score || space.puntuacion_total === parseInt(textFilters.score));
+    
+        // Filtrar por arrays
+        const matchesArrayFilters = 
+            (arrayFilters.modality.length === 0 || arrayFilters.modality.every((modality) => 
                 space.modalidades.some((s) => s.nombre === modality))) &&
             (filters.service.length === 0 || filters.service.every((service) => 
                 space.servicios.some((s) => s.nombre === service)
@@ -102,12 +108,14 @@ export default function Spaces(){
 
     return(
         <>
-            <h1>Spais</h1>
+            <form className="mt-8 p-5 font-semibold bg-gray-400 rounded-tl-lg rounded-tr-lg">
 
-            <form>
-                <label htmlFor="name">
+                <div className="mb-5">
+
+                <label className="pr-8" htmlFor="name">
                     Nom
                 <input
+                    className="ml-3 rounded-lg p-0.5"
                     type="text"
                     id="name"
                     value={filters.name}
@@ -115,8 +123,9 @@ export default function Spaces(){
                 />
                 </label>
 
-                <label htmlFor="typeSpace">Municipis
+                <label className="pr-3" htmlFor="typeSpace">Municipis
                     <select
+                        className="ml-3 rounded-lg p-0.5"
                         id="municipality"
                         value={filters.municipality}
                         onChange={(e) => handleFilterChange("municipality", e.target.value)}
@@ -132,8 +141,13 @@ export default function Spaces(){
                     </select>
                 </label>
 
-                <label htmlFor="typeSpace">Tipus d&apos;espai
+                </div>
+
+                <div className="mb-5">
+
+                <label className="pr-8" htmlFor="typeSpace">Tipus d&apos;espai
                     <select
+                        className="ml-3 rounded-lg p-0.5"
                         id="typeSpace"
                         value={filters.typeSpace}
                         onChange={(e) => handleFilterChange("typeSpace", e.target.value)}
@@ -151,25 +165,30 @@ export default function Spaces(){
 
                 <label htmlFor="score">Puntuació
                     <select
+                        className="ml-3 rounded-lg p-0.5"
                         id="score"
                         value={filters.score}
                         onChange={(e) => handleFilterChange("score", e.target.value)}
                     >
                         {<option value="">Tots</option>}
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="1">1 estrella</option>
+                        <option value="2">2 estrella</option>
+                        <option value="3">3 estrella</option>
+                        <option value="4">4 estrella</option>
+                        <option value="5">5 estrella</option>
                     </select>
                 </label>
 
-                <fieldset>
-                    <legend>Modalitats:</legend>
-                    {
+                </div>
+
+                <fieldset className="mb-5 pb-3 border-2 border-black rounded-lg">
+                    <legend className="text-xl px-1">Modalitats</legend>
+                    <div className="grid grid-cols-4 gap-4 pl-5">
+                        {
                         modalities.map( modality => (
-                            <label key={modality}>
+                            <label key={modality} className="flex items-center">
                                 <input
+                                    className="mr-1"
                                     type="checkbox"
                                     value={modality}
                                     checked={filters.modality.includes(modality)}
@@ -178,14 +197,17 @@ export default function Spaces(){
                                 {modality}
                             </label>
                         ))}
+                    </div>
                 </fieldset>
 
-                <fieldset>
-                    <legend>Serveis:</legend>
+                <fieldset className="mb-5 pb-3 border-2 border-black rounded-lg">
+                    <legend className="text-xl px-1">Serveis</legend>
+                    <div className="grid grid-cols-4 gap-4 pl-5">
                     {
                         services.map( service => (
-                            <label key={service}>
+                            <label key={service} className="flex items-center">
                                 <input
+                                    className="mr-1"
                                     type="checkbox"
                                     value={service}
                                     checked={filters.service.includes(service)}
@@ -194,6 +216,7 @@ export default function Spaces(){
                                 {service}
                             </label>
                         ))}
+                    </div>
                 </fieldset>
             </form>
 

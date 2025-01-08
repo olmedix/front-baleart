@@ -23,7 +23,7 @@ export default function CardList({ spaces }) {
     };
 
     return (
-        <div className="bg-gray-800 rounded-tl-lg rounded-tr-lg p-8 flex flex-col items-center">
+        <div className="bg-gray-800 p-8 flex flex-col items-center">
             {currentItems.map((space) => (
                     <Card
                         key={space.id}

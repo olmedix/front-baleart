@@ -59,42 +59,53 @@ export default function Spaces(){
 
     const handleFilterChange = (filterType, value) => {
         setFilters((prevFilters) => {
-            const currentValues = prevFilters[filterType] || [];
-            if (currentValues.includes(value)) {
-                return {
-                    ...prevFilters,
-                    [filterType]: currentValues.filter((item) => item !== value),
-                };
-            } else {
-                return {
-                    ...prevFilters,
-                    [filterType]: [...currentValues, value],
-                };
+            // Si el filtro es un array (como `modality` o `service`), actualízalo correctamente
+            if (Array.isArray(prevFilters[filterType])) {
+                const currentValues = prevFilters[filterType];
+                if (currentValues.includes(value)) {
+                    return {
+                        ...prevFilters,
+                        [filterType]: currentValues.filter((item) => item !== value),
+                    };
+                } else {
+                    return {
+                        ...prevFilters,
+                        [filterType]: [...currentValues, value],
+                    };
+                }
             }
+    
+            // Para filtros de texto o selección única
+            return {
+                ...prevFilters,
+                [filterType]: value,
+            };
         });
     };
     
+    
 
     const filterspace = spaces.filter((space) => {
-        const { textFilters, arrayFilters } = filters;
+        const { name, typeSpace, municipality, score, modality, service } = filters;
     
         // Filtrar por texto
         const matchesTextFilters = 
-            (!textFilters.name || space.nombre.toLowerCase().includes(textFilters.name.toLowerCase())) &&
-            (!textFilters.typeSpace || space.tipo_espacio.name === textFilters.typeSpace) &&
-            (!textFilters.municipality || space.direccion.municipio === textFilters.municipality) &&
-            (!textFilters.score || space.puntuacion_total === parseInt(textFilters.score));
+            (!name || space.nombre.toLowerCase().includes(name.toLowerCase())) &&
+            (!typeSpace || space.tipo_espacio.nombre === typeSpace) &&
+            (!municipality || space.direccion.municipio === municipality) &&
+            (!score || space.puntuacion_total === parseInt(score));
     
         // Filtrar por arrays
         const matchesArrayFilters = 
-            (arrayFilters.modality.length === 0 || arrayFilters.modality.every((modality) => 
-                space.modalidades.some((s) => s.nombre === modality))) &&
-            (filters.service.length === 0 || filters.service.every((service) => 
-                space.servicios.some((s) => s.nombre === service)
-            ))
-            
-        );
+            (modality.length === 0 || modality.every((modalityItem) =>
+                space.modalidades.some((s) => s.nombre === modalityItem))) &&
+            (service.length === 0 || service.every((serviceItem) =>
+                space.servicios.some((s) => s.nombre === serviceItem)
+            ));
+    
+        return matchesTextFilters && matchesArrayFilters;
     });
+    
 
     
     if (loading || loadingMunicipality) return <p>Loading...</p>;

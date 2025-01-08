@@ -122,6 +122,41 @@ export const getUserByEmail = async (email) => {
   return response.json();
 };
 
+export const getUserByEmailOnly = async (email) => {
+  const response = await fetch(`${API_BASE_URL}/user/${email}`, {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(
+      errorData.message || "Error al obtener los datos del usuario"
+    );
+  }
+
+  return response.json();
+};
+
+export const updateUserByEmailOnly = async (email, updatedData) => {
+  const response = await fetch(`${API_BASE_URL}/user/${email}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ password: updatedData }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error("Error:", errorData);
+    throw new Error(
+      errorData.message || "Error al actualizar los datos del usuario"
+    );
+  }
+
+  return response.json();
+};
+
 /**
  * Actualiza los datos de un usuario por su email.
  * @param {string} email - Email del usuario.

@@ -65,7 +65,7 @@ export default function ForgotPassword() {
 
   return (
     <div>
-      <h1>Restablecix la teva Contrasenya</h1>
+      <h1>Restableix la teva Contrasenya</h1>
 
       {!isVerified ? (
         <form onSubmit={handleQuetions}>

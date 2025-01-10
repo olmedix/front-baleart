@@ -123,7 +123,7 @@ export const getUserByEmail = async (email) => {
 };
 
 export const getUserByEmailOnly = async (email) => {
-  const response = await fetch(`${API_BASE_URL}/user/${email}`, {
+  const response = await fetch(`${API_BASE_URL}/user/resetPassword/${email}`, {
     method: "GET",
   });
 

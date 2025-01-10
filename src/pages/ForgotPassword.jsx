@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { updateUserByEmailOnly } from "../services/api"; // Este método usará fetch
-import { useNavigate } from "react-router-dom";
+import { getUserByEmailOnly } from "../services/api";
+import { updateUserByEmailOnly } from "../services/api";
+import { useNavigate } from 'react-router-dom';
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -11,90 +12,155 @@ export default function ForgotPassword() {
     lastName: "",
     phone: "",
   });
-  const [password, setPassword] = useState({
-    newPassword: "",
-    confirmPassword: "",
+  const [password,setPassword] = useState({
+    newPassword:"",
+    confirmPassword:""
   });
   const [isVerified, setIsVerified] = useState(false);
+  const [quetionsWrong, setQuetionsWrong] = useState(false);
+  const [passwordWrong, setPasswordWrong] = useState(false);
 
-  const handleResetPassword = async (e) => {
+  const handleQuetions = async (e) => {
     e.preventDefault();
+    setQuetionsWrong(false);
     setLoading(true);
     setError(null);
 
     try {
-      if (password.newPassword !== password.confirmPassword) {
-        throw new Error("Les contrasenyas no coincideixen.");
+      const userData = await getUserByEmailOnly(quetions.email);
+      
+      if (
+        userData.email === quetions.email &&
+        userData.lastName === quetions.lastName &&
+        userData.phone === quetions.phone
+      ) { 
+        setIsVerified(true);
+      } else {
+        setQuetionsWrong(true);
       }
-      // Enviar la solicitud PUT
-        await updateUserByEmailOnly(quetions.email, { password: password.newPassword });
-        navigate("/home");
-
-    } catch (err) {
-      setError(err.message);
+    } catch (error) {
+      setError(error.message);
+      setUser(null);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setPasswordWrong(false);
+              try {
+                if (password.newPassword !== password.confirmPassword) {
+                  setPasswordWrong(true);
+                }else{
+                  await updateUserByEmailOnly(quetions.email,{password: password.newPassword});
+                  navigate('/home');
+                }
+              } catch (err) {
+                setError(err.message);
+              }
+            };
+
   if (loading) return <p>Cargando...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div>
-      <h1>Restableix la teva Contrasenya</h1>
+      <h1 className="bold text-green-900 mt-8">Restableix la teva Contrasenya</h1>
 
       {!isVerified ? (
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setIsVerified(true); // Simula la verificación en esta lógica
-          }}
-        >
-          <input
-            type="email"
-            placeholder="Email"
-            value={quetions.email}
-            onChange={(e) => setQuetions({ ...quetions, email: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Cogmoms"
-            value={quetions.lastName}
-            onChange={(e) =>
-              setQuetions({ ...quetions, lastName: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="Telèfon"
-            value={quetions.phone}
-            onChange={(e) =>
-              setQuetions({ ...quetions, phone: e.target.value })
-            }
-          />
-          <button type="submit">Validar</button>
+          className="w-96 m-auto font-medium bg-gray-200 border-2 border-green-600 shadow-lg shadow-green-400 rounded-md p-4 my-8" 
+          onSubmit={handleQuetions}>
+          
+          <label className="block font-semibold mb-1 text-lg ">
+            Email
+          </label>
+            <input
+              className="ml-2 border-2 border-green-600 rounded-md mb-2 p-1 bg-gray-300" 
+              type="email"
+              placeholder=" Email"
+              value={quetions.email}
+              onChange={(e) =>
+                setQuetions({ ...quetions, email: e.target.value })
+              }
+            />
+         
+          <label className="block font-semibold mb-1 text-lg ">
+            Cognoms
+          </label>
+            <input
+              className="ml-2 border-2 border-green-600 rounded-md  mb-2 p-1 bg-gray-300"
+              type="text"
+              placeholder="Cognoms"
+              value={quetions.lastName}
+              onChange={(e) =>
+                setQuetions({ ...quetions, lastName: e.target.value })
+              }
+            />
+          
+          <label className="block font-semibold mb-1 text-lg ">
+            Telèfon
+          </label>
+            <input
+              className="ml-2 border-2 border-green-600 rounded-md p-1 bg-gray-300"
+              type="text"
+              placeholder="Telèfon"
+              value={quetions.phone}
+              onChange={(e) =>
+                setQuetions({ ...quetions, phone: e.target.value })
+              }
+            />
+          
+          <button 
+            className="m-auto mt-5 block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-900 transition duration-3000"
+            type="submit">
+              Validar
+          </button>
+          {quetionsWrong && (
+            <p className="text-red-500">
+              Les dades introduïdes no són correctes.
+            </p>
+          )}
         </form>
       ) : (
-        <form onSubmit={handleResetPassword}>
-          <p>Datos verificados. Ahora puedes establecer una nueva contraseña.</p>
-          <input
-            type="password"
-            placeholder="Nueva contraseña"
-            required
-            onChange={(e) =>
-              setPassword({ ...password, newPassword: e.target.value })
-            }
-          />
-          <input
-            type="password"
-            placeholder="Confirmar nueva contraseña"
-            required
-            onChange={(e) =>
-              setPassword({ ...password, confirmPassword: e.target.value })
-            }
-          />
-          <button type="submit">Restableix</button>
+        <form 
+           className="w-96 m-auto font-medium bg-gray-200 border-2 border-green-600 shadow-lg shadow-green-400 rounded-md p-4 my-8"
+           onSubmit={handleResetPassword}>
+          
+          <label className="block font-semibold mb-1 text-lg ">
+            Nova contrasenya
+            <input
+              className="ml-2 border-2 border-green-600 rounded-md mb-2 p-1 bg-gray-300"
+              type="password"
+              placeholder="Nova contrasenya"
+              required
+              onChange={(e) =>
+                setPassword({ ...password, newPassword: e.target.value })
+              }
+            />
+          </label>
+          <label className="block font-semibold mb-1 text-lg ">
+            Confirma la contrasenya
+            <input
+              className="ml-2 border-2 border-green-600 rounded-md mb-2 p-1 bg-gray-300"
+              type="password"
+              placeholder="Confirma la contrasenya"
+              required
+              onChange={(e) =>
+                setPassword({ ...password, confirmPassword: e.target.value })
+              } 
+            />
+          </label>
+          <button 
+            className="m-auto mt-5 block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-900 transition duration-3000"
+            type="submit">Restableix
+          </button>
+          {passwordWrong && (
+            <p className="text-red-500">
+              Les contrasenyes no coincideixen.
+            </p>
+          )}
         </form>
       )}
     </div>

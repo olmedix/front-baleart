@@ -70,14 +70,14 @@ export default function ForgotPassword() {
 
       {!isVerified ? (
         <form
-          className="w-96 m-auto font-medium bg-gray-200 border-2 border-green-600 shadow-lg shadow-green-400 rounded-md p-4 my-8" 
+          className="w-96 m-auto font-medium bg-gray-300 shadow-lg shadow-green-400 rounded-md p-4 my-8" 
           onSubmit={handleQuetions}>
           
           <label className="block font-semibold mb-1 text-lg ">
             Email
           </label>
             <input
-              className="ml-2 border-2 border-green-600 rounded-md mb-2 p-1 bg-gray-300" 
+              className="ml-2 border-2 border-green-600 rounded-md mb-2 p-1 " 
               type="email"
               placeholder=" Email"
               value={quetions.email}
@@ -90,7 +90,7 @@ export default function ForgotPassword() {
             Cognoms
           </label>
             <input
-              className="ml-2 border-2 border-green-600 rounded-md  mb-2 p-1 bg-gray-300"
+              className="ml-2 border-2 border-green-600 rounded-md  mb-2 p-1"
               type="text"
               placeholder="Cognoms"
               value={quetions.lastName}
@@ -103,7 +103,7 @@ export default function ForgotPassword() {
             Telèfon
           </label>
             <input
-              className="ml-2 border-2 border-green-600 rounded-md p-1 bg-gray-300"
+              className="ml-2 border-2 border-green-600 rounded-md p-1"
               type="text"
               placeholder="Telèfon"
               value={quetions.phone}
@@ -125,15 +125,15 @@ export default function ForgotPassword() {
         </form>
       ) : (
         <form 
-           className="w-96 m-auto font-medium bg-gray-200 border-2 border-green-600 shadow-lg shadow-green-400 rounded-md p-4 my-8"
+           className="w-96 m-auto font-medium bg-gray-300 shadow-lg shadow-green-400 rounded-md p-4 my-8"
            onSubmit={handleResetPassword}>
           
           <label className="block font-semibold mb-1 text-lg ">
             Nova contrasenya
             <input
-              className="ml-2 border-2 border-green-600 rounded-md mb-2 p-1 bg-gray-300"
+              className="ml-2 border-2 border-green-600 rounded-md mb-2 p-1 "
               type="password"
-              placeholder="Nova contrasenya"
+              placeholder=" ******** "
               required
               onChange={(e) =>
                 setPassword({ ...password, newPassword: e.target.value })
@@ -143,9 +143,9 @@ export default function ForgotPassword() {
           <label className="block font-semibold mb-1 text-lg ">
             Confirma la contrasenya
             <input
-              className="ml-2 border-2 border-green-600 rounded-md mb-2 p-1 bg-gray-300"
+              className="ml-2 border-2 border-green-600 rounded-md mb-2 p-1 "
               type="password"
-              placeholder="Confirma la contrasenya"
+              placeholder=" ******** "
               required
               onChange={(e) =>
                 setPassword({ ...password, confirmPassword: e.target.value })

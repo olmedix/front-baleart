@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-export default function Card({ typeSpace,name,municipality,photo,modalities,score,votes,id }) {
+export default function Card({ typeSpace,name,municipality,photo,modalities,score,votes,id,comments }) {
 
     const renderStars = () => {
         const stars = [];
@@ -75,7 +75,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
     }
 
     // Reconstruimos para enviar a la página de detalles
-    const space = { typeSpace, name, municipality, photo, modalities, score, votes, id };
+    const space = { typeSpace, name, municipality, photo, modalities, score, votes, id, comments };
 
     return (
         <article className="w-4/5 py-5 my-5 bg-slate-400 shadow-offset shadow-xl shadow-white rounded-2xl items-center justify-center">

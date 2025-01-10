@@ -35,6 +35,7 @@ export default function CardList({ spaces }) {
                         modalities={space.modalidades.map( modality => modality.nombre)}
                         score={space.puntuacion_total}
                         votes={space.votos_totales}
+                        comments={space.comentarios}
                     />
                 ))
             }

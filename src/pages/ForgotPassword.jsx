@@ -38,8 +38,8 @@ export default function ForgotPassword() {
       } else {
         setQuetionsWrong(true);
       }
-    } catch (error) {
-      setError(error.message);
+    } catch {
+      setQuetionsWrong(true);
     } finally {
       setLoading(false);
     }

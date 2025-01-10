@@ -143,7 +143,7 @@ export const updateUserByEmailOnly = async (email, updatedData) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ password: updatedData }),
+    body: JSON.stringify(updatedData),
   });
 
   if (!response.ok) {

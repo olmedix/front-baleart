@@ -27,6 +27,7 @@ export default function CardList({ spaces }) {
             {currentItems.map((space) => (
                     <Card
                         key={space.id}
+                        id={space.id}
                         typeSpace={space.tipo_espacio.name}
                         name={space.nombre}
                         municipality={space.direccion.municipio}

@@ -40,7 +40,6 @@ export default function ForgotPassword() {
       }
     } catch (error) {
       setError(error.message);
-      setUser(null);
     } finally {
       setLoading(false);
     }

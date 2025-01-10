@@ -1,6 +1,6 @@
+import { NavLink } from "react-router-dom";
 
-
-export default function Card({ typeSpace,name,municipality,photo,modalities,score,votes }) {
+export default function Card({ typeSpace,name,municipality,photo,modalities,score,votes,id }) {
 
     const renderStars = () => {
         const stars = [];
@@ -74,6 +74,9 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
 
     }
 
+    // Reconstruimos para enviar a la página de detalles
+    const space = { typeSpace, name, municipality, photo, modalities, score, votes, id };
+
     return (
         <article className="w-4/5 py-5 my-5 bg-slate-400 shadow-offset shadow-xl shadow-white rounded-2xl items-center justify-center">
             <section className="w-4/5 mx-auto relative">
@@ -122,11 +125,21 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                     <p 
                         className="text-green-800 whitespace-nowrap">{renderStars()} 
                     </p>
-                        <p className="pl-2 text-green-800">
-                            <i className="fa-solid fa-hashtag text-xl mr-1"></i>
-                             {votes} 
-                             {votes === 1 ? "vot": "vots"}
-                        </p> 
+                    
+                    <p className="pl-2 text-green-800">
+                        <i className="fa-solid fa-hashtag text-xl mr-1"></i>
+                            {votes} 
+                            {votes === 1 ? "vot": "vots"}
+                    </p>
+
+                    <div>
+                        <NavLink 
+                            to={`/spaces/${id}`}
+                            state={{space}} 
+                            className="m-auto mt-5 block bg-green-600 text-white px-4 py-2 rounded-lg hover:text-white hover:bg-green-900 transition duration-300"
+                        >Més informació
+                        </NavLink>
+                    </div> 
                     
                 </div>
 

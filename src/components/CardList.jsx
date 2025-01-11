@@ -36,6 +36,8 @@ export default function CardList({ spaces }) {
                         score={space.puntuacion_total}
                         votes={space.votos_totales}
                         comments={space.comentarios}
+                        description ={[space.observacion_ca, space.observacion_es, space.observacion_en]}
+                        services={space.servicios}
                     />
                 ))
             }

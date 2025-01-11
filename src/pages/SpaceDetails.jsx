@@ -57,25 +57,26 @@ export default function SpaceDetails(){
                 {space.comments.map((comentario, index) => (
 
                     <div key={index}
-                         className="flex p-5 my-5 text-left bg-white rounded-xl"
+                         className="flex p-5 my-5 text-left rounded-xl"
                     >
-                        <div className="w-2/5 bg-blue-400 font-semibold">
+                        <div className="px-7 font-semibold flex flex-col items-center justify-center">
+                            <p className="rounded-full p-2 text-white bg-green-600 border border-green-700 w-12 h-12 flex items-center justify-center">
+                                {comentario.usuario.charAt(0).toUpperCase()}
+                            </p>
                             <p className="">
-                                @{comentario.usuario}  
+                                {comentario.usuario}  
                             </p>
 
-                            <p>{renderStars()}</p>
+                            <p className="whitespace-nowrap">{renderStars()}</p>
                         </div>
 
-
-
                         <div>
-                        <p className="text-gray-500">
-                            <span>Fecha del comentari: </span> 
+                        <p className="text-gray-700">
+                            <span>Data del comentari: </span> 
                             {new Date(comentario.fecha_creacion).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
                         </p>
 
-                        <p className="font-bold text-xl">{comentario.comentario}</p>
+                        <p className="font-bold text-xl mb-4">{comentario.comentario}</p>
 
                         <div className="flex box-border gap-2">
                             { comentario.imagenes.length > 0 &&

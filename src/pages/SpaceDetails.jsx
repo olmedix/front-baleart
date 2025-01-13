@@ -1,5 +1,7 @@
 import { useLocation} from "react-router-dom";
 
+//web para buscar los slider para las imagenes
+//https://swiperjs.com/demos?form=MG0AV3#pagination-progress
 
 export default function SpaceDetails(){
     const location = useLocation();

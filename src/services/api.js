@@ -14,6 +14,21 @@ export const fetchSpaces = async () => {
   return result.data;
 };
 
+export const fetchComments = async (regNumber, comments) => {
+  const token = localStorage.getItem("authToken");
+  const response = await fetch(`${API_BASE_URL}/spaces/${regNumber}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ comments }),
+  });
+  if (!response.ok) throw new Error("Error al enviar los comentarios");
+  const result = await response.json();
+  return result;
+};
+
 export const fetchMunicipalities = async () => {
   const token = localStorage.getItem("authToken");
   const response = await fetch(`${API_BASE_URL}/municipalities`, {

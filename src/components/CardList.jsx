@@ -28,6 +28,7 @@ export default function CardList({ spaces }) {
                     <Card
                         key={space.id}
                         id={space.id}
+                        regNumber= {space.numero_registro}
                         typeSpace={space.tipo_espacio.name}
                         name={space.nombre}
                         municipality={space.direccion.municipio}

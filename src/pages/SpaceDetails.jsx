@@ -1,19 +1,12 @@
 import { useLocation} from "react-router-dom";
+import AddComment from "../components/AddComment";
 
-import React, { useRef, useState } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
-
-// import required modules
 import { EffectCoverflow, Pagination } from 'swiper/modules';
-
-//web para buscar los slider para las imagenes
-//https://swiperjs.com/demos?form=MG0AV3#pagination-progress
 
 export default function SpaceDetails(){
     const location = useLocation();
@@ -28,9 +21,11 @@ export default function SpaceDetails(){
         }
         return stars;
     };
+
     
     return (
         <div className="bg-gray-800 p-8 flex flex-col items-center">
+
             <h1 className="text-white">{space.name} 
                 <span className="pl-2 text-green-500 shadow-xl text-shadow" >
                     {space.score}
@@ -58,7 +53,6 @@ export default function SpaceDetails(){
                     }
                 </ul>
             }
-
                 <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
                 <span className="font-bold">Modalitats: </span>
                     {space.modalities.map((modality, index) => (
@@ -66,9 +60,14 @@ export default function SpaceDetails(){
                     ))}
                 </ul>
             
+
             <section className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
+                
                 <h4 className="font-bold">Comentaris:</h4>
-                {space.comments.map((comentario, index) => (
+
+                    {<AddComment regNumber={space.regNumber}/>}
+
+                    {space.comments.map((comentario, index) => (
 
                     <div key={index}
                          className="flex p-5 my-5 text-left border-b border-gray-300"
@@ -92,7 +91,7 @@ export default function SpaceDetails(){
 
                         <p className="font-bold text-xl mb-4">{comentario.comentario}</p>
 
-                        <div className="overflow-hidden w-full box-border">
+                        <div className="overflow-hidden w-full">
                             <Swiper
                             effect={'coverflow'}
                             grabCursor={true}
@@ -129,7 +128,7 @@ export default function SpaceDetails(){
                                   <img
                                    src={imagen.url_imagen}
                                    alt={comentario.usuario}
-                                    style={{ display: 'block', width: '100%' }}
+                                    style={{ display: 'block', width: '100%'}}
                                     onError={(e) => {
                                       e.target.onerror = null;
                                      e.target.src = '/imgs/modalities/escultura.jpg';
@@ -139,11 +138,8 @@ export default function SpaceDetails(){
                                ))}
                             </Swiper>
                             
+                            </div>
                         </div>
-
-                        </div>
-
-  
                     </div>
                 ))}
             </section>

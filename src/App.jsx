@@ -1,5 +1,6 @@
 import './App.css';
 import { AuthProvider } from './contexts/AuthContext';
+import { SpacesProvider } from './contexts/SpacesContext';
 
 //components
 import Header from './components/Header';
@@ -29,12 +30,14 @@ function App() {
 
 
   return (
+    <SpacesProvider>
     <AuthProvider>
+      
     <Router>
       <Header/>
       <Routes>
         <Route path="/login" element={<Authentication />} />
-
+      
         <Route path="/home" element={
           <PrivateRoute>
             <Home/>
@@ -78,7 +81,9 @@ function App() {
       </Routes>
       <Footer/>
     </Router>
+    
     </AuthProvider>
+    </SpacesProvider>
   )
 }
 

@@ -1,13 +1,13 @@
 import { useState,useEffect } from "react";
-import { fetchMunicipalities, fetchSpaces } from "../services/api";
+import { fetchMunicipalities} from "../services/api";
+import { SpacesContext } from "../contexts/SpacesContext";
+import { useContext } from "react";
 
 import CardList from "../components/CardList";
 
 export default function Spaces(){
 
-    const [spaces, setSpaces] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const { spaces, loading, error } = useContext(SpacesContext);
     const [loadingMunicipality, setLoadingMunicipality] = useState(true);
     const [errorMunicipality, setErrorMunicipality] = useState(null);
 
@@ -37,24 +37,6 @@ export default function Spaces(){
             }
         };
         loadMunicipalities();
-    }, []);
-
-    useEffect(() => {
-
-        const loadSpaces = async () => {
-            try {
-                const data = await fetchSpaces();
-                console.log(data);
-                const sortData = data.sort((a, b) => b.puntuacion_total - a.puntuacion_total);
-                setSpaces(sortData);
-            }catch(error){
-                setError(error.message);
-            }finally{
-                setLoading(false);
-            }
-        };
-
-        loadSpaces();
     }, []);
 
     const handleFilterChange = (filterType, value) => {

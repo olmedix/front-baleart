@@ -11,7 +11,6 @@ export default function Navigation(){
       localStorage.removeItem("authToken");
       setUser(null);
       navigate('/login'); 
-      console.log("Sesión cerrada");
     };
 
   return (

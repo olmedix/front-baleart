@@ -8,7 +8,9 @@ export default function AddComment({ regNumber }) {
     const [isPuntuacio, setIsPuntuacio] = useState(false);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(false);
+    const [imageMessage, SetImageMessage] = useState(false);
     const [error, setError] = useState(null);
+    const [imagesURL, setImagesURL] = useState("");
     const [comentari, setComentari] = useState({
             comment: '',
             score: 0,
@@ -25,12 +27,13 @@ export default function AddComment({ regNumber }) {
         }
     };
 
-    const handleImageUpload = (e) => {
-        const files = Array.from(e.target.files);
-        setComentari((prev) => ({
-          ...prev,
-          images: files,
-        }));
+    const handleImageURL = () => {
+        setComentari(prev =>({ ...prev,images:[ ...prev.images, imagesURL.trim()]}));
+        setImagesURL("");
+        SetImageMessage(true);
+        setTimeout(() => {
+            SetImageMessage(false);
+        }, 5000);
     };
 
     const handleSubmit = async (e) => {
@@ -97,12 +100,31 @@ export default function AddComment({ regNumber }) {
                     <p className="text-red-500 font-semibold">Selecciona una puntuació</p>
                 }
 
-            <label className="block mt-3 font-semibold mb-2">Afegiu imatges (opcional):</label>
-            <input className="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-white"
-                type="file" multiple onChange={handleImageUpload} />
+            <label className="block mt-3 font-semibold mb-2">Afegiu URL de imatges (opcional):
+                <span className="text-green-700 font-semibold pl-3">
+                    {imageMessage && "Imatge carregada correctament, afegeix una altre."}
+                </span>
+            </label>
+            <input 
+                className="block p-2 w-full text-gray-900 border border-gray-700 rounded-lg bg-white"
+                type="text"
+                placeholder="URL de la imatge"
+                value={imagesURL}
+                onChange={(e) => setImagesURL(e.target.value)}
+            />
 
             <button
-                className={`border bg-green-600 text-white p-2 rounded-full mt-3 px-5 block ${
+                type="button"
+                className={` border bg-green-600 text-white p-2 rounded-full mt-3 px-5 block ${
+                loading ? "bg-gray-400 cursor-not-allowed" : "hover:bg-white hover:text-green-700"
+                }`}
+                onClick={handleImageURL}  
+            >
+                Afegir imatge
+            </button> 
+
+            <button
+                className={`border bg-green-600 text-white p-2 mt-3 mx-auto px-5 rounded-full  block ${
                 loading ? "bg-gray-400 cursor-not-allowed" : "hover:bg-white hover:text-green-700"
                 }`}
                 disabled={loading}

@@ -5,7 +5,6 @@ import { ShowComment } from '../components/ShowComment';
 export default function Comments(){
 
     const [pagination,setPagination] = useState(1);
-    const [commentNumber,setCommentNumber] = useState(2);
     const { spaces } = useContext(SpacesContext);
 
     return(

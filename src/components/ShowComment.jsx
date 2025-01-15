@@ -5,7 +5,10 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 
+import { useState } from 'react';
+
 export function ShowComment({space}){
+    const [pagination,setPagination] = useState(2);
     
     const renderStars = () => {
         const stars = [];
@@ -19,7 +22,7 @@ export function ShowComment({space}){
 
     return(
         <>
-                    {space.comentarios.map((comentario, index) => (
+                    {space.comentarios.slice(0,pagination).map((comentario, index) => (
 
                     <div key={index}
                          className="flex p-5 my-5 text-left border-b border-gray-300"
@@ -93,7 +96,14 @@ export function ShowComment({space}){
                             </div>
                         </div>
                     </div>
+
+                    
                 ))}
+                <button
+                className='bg-green-500 text-xl text-white font-semibold rounded-lg p-2 mb-8' 
+                onClick={() => setPagination(pagination + 1)}>
+                    Veure més
+            </button>
             </>
     )
 }

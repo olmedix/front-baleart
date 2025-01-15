@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 export function ShowComment({space}){
     const [pagination,setPagination] = useState(2);
+    const [commentsNumber,setCommentsNumber] = useState(space.comentarios.length);
     
     const renderStars = () => {
         const stars = [];
@@ -19,6 +20,11 @@ export function ShowComment({space}){
         }
         return stars;
     };
+
+    const handleClick = () =>{
+        setPagination(pagination + 1);
+        setCommentsNumber(commentsNumber - 2);
+    }
 
     return(
         <>
@@ -99,11 +105,18 @@ export function ShowComment({space}){
 
                     
                 ))}
+
+
+                { commentsNumber > 2 &&
+                <div className='flex justify-center'>
                 <button
-                className='bg-green-500 text-xl text-white font-semibold rounded-lg p-2 mb-8' 
-                onClick={() => setPagination(pagination + 1)}>
-                    Veure més
-            </button>
+                    className='bg-green-500 text-xl text-white font-semibold rounded-lg p-2 mb-8' 
+                    onClick={handleClick}>
+                        Més comentaris ...
+                </button>
+                </div>
+                }
+                
             </>
     )
 }

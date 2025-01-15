@@ -4,9 +4,10 @@ import { ShowComment } from '../components/ShowComment';
 
 export default function Comments(){
 
-    const [pagination,setPagination] = useState(1);
+    const [pagination,setPagination] = useState(1); 
     const { spaces } = useContext(SpacesContext);
-
+    const spacesWithCommentsCount = spaces.filter(space => space.comentarios && space.comentarios.length > 0).length;
+   
     return(
         <>
             <h2 className='text-5xl text-green-700 font-bold py-7'>Tots els comentaris dels nostres usuaris</h2>
@@ -24,12 +25,13 @@ export default function Comments(){
 
             ))}
 
-            <button
-                className='bg-green-500 text-xl text-white font-semibold rounded-lg p-2 mb-8' 
-                onClick={() => setPagination(pagination + 1)}>
-                    Següent Espai
-            </button>
-          
+            {pagination < spacesWithCommentsCount && (
+                <button
+                    className='bg-green-500 text-xl text-white font-semibold rounded-lg p-2 mb-8' 
+                    onClick={() => setPagination(pagination + 1)}>
+                        Següent Espai
+                </button>
+            )}
         </>
     )
 }

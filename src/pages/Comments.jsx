@@ -1,21 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { SpacesContext } from '../contexts/SpacesContext';
+import { ShowComment } from '../components/ShowComment';
 
 export default function Comments(){
-    const { spaces } = useContext(SpacesContext);
 
-    const {nombre,comentarios} = spaces.data;
+    const [pagination,setPagination] = useState(1);
+    const [commentNumber,setCommentNumber] = useState(2);
+    const { spaces } = useContext(SpacesContext);
 
     return(
         <>
-            <h2>Tots els comentaris dels nostres usuaris</h2>
+            <h2 className='text-5xl text-green-700 font-bold py-7'>Tots els comentaris dels nostres usuaris</h2>
 
-            {spaces.map((space) => (
-                <div key={space.id}>
-                    <p>{space.name}</p>
-                    {/* Aquí puedes agregar lógica específica para comentarios */}
+            {spaces.slice(0,pagination).map((space,index) => (
+                (space.comentarios && space.comentarios.length > 0) &&
+                <div 
+                    key={space.id}
+                    className={`${index % 2 === 0 ? 'bg-gray-500' : 'bg-gray-400'} 
+                    rounded-2xl mb-10 px-10`}
+                >
+                    <h3 className='text-4xl text-white font-bold pt-5'>{space.nombre}</h3>
+                    <ShowComment space={space}/>
                 </div>
+
             ))}
+
+            <button
+                className='bg-green-500 text-xl text-white font-semibold rounded-lg p-2 mb-8' 
+                onClick={() => setPagination(pagination + 1)}>
+                    Següent Espai
+            </button>
           
         </>
     )

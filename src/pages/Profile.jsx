@@ -100,13 +100,37 @@ export default function Profile(){
           </div>
         </section>
 
-        <section className="flex justify-between border-b-2 border-stone-500 py-3">
+        <section className="border-b-2 border-stone-500 mx-auto py-3">
           
-          <h3 className="ml-5 font-semibold text-2xl mb-5">
+          <h3 className=" font-semibold text-2xl mb-5">
             Els meus comentaris i valoracions
           </h3>
 
-          {console.log(comments)}
+          <div className="flex mb-7 font-semibold">
+            <div className="w-1/2 p-4 bg-green-500">
+              Comentaris confirmats
+            </div>
+
+            <div className="w-1/2 p-4 bg-red-500">
+              Comentaris pendents de confirmació
+            </div>
+          </div>
+
+          <div className="block text-left">
+            <ul>
+              {comments.map( (comment,index) =>(
+                <li
+                  key={index}
+                  className={comment.status === 'y' ? "bg-green-600" : "bg-red-500"}
+                >
+                  <span className="font-semibold">{comment.space}:</span>
+                  {comment.comment}
+                </li>
+              )
+              )}
+              
+            </ul>
+          </div>
 
 
           

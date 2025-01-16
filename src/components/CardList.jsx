@@ -62,7 +62,7 @@ export default function CardList({ spaces }) {
                     onClick={() => handlePageChange("next")}
                     disabled={currentPage === totalPages}
                 >
-                    Seguent
+                    Següent
                 </button>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { fetchSpaces } from '../services/api';
 
 export const SpacesContext = createContext();

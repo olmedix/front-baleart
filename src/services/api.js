@@ -43,6 +43,20 @@ export const fetchMunicipalities = async () => {
   return result;
 };
 
+export const fetchGetComments = async (userId) => {
+  const token = localStorage.getItem("authToken");
+  const response = await fetch(`${API_BASE_URL}/comments/${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) throw new Error("Error al obtener los comentarios");
+  const result = await response.json();
+  return result;
+};
+
 /**
  * Realiza una petición con autenticación.
  * @param {string} endpoint - Endpoint de la API.

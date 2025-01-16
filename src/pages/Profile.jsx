@@ -2,15 +2,15 @@ import { useState,useEffect } from "react";
 import { useAuth} from "../hooks/useAuth";
 import { getUserByEmail,deleteUserByEmail } from "../services/api";
 import ModalForm from "../components/ModalForm";
-import { ShowComment } from "../components/ShowComment";
-import { SpacesContext } from "../contexts/SpacesContext";
-import { useContext } from "react";
+import { fetchGetComments } from "../services/api";
 
 
 export default function Profile(){
 
-    //const { spaces, loading, error } = useContext(SpacesContext);
+    const [comments,setComments]= useState([]);
     const {user,setUser} = useAuth();
+    const [loading,setLoading] = useState(false);
+    const [error,setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errorProfile, setErrorProfile] = useState(null);
 
@@ -31,6 +31,21 @@ export default function Profile(){
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        setLoading(true);
+        const comments = await fetchGetComments(user.data.id);
+        setComments(comments);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchComments();
+  },[]);
+
   const handleDelete = async () => {
     if (window.confirm("¿Estás seguro de que deseas eliminar tu cuenta?")) {
       try {
@@ -47,8 +62,8 @@ export default function Profile(){
     }
   };
 
-    //if(loading) return <p>cargando SPACE</p>
-    //if(error) return <p>Error: {`Error loading spaces: ${error}`}</p>;
+    if(loading) return <p>cargando SPACE</p>
+    if(error) return <p>Error: {`Error loading spaces: ${error}`}</p>;
 
     if (isLoading) return <p>Cargando...</p>;
     if (errorProfile) return <p>Error: {`Error loading author: ${errorProfile}`}</p>;
@@ -91,7 +106,11 @@ export default function Profile(){
             Els meus comentaris i valoracions
           </h3>
 
-          {/*<ShowComment space={spaces}/>*/}
+          {console.log(comments)}
+
+
+          
+          
         </section>
 
         <section className="flex items-center h-20 justify-center gap-16">  

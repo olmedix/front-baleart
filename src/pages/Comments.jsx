@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { SpacesContext } from '../contexts/SpacesContext';
 import { ShowComment } from '../components/ShowComment';
 

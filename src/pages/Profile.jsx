@@ -106,29 +106,32 @@ export default function Profile(){
             Els meus comentaris i valoracions
           </h3>
 
-          <div className="flex mb-7 font-semibold">
-            <div className="w-1/2 p-4 bg-green-500">
+          <div className="flex items-center justify-center mb-7 font-semibold">
+            <div className="w-1/3 p-4 mr-14 border border-green-800 rounded-lg bg-green-500">
               Comentaris confirmats
             </div>
 
-            <div className="w-1/2 p-4 bg-red-500">
-              Comentaris pendents de confirmació
+            <div className="w-1/3 p-4 border border-red-800 rounded-lg bg-red-500">
+            Comentaris no confirmats
             </div>
           </div>
 
           <div className="block text-left">
-            <ul>
+            <ul className="rounded-lg">
               {comments.map( (comment,index) =>(
                 <li
                   key={index}
-                  className={comment.status === 'y' ? "bg-green-600" : "bg-red-500"}
+                  className={`mb-3 ${comment.status === 'y' ? 'text-green-600' : 'text-red-500'}`}
                 >
-                  <span className="font-semibold">{comment.space}:</span>
+                  <span className="text-yellow-500 font-semibold pr-5">
+                    {comment.score}
+                    <i className="fa-solid fa-star text-xl text-yellow-500"></i>
+                  </span>
+                  <span className="font-bold pr-2">{comment.space}:</span>
                   {comment.comment}
                 </li>
               )
-              )}
-              
+              )} 
             </ul>
           </div>
 

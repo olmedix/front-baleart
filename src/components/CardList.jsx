@@ -1,9 +1,11 @@
 import Card from "./Card";
 
 import { useState } from "react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function CardList({ spaces }) {
 
+    const { language } = useLanguage();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
@@ -29,7 +31,7 @@ export default function CardList({ spaces }) {
                         key={space.id}
                         id={space.id}
                         regNumber= {space.numero_registro}
-                        typeSpace={space.tipo_espacio.name}
+                        typeSpace={space.tipo_espacio[`description_${language}`]}
                         name={space.nombre}
                         municipality={space.direccion.municipio}
                         photo={"/baluard.jpg"}
@@ -37,7 +39,7 @@ export default function CardList({ spaces }) {
                         score={space.puntuacion_total}
                         votes={space.votos_totales}
                         comentarios={space.comentarios}
-                        description ={[space.observacion_ca, space.observacion_es, space.observacion_en]}
+                        description = {space[`observacion_${language}`]}
                         services={space.servicios}
                     />
                 ))

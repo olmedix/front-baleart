@@ -1,6 +1,7 @@
 import './App.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { SpacesProvider } from './contexts/SpacesContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 //components
 import Header from './components/Header';
@@ -32,6 +33,7 @@ function App() {
   return (
     <SpacesProvider>
     <AuthProvider>
+    <LanguageProvider>
       
     <Router>
       <Header/>
@@ -82,6 +84,7 @@ function App() {
       <Footer/>
     </Router>
     
+    </LanguageProvider>
     </AuthProvider>
     </SpacesProvider>
   )

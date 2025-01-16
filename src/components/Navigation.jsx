@@ -16,13 +16,13 @@ export default function Navigation(){
   return (
       <nav>
         <ul className="nav__list flex gap-4 text-xl mt-3">
-          <li className="nav__item"><NavLink to="/home">Inici</NavLink></li>
-          <li className="nav__item"><NavLink to="/spaces">Espais</NavLink></li>
-          <li className="nav__item"><NavLink to="/comments">Comentaris</NavLink></li>
-          <li className="nav__item"><NavLink to="/contact">Contacte</NavLink></li>
-          <li className="nav__item"><NavLink to="/profile">Perfil</NavLink></li>
-          { !user ? <li className="nav__item"><NavLink to="/login">Inicia/Registra&apos;t</NavLink></li> :
-                    <li className="nav__item"><button onClick={handleLogout}>Logout</button></li>
+          <li className="flex items-center p-2"><NavLink to="/home">Inici</NavLink></li>
+          <li className="flex items-center p-2"><NavLink to="/spaces">Espais</NavLink></li>
+          <li className="flex items-center p-2"><NavLink to="/comments">Comentaris</NavLink></li>
+          <li className="flex items-center p-2"><NavLink to="/contact">Contacte</NavLink></li>
+          <li className="flex items-center p-2"><NavLink to="/profile">Perfil</NavLink></li>
+          { !user ? <li className="flex items-center p-2"><NavLink to="/login">Inicia/Registra&apos;t</NavLink></li> :
+                    <li className="flex items-center p-2"><button onClick={handleLogout}>Logout</button></li>
           }
           
         </ul>

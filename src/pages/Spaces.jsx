@@ -11,18 +11,9 @@ export default function Spaces(){
     const { spaces, loading, error } = useContext(SpacesContext);
     const { language } = useLanguage();
 
-    //const [loadingMunicipality, setLoadingMunicipality] = useState(true);
-    //const [loadingSpaceType, setLoadingSpaceType] = useState(true);
-    //const [loadingService, setLoadingService] = useState(true);
-    //const [loadingModality, setLoadingModality] = useState(true);
-    
     const [load,setLoad]=useState(false);
     const [error2, setError2] = useState(null);
 
-    //const [errorMunicipality, setErrorMunicipality] = useState(null);
-    //const [errorSpaceType, setErrorSpaceType] = useState(null);
-    //const [errorService, setErrorService] = useState(null);
-    //const [errorModality, setErrorModality] = useState(null);
 
     const [filters, setFilters] = useState({
         name: "",
@@ -61,65 +52,6 @@ export default function Spaces(){
       useEffect(() => {
         fetchAllData();
       }, []);
-      
-/*
-    useEffect(() => {
-        const loadMunicipalities = async () => {
-            try {
-                const data = await fetchMunicipalities();
-                // Extrae los nombres de los municipios
-                setMunicipalities(data.map((municipality) => municipality.name)); 
-            } catch (error) {
-                setErrorMunicipality(error.message);
-            } finally {
-                setLoadingMunicipality(false);
-            }
-        };
-        loadMunicipalities();
-    }, []);
-
-    useEffect(() => {
-        const loadSpaceTypes = async () => {
-            try {
-                const data = await fetchSpaceTypes();
-                setSpaceTypes(data); 
-            } catch (error) {
-                setErrorSpaceType(error.message);
-            } finally {
-                setLoadingSpaceType(false);
-            }
-        };
-        loadSpaceTypes();
-    }, []);
-
-    useEffect(() => {
-        const loadService = async () => {
-            try {
-                const data = await fetchServices();
-                setServices(data); 
-            } catch (error) {
-                setErrorService(error.message);
-            } finally {
-                setLoadingService(false);
-            }
-        };
-        loadService();
-    }, []);
-
-    useEffect(() => {
-        const loadModality = async () => {
-            try {
-                const data = await fetchModalities();
-                setModalities(data); 
-            } catch (error) {
-                setErrorModality(error.message);
-            } finally {
-                setLoadingModality(false);
-            }
-        };
-        loadModality();
-    }, []);
-*/
 
     const handleFilterChange = (filterType, value) => {
         setFilters((prevFilters) => {
@@ -174,26 +106,12 @@ export default function Spaces(){
     if(load || loading) return <p>Loading...</p>;
     if(error2) return <p>{error2}</p>;
     if(error) return <p>{error}</p>;
-    /*
-    if (loading || loadingMunicipality || loadingSpaceType || loadingModality || loadingService) return <p>Loading...</p>;
-    if (error || errorMunicipality || errorSpaceType || errorModality || errorService) {
-        return (
-            <p>
-                {error ? `Error loading spaces: ${error}` : ""}
-                {errorMunicipality ? `Error loading municipalities: ${errorMunicipality}` : ""}
-                {errorSpaceType ? `Error loading space types: ${errorSpaceType}` : ""}
-                {errorModality ? `Error loading modalities: ${errorModality}` : ""}
-                {errorService ? `Error loading services: ${errorService}` : ""}
-            </p>
-        );
-    }
-*/
+
     return(
         <>
             <form className="mt-8 p-5 font-semibold bg-gray-400 rounded-tl-lg rounded-tr-lg">
 
                 <div className="mb-5">
-
                     <label className="pr-8" htmlFor="name">
                         Nom
                     <input
@@ -203,9 +121,9 @@ export default function Spaces(){
                         value={filters.name}
                         onChange={(e) => handleFilterChange("name", e.target.value)}
                     />
-                        </label>
+                    </label>
 
-                        <label className="pr-3" htmlFor="municipality">Municipis
+                    <label className="pr-3" htmlFor="municipality">Municipis
                         <select
                             className="ml-3 rounded-lg p-0.5"
                             id="municipality"
@@ -221,10 +139,9 @@ export default function Spaces(){
                                 ))
                             }
                         </select>
-                        </label>
-
+                    </label>
                 </div>
-            {/*----------------------------------------------------------------------------------- */}
+
                 <div className="mb-5">
 
                     <label className="pr-8" htmlFor="spaceType">Tipus d&apos;espai
@@ -261,7 +178,7 @@ export default function Spaces(){
                         </select>
                     </label>
                 </div>
-
+ 
                 <fieldset className="mb-5 pb-3 border-2 border-black rounded-lg">
                     <legend className="text-xl px-1">Modalitats</legend>
                     <div className="grid grid-cols-4 gap-4 pl-5">
@@ -301,8 +218,8 @@ export default function Spaces(){
                 </fieldset>
             </form>
 
-            <CardList spaces={filterspace} />
-      
-         </>
+            <CardList 
+                spaces={filterspace} />
+            </>
     )
 }

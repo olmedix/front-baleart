@@ -40,7 +40,6 @@ export const fetchMunicipalities = async () => {
   });
   if (!response.ok) throw new Error("Error al obtener los municipios");
   const result = await response.json();
-  console.log("municipios:" + result[0].name);
   return result;
 };
 

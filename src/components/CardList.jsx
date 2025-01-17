@@ -3,7 +3,7 @@ import Card from "./Card";
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 
-export default function CardList({ spaces }) {
+export default function CardList({spaces}) {
 
     const { language } = useLanguage();
     const [currentPage, setCurrentPage] = useState(1);

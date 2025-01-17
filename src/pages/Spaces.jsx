@@ -2,12 +2,15 @@ import { useState,useEffect } from "react";
 import { fetchModalities, fetchMunicipalities, fetchServices, fetchSpaceTypes} from "../services/api";
 import { SpacesContext } from "../contexts/SpacesContext";
 import { useContext } from "react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 import CardList from "../components/CardList";
 
 export default function Spaces(){
 
     const { spaces, loading, error } = useContext(SpacesContext);
+    const { language } = useLanguage();
+
     const [loadingMunicipality, setLoadingMunicipality] = useState(true);
     const [loadingSpaceType, setLoadingSpaceType] = useState(true);
     const [loadingService, setLoadingService] = useState(true);
@@ -54,7 +57,6 @@ export default function Spaces(){
             try {
                 const data = await fetchSpaceTypes();
                 setSpaceTypes(data); 
-                console.log("SpaceType: "+data);
             } catch (error) {
                 setErrorSpaceType(error.message);
             } finally {
@@ -69,7 +71,6 @@ export default function Spaces(){
             try {
                 const data = await fetchServices();
                 setServices(data); 
-                console.log("Sercios: "+data);
             } catch (error) {
                 setErrorService(error.message);
             } finally {
@@ -84,7 +85,6 @@ export default function Spaces(){
             try {
                 const data = await fetchModalities();
                 setModalities(data); 
-                console.log("modalidades: "+data);
             } catch (error) {
                 setErrorModality(error.message);
             } finally {
@@ -123,12 +123,12 @@ export default function Spaces(){
     
 
     const filterspace = spaces.filter((space) => {
-        const { name, spacesType, municipality, score, modality, service } = filters;
+        const { name, spaceType, municipality, score, modality, service } = filters;
     
         // Filtrar por texto
         const matchesTextFilters = 
             (!name || space.nombre.toLowerCase().includes(name.toLowerCase())) &&
-            (!spacesType || space.tipo_espacio.nombre === spacesType) &&
+            (!spaceType || space.tipo_espacio.nombre === spaceType) &&
             (!municipality || space.direccion.municipio === municipality) &&
             (!score || space.puntuacion_total === parseInt(score));
     
@@ -164,34 +164,34 @@ export default function Spaces(){
 
                 <div className="mb-5">
 
-                <label className="pr-8" htmlFor="name">
-                    Nom
-                <input
-                    className="ml-3 rounded-lg p-0.5"
-                    type="text"
-                    id="name"
-                    value={filters.name}
-                    onChange={(e) => handleFilterChange("name", e.target.value)}
-                />
-                </label>
-
-                <label className="pr-3" htmlFor="municipality">Municipis
-                    <select
+                    <label className="pr-8" htmlFor="name">
+                        Nom
+                    <input
                         className="ml-3 rounded-lg p-0.5"
-                        id="municipality"
-                        value={filters.municipality}
-                        onChange={(e) => handleFilterChange("municipality", e.target.value)}
-                    >
-                        {<option value="">Tots</option>}
-                        {municipalities?.map((municipality) => (
+                        type="text"
+                        id="name"
+                        value={filters.name}
+                        onChange={(e) => handleFilterChange("name", e.target.value)}
+                    />
+                        </label>
+
+                        <label className="pr-3" htmlFor="municipality">Municipis
+                        <select
+                            className="ml-3 rounded-lg p-0.5"
+                            id="municipality"
+                            value={filters.municipality}
+                            onChange={(e) => handleFilterChange("municipality", e.target.value)}
+                        >
+                            {<option value="">Tots</option>}
+                            {municipalities?.map((municipality) => (
                                 
-                                <option key={municipality} value={municipality}>
-                                    { municipality}
-                                </option>
-                            ))
-                        }
-                    </select>
-                </label>
+                                    <option key={municipality} value={municipality}>
+                                        { municipality}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                        </label>
 
                 </div>
             {/*----------------------------------------------------------------------------------- */}
@@ -207,8 +207,8 @@ export default function Spaces(){
                             {<option value="">Tots</option>}
                             {spacesTypes.map((spaceType) => (
 
-                                    <option key={spaceType} value={spaceType}>
-                                        { spaceType}
+                                    <option key={spaceType.id} value={spaceType.name}>
+                                        {spaceType[`description_${language.toUpperCase()}`]}  
                                     </option>
                                 ))
                             }
@@ -237,15 +237,15 @@ export default function Spaces(){
                     <div className="grid grid-cols-4 gap-4 pl-5">
                         {
                         modalities.map( modality => (
-                            <label key={modality} className="flex items-center">
+                            <label key={modality.id} className="flex items-center">
                                 <input
                                     className="mr-1"
                                     type="checkbox"
-                                    value={modality}
-                                    checked={filters.modality.includes(modality)}
-                                    onChange={() => handleFilterChange("modality",modality)}
+                                    value={modality.name}
+                                    checked={filters.modality.includes(modality.name)}
+                                    onChange={() => handleFilterChange("modality",modality.name)}
                                 />
-                                {modality}
+                                {modality[`description_${language.toUpperCase()}`]}
                             </label>
                         ))}
                     </div>
@@ -256,15 +256,15 @@ export default function Spaces(){
                     <div className="grid grid-cols-4 gap-4 pl-5">
                     {
                         services.map( service => (
-                            <label key={service} className="flex items-center">
+                            <label key={service.id} className="flex items-center">
                                 <input
                                     className="mr-1"
                                     type="checkbox"
-                                    value={service}
-                                    checked={filters.service.includes(service)}
-                                    onChange={() => handleFilterChange("service",service)}
+                                    value={service.name}
+                                    checked={filters.service.includes(service.name)}
+                                    onChange={() => handleFilterChange("service",service.name)}
                                 />
-                                {service}
+                                {service[`description_${language.toUpperCase()}`]}
                             </label>
                         ))}
                     </div>

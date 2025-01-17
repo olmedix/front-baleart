@@ -1,15 +1,18 @@
 import { useState,useEffect } from "react";
-import { fetchMunicipalities} from "../services/api";
+import { fetchFilters} from "../services/api";
 import { SpacesContext } from "../contexts/SpacesContext";
+import { useLanguage } from "../contexts/LanguageContext";
 import { useContext } from "react";
 
 import CardList from "../components/CardList";
 
 export default function Spaces(){
 
+    const { language } = useLanguage();
     const { spaces, loading, error } = useContext(SpacesContext);
-    const [loadingMunicipality, setLoadingMunicipality] = useState(true);
-    const [errorMunicipality, setErrorMunicipality] = useState(null);
+    const [loadingFilters, setLoadingFilters] = useState(true);
+    const [errorFilters, setErrorFilters] = useState(null);
+
 
     const [filters, setFilters] = useState({
         name: "",
@@ -19,24 +22,22 @@ export default function Spaces(){
         modality: [],
         service: [],
     });
-    const typeSpaces = ["Museu","Galeria","Sala d’exposicions","Centre Cultural","Seu Institucional","Hotel","Palau","Refugi","Casal","Església","Biblioteca","Teatre","Apartament","Habitatge Unifamiliar","Oficina","Club Esportiu","Castell","Jardins","Hospital","Cementiri","Parc","Piscina","Barri","Passatge","Far"];
-    const modalities = ["Pintura", "Escultura", "Fotografia", "Videoart", "Grafiti", "Instal·lació", "Performance", "Teixits", "Joies", "Il·lustració", "Música", "Vídeo", "Estampació", "Vidre"];
-    const services = ["Adaptat discapacitats","Admet mascotes","Aire condicionat","Biblioteca","Arxiu","Tallers","Cafeteria","Aparcament","Concerts","Visites concertades","Wifi","Conferències","Teatre","Banys","Guia"];  
-    const [municipalities,setMunicipalities] = useState([]);
+    const [filtros,setFiltros] = useState([]);
 
     useEffect(() => {
-        const loadMunicipalities = async () => {
+       
+        const loadFiltros = async () => {
+            
             try {
-                const data = await fetchMunicipalities();
-                // Extrae los nombres de los municipios
-                setMunicipalities(data.map((municipality) => municipality.name)); 
+                const data = await fetchFilters();
+                setFiltros(data); 
             } catch (error) {
-                setErrorMunicipality(error.message);
+                setErrorFilters(error.message);
             } finally {
-                setLoadingMunicipality(false);
+                setLoadingFilters(false);
             }
         };
-        loadMunicipalities();
+        loadFiltros();
     }, []);
 
     const handleFilterChange = (filterType, value) => {
@@ -90,11 +91,11 @@ export default function Spaces(){
     
 
     
-    if (loading || loadingMunicipality) return <p>Loading...</p>;
-    if (error || errorMunicipality) {
+    if (loading || loadingFilters) return <p>Loading...</p>;
+    if (error || errorFilters) {
         return (
             <p>
-                {error ? `Error loading spaces: ${error}` : `Error loading municipalities: ${errorMunicipality}`}
+                {error ? error : errorFilters}
             </p>
         );
     }
@@ -124,10 +125,10 @@ export default function Spaces(){
                         onChange={(e) => handleFilterChange("municipality", e.target.value)}
                     >
                         {<option value="">Tots</option>}
-                        {municipalities?.map((municipality) => (
+                        {filtros.municipalities.map((municipality) => (
                                 
-                                <option key={municipality} value={municipality}>
-                                    { municipality}
+                                <option key={municipality.id} value={municipality.name}>
+                                    { municipality.name}
                                 </option>
                             ))
                         }
@@ -146,10 +147,10 @@ export default function Spaces(){
                         onChange={(e) => handleFilterChange("typeSpace", e.target.value)}
                     >
                         {<option value="">Tots</option>}
-                        {typeSpaces.map((typeSpace) => (
+                        {filtros.spaceTypes.map((spaceType) => (
                                 
-                                <option key={typeSpace} value={typeSpace}>
-                                    { typeSpace}
+                                <option key={spaceType.id} value={spaceType.name}>
+                                    { spaceType[`description_${language.toUpperCase()}`]}
                                 </option>
                             ))
                         }
@@ -178,16 +179,16 @@ export default function Spaces(){
                     <legend className="text-xl px-1">Modalitats</legend>
                     <div className="grid grid-cols-4 gap-4 pl-5">
                         {
-                        modalities.map( modality => (
-                            <label key={modality} className="flex items-center">
+                        filtros.modalities.map( modality => (
+                            <label key={modality.id} className="flex items-center">
                                 <input
                                     className="mr-1"
                                     type="checkbox"
-                                    value={modality}
-                                    checked={filters.modality.includes(modality)}
-                                    onChange={() => handleFilterChange("modality",modality)}
+                                    value={modality.name}
+                                    checked={filters.modality.includes(modality.name)}
+                                    onChange={() => handleFilterChange("modality",modality.name)}
                                 />
-                                {modality}
+                                { modality[`description_${language.toUpperCase()}`]}
                             </label>
                         ))}
                     </div>
@@ -197,16 +198,16 @@ export default function Spaces(){
                     <legend className="text-xl px-1">Serveis</legend>
                     <div className="grid grid-cols-4 gap-4 pl-5">
                     {
-                        services.map( service => (
-                            <label key={service} className="flex items-center">
+                        filtros.services.map( service => (
+                            <label key={service.id} className="flex items-center">
                                 <input
                                     className="mr-1"
                                     type="checkbox"
                                     value={service}
-                                    checked={filters.service.includes(service)}
-                                    onChange={() => handleFilterChange("service",service)}
+                                    checked={filters.service.includes(service.name)}
+                                    onChange={() => handleFilterChange("service",service.name)}
                                 />
-                                {service}
+                                { service[`description_${language.toUpperCase()}`]}
                             </label>
                         ))}
                     </div>

@@ -29,16 +29,16 @@ export const fetchComments = async (regNumber, comments) => {
   return result;
 };
 
-export const fetchMunicipalities = async () => {
+export const fetchFilters = async () => {
   const token = localStorage.getItem("authToken");
-  const response = await fetch(`${API_BASE_URL}/municipalities`, {
+  const response = await fetch(`${API_BASE_URL}/filters`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   });
-  if (!response.ok) throw new Error("Error al obtener los municipios");
+  if (!response.ok) throw new Error("Error al obtener los filtros");
   const result = await response.json();
   return result;
 };

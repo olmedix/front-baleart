@@ -11,15 +11,18 @@ export default function Spaces(){
     const { spaces, loading, error } = useContext(SpacesContext);
     const { language } = useLanguage();
 
-    const [loadingMunicipality, setLoadingMunicipality] = useState(true);
-    const [loadingSpaceType, setLoadingSpaceType] = useState(true);
-    const [loadingService, setLoadingService] = useState(true);
-    const [loadingModality, setLoadingModality] = useState(true);
+    //const [loadingMunicipality, setLoadingMunicipality] = useState(true);
+    //const [loadingSpaceType, setLoadingSpaceType] = useState(true);
+    //const [loadingService, setLoadingService] = useState(true);
+    //const [loadingModality, setLoadingModality] = useState(true);
+    
+    const [load,setLoad]=useState(false);
+    const [error2, setError2] = useState(null);
 
-    const [errorMunicipality, setErrorMunicipality] = useState(null);
-    const [errorSpaceType, setErrorSpaceType] = useState(null);
-    const [errorService, setErrorService] = useState(null);
-    const [errorModality, setErrorModality] = useState(null);
+    //const [errorMunicipality, setErrorMunicipality] = useState(null);
+    //const [errorSpaceType, setErrorSpaceType] = useState(null);
+    //const [errorService, setErrorService] = useState(null);
+    //const [errorModality, setErrorModality] = useState(null);
 
     const [filters, setFilters] = useState({
         name: "",
@@ -37,6 +40,29 @@ export default function Spaces(){
     const [modalities,setModalities] = useState([]);
     const [services,setServices] = useState([]);
 
+    const fetchAllData = async () => {
+        setLoad(true);
+        try {
+          const municipalities = await fetchMunicipalities();
+          setMunicipalities(municipalities);
+          const spaceTypes = await fetchSpaceTypes();
+          setSpaceTypes(spaceTypes);
+          const services = await fetchServices();
+          setServices(services);
+          const modalities = await fetchModalities();
+          setModalities(modalities);
+        } catch (error) {
+          setError2("Error al cargar los datos"+ error.message);
+        }finally{
+            setLoad(false);
+            }
+      };
+      
+      useEffect(() => {
+        fetchAllData();
+      }, []);
+      
+/*
     useEffect(() => {
         const loadMunicipalities = async () => {
             try {
@@ -93,6 +119,7 @@ export default function Spaces(){
         };
         loadModality();
     }, []);
+*/
 
     const handleFilterChange = (filterType, value) => {
         setFilters((prevFilters) => {
@@ -144,7 +171,10 @@ export default function Spaces(){
     });
     
 
-    
+    if(load || loading) return <p>Loading...</p>;
+    if(error2) return <p>{error2}</p>;
+    if(error) return <p>{error}</p>;
+    /*
     if (loading || loadingMunicipality || loadingSpaceType || loadingModality || loadingService) return <p>Loading...</p>;
     if (error || errorMunicipality || errorSpaceType || errorModality || errorService) {
         return (
@@ -157,7 +187,7 @@ export default function Spaces(){
             </p>
         );
     }
-
+*/
     return(
         <>
             <form className="mt-8 p-5 font-semibold bg-gray-400 rounded-tl-lg rounded-tr-lg">

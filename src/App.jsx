@@ -23,6 +23,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import Authentication from './pages/Authentication';
 import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
+import { FiltersProvider } from './contexts/FiltersContext';
 
 
 
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <SpacesProvider>
+    <FiltersProvider>
     <AuthProvider>
     <LanguageProvider>
       
@@ -84,6 +86,7 @@ function App() {
     
     </LanguageProvider>
     </AuthProvider>
+    </FiltersProvider>
     </SpacesProvider>
   )
 }

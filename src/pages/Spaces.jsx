@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import { fetchMunicipalities} from "../services/api";
+import { fetchModalities, fetchMunicipalities, fetchServices, fetchSpaceTypes} from "../services/api";
 import { SpacesContext } from "../contexts/SpacesContext";
 import { useContext } from "react";
 
@@ -9,20 +9,30 @@ export default function Spaces(){
 
     const { spaces, loading, error } = useContext(SpacesContext);
     const [loadingMunicipality, setLoadingMunicipality] = useState(true);
+    const [loadingSpaceType, setLoadingSpaceType] = useState(true);
+    const [loadingService, setLoadingService] = useState(true);
+    const [loadingModality, setLoadingModality] = useState(true);
+
     const [errorMunicipality, setErrorMunicipality] = useState(null);
+    const [errorSpaceType, setErrorSpaceType] = useState(null);
+    const [errorService, setErrorService] = useState(null);
+    const [errorModality, setErrorModality] = useState(null);
 
     const [filters, setFilters] = useState({
         name: "",
-        typeSpace: "",
+        spaceType: "",
         municipality: "",
         score: "",
         modality: [],
         service: [],
     });
-    const typeSpaces = ["Museu","Galeria","Sala d’exposicions","Centre Cultural","Seu Institucional","Hotel","Palau","Refugi","Casal","Església","Biblioteca","Teatre","Apartament","Habitatge Unifamiliar","Oficina","Club Esportiu","Castell","Jardins","Hospital","Cementiri","Parc","Piscina","Barri","Passatge","Far"];
-    const modalities = ["Pintura", "Escultura", "Fotografia", "Videoart", "Grafiti", "Instal·lació", "Performance", "Teixits", "Joies", "Il·lustració", "Música", "Vídeo", "Estampació", "Vidre"];
-    const services = ["Adaptat discapacitats","Admet mascotes","Aire condicionat","Biblioteca","Arxiu","Tallers","Cafeteria","Aparcament","Concerts","Visites concertades","Wifi","Conferències","Teatre","Banys","Guia"];  
+    //const typeSpaces = ["Museu","Galeria","Sala d’exposicions","Centre Cultural","Seu Institucional","Hotel","Palau","Refugi","Casal","Església","Biblioteca","Teatre","Apartament","Habitatge Unifamiliar","Oficina","Club Esportiu","Castell","Jardins","Hospital","Cementiri","Parc","Piscina","Barri","Passatge","Far"];
+    //const modalities = ["Pintura", "Escultura", "Fotografia", "Videoart", "Grafiti", "Instal·lació", "Performance", "Teixits", "Joies", "Il·lustració", "Música", "Vídeo", "Estampació", "Vidre"];
+    //const services = ["Adaptat discapacitats","Admet mascotes","Aire condicionat","Biblioteca","Arxiu","Tallers","Cafeteria","Aparcament","Concerts","Visites concertades","Wifi","Conferències","Teatre","Banys","Guia"];  
     const [municipalities,setMunicipalities] = useState([]);
+    const [spacesTypes,setSpaceTypes] = useState([]);
+    const [modalities,setModalities] = useState([]);
+    const [services,setServices] = useState([]);
 
     useEffect(() => {
         const loadMunicipalities = async () => {
@@ -37,6 +47,51 @@ export default function Spaces(){
             }
         };
         loadMunicipalities();
+    }, []);
+
+    useEffect(() => {
+        const loadSpaceTypes = async () => {
+            try {
+                const data = await fetchSpaceTypes();
+                setSpaceTypes(data); 
+                console.log("SpaceType: "+data);
+            } catch (error) {
+                setErrorSpaceType(error.message);
+            } finally {
+                setLoadingSpaceType(false);
+            }
+        };
+        loadSpaceTypes();
+    }, []);
+
+    useEffect(() => {
+        const loadService = async () => {
+            try {
+                const data = await fetchServices();
+                setServices(data); 
+                console.log("Sercios: "+data);
+            } catch (error) {
+                setErrorService(error.message);
+            } finally {
+                setLoadingService(false);
+            }
+        };
+        loadService();
+    }, []);
+
+    useEffect(() => {
+        const loadModality = async () => {
+            try {
+                const data = await fetchModalities();
+                setModalities(data); 
+                console.log("modalidades: "+data);
+            } catch (error) {
+                setErrorModality(error.message);
+            } finally {
+                setLoadingModality(false);
+            }
+        };
+        loadModality();
     }, []);
 
     const handleFilterChange = (filterType, value) => {
@@ -68,12 +123,12 @@ export default function Spaces(){
     
 
     const filterspace = spaces.filter((space) => {
-        const { name, typeSpace, municipality, score, modality, service } = filters;
+        const { name, spacesType, municipality, score, modality, service } = filters;
     
         // Filtrar por texto
         const matchesTextFilters = 
             (!name || space.nombre.toLowerCase().includes(name.toLowerCase())) &&
-            (!typeSpace || space.tipo_espacio.nombre === typeSpace) &&
+            (!spacesType || space.tipo_espacio.nombre === spacesType) &&
             (!municipality || space.direccion.municipio === municipality) &&
             (!score || space.puntuacion_total === parseInt(score));
     
@@ -90,11 +145,15 @@ export default function Spaces(){
     
 
     
-    if (loading || loadingMunicipality) return <p>Loading...</p>;
-    if (error || errorMunicipality) {
+    if (loading || loadingMunicipality || loadingSpaceType || loadingModality || loadingService) return <p>Loading...</p>;
+    if (error || errorMunicipality || errorSpaceType || errorModality || errorService) {
         return (
             <p>
-                {error ? `Error loading spaces: ${error}` : `Error loading municipalities: ${errorMunicipality}`}
+                {error ? `Error loading spaces: ${error}` : ""}
+                {errorMunicipality ? `Error loading municipalities: ${errorMunicipality}` : ""}
+                {errorSpaceType ? `Error loading space types: ${errorSpaceType}` : ""}
+                {errorModality ? `Error loading modalities: ${errorModality}` : ""}
+                {errorService ? `Error loading services: ${errorService}` : ""}
             </p>
         );
     }
@@ -116,7 +175,7 @@ export default function Spaces(){
                 />
                 </label>
 
-                <label className="pr-3" htmlFor="typeSpace">Municipis
+                <label className="pr-3" htmlFor="municipality">Municipis
                     <select
                         className="ml-3 rounded-lg p-0.5"
                         id="municipality"
@@ -135,43 +194,42 @@ export default function Spaces(){
                 </label>
 
                 </div>
-
+            {/*----------------------------------------------------------------------------------- */}
                 <div className="mb-5">
 
-                <label className="pr-8" htmlFor="typeSpace">Tipus d&apos;espai
-                    <select
-                        className="ml-3 rounded-lg p-0.5"
-                        id="typeSpace"
-                        value={filters.typeSpace}
-                        onChange={(e) => handleFilterChange("typeSpace", e.target.value)}
-                    >
-                        {<option value="">Tots</option>}
-                        {typeSpaces.map((typeSpace) => (
-                                
-                                <option key={typeSpace} value={typeSpace}>
-                                    { typeSpace}
-                                </option>
-                            ))
-                        }
-                    </select>
-                </label>
+                    <label className="pr-8" htmlFor="spaceType">Tipus d&apos;espai
+                        <select
+                            className="ml-3 rounded-lg p-0.5"
+                            id="spaceType"
+                            value={filters.spaceType}
+                            onChange={(e) => handleFilterChange("spaceType", e.target.value)}
+                        >
+                            {<option value="">Tots</option>}
+                            {spacesTypes.map((spaceType) => (
 
-                <label htmlFor="score">Puntuació
-                    <select
-                        className="ml-3 rounded-lg p-0.5"
-                        id="score"
-                        value={filters.score}
-                        onChange={(e) => handleFilterChange("score", e.target.value)}
-                    >
-                        {<option value="">Tots</option>}
-                        <option value="1">1 estrella</option>
-                        <option value="2">2 estrella</option>
-                        <option value="3">3 estrella</option>
-                        <option value="4">4 estrella</option>
-                        <option value="5">5 estrella</option>
-                    </select>
-                </label>
+                                    <option key={spaceType} value={spaceType}>
+                                        { spaceType}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                    </label>
 
+                    <label htmlFor="score">Puntuació
+                        <select
+                            className="ml-3 rounded-lg p-0.5"
+                            id="score"
+                            value={filters.score}
+                            onChange={(e) => handleFilterChange("score", e.target.value)}
+                        >
+                            {<option value="">Tots</option>}
+                            <option value="1">1 estrella</option>
+                            <option value="2">2 estrella</option>
+                            <option value="3">3 estrella</option>
+                            <option value="4">4 estrella</option>
+                            <option value="5">5 estrella</option>
+                        </select>
+                    </label>
                 </div>
 
                 <fieldset className="mb-5 pb-3 border-2 border-black rounded-lg">

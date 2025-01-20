@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
-import { fetchModalities, fetchMunicipalities, fetchServices, fetchSpaceTypes} from "../services/api";
+import { fetchFilters} from "../services/api";
 import { SpacesContext } from "../contexts/SpacesContext";
+import { useLanguage } from "../contexts/LanguageContext";
 import { useContext } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 
@@ -8,11 +9,10 @@ import CardList from "../components/CardList";
 
 export default function Spaces(){
 
-    const { spaces, loading, error } = useContext(SpacesContext);
     const { language } = useLanguage();
-
-    const [load,setLoad]=useState(false);
-    const [error2, setError2] = useState(null);
+    const { spaces, loading, error } = useContext(SpacesContext);
+    const [loadingFilters, setLoadingFilters] = useState(true);
+    const [errorFilters, setErrorFilters] = useState(null);
 
 
     const [filters, setFilters] = useState({
@@ -23,35 +23,23 @@ export default function Spaces(){
         modality: [],
         service: [],
     });
-    //const typeSpaces = ["Museu","Galeria","Sala d’exposicions","Centre Cultural","Seu Institucional","Hotel","Palau","Refugi","Casal","Església","Biblioteca","Teatre","Apartament","Habitatge Unifamiliar","Oficina","Club Esportiu","Castell","Jardins","Hospital","Cementiri","Parc","Piscina","Barri","Passatge","Far"];
-    //const modalities = ["Pintura", "Escultura", "Fotografia", "Videoart", "Grafiti", "Instal·lació", "Performance", "Teixits", "Joies", "Il·lustració", "Música", "Vídeo", "Estampació", "Vidre"];
-    //const services = ["Adaptat discapacitats","Admet mascotes","Aire condicionat","Biblioteca","Arxiu","Tallers","Cafeteria","Aparcament","Concerts","Visites concertades","Wifi","Conferències","Teatre","Banys","Guia"];  
-    const [municipalities,setMunicipalities] = useState([]);
-    const [spacesTypes,setSpaceTypes] = useState([]);
-    const [modalities,setModalities] = useState([]);
-    const [services,setServices] = useState([]);
+    const [filtros,setFiltros] = useState([]);
 
-    const fetchAllData = async () => {
-        setLoad(true);
-        try {
-          const municipalities = await fetchMunicipalities();
-          setMunicipalities(municipalities);
-          const spaceTypes = await fetchSpaceTypes();
-          setSpaceTypes(spaceTypes);
-          const services = await fetchServices();
-          setServices(services);
-          const modalities = await fetchModalities();
-          setModalities(modalities);
-        } catch (error) {
-          setError2("Error al cargar los datos"+ error.message);
-        }finally{
-            setLoad(false);
+    useEffect(() => {
+       
+        const loadFiltros = async () => {
+            
+            try {
+                const data = await fetchFilters();
+                setFiltros(data); 
+            } catch (error) {
+                setErrorFilters(error.message);
+            } finally {
+                setLoadingFilters(false);
             }
-      };
-      
-      useEffect(() => {
-        fetchAllData();
-      }, []);
+        };
+        loadFiltros();
+    }, []);
 
     const handleFilterChange = (filterType, value) => {
         setFilters((prevFilters) => {
@@ -103,9 +91,15 @@ export default function Spaces(){
     });
     
 
-    if(load || loading) return <p>Loading...</p>;
-    if(error2) return <p>{error2}</p>;
-    if(error) return <p>{error}</p>;
+    
+    if (loading || loadingFilters) return <p>Loading...</p>;
+    if (error || errorFilters) {
+        return (
+            <p>
+                {error ? error : errorFilters}
+            </p>
+        );
+    }
 
     return(
         <>
@@ -123,44 +117,45 @@ export default function Spaces(){
                     />
                     </label>
 
-                    <label className="pr-3" htmlFor="municipality">Municipis
-                        <select
-                            className="ml-3 rounded-lg p-0.5"
-                            id="municipality"
-                            value={filters.municipality}
-                            onChange={(e) => handleFilterChange("municipality", e.target.value)}
-                        >
-                            {<option value="">Tots</option>}
-                            {municipalities?.map((municipality) => (
+                <label className="pr-3" htmlFor="typeSpace">Municipis
+                    <select
+                        className="ml-3 rounded-lg p-0.5"
+                        id="municipality"
+                        value={filters.municipality}
+                        onChange={(e) => handleFilterChange("municipality", e.target.value)}
+                    >
+                        {<option value="">Tots</option>}
+                        {filtros.municipalities.map((municipality) => (
                                 
-                                    <option key={municipality} value={municipality}>
-                                        { municipality}
-                                    </option>
-                                ))
-                            }
-                        </select>
-                    </label>
+                                <option key={municipality.id} value={municipality.name}>
+                                    { municipality.name}
+                                </option>
+                            ))
+                        }
+                    </select>
+                </label>
+
                 </div>
 
                 <div className="mb-5">
 
-                    <label className="pr-8" htmlFor="spaceType">Tipus d&apos;espai
-                        <select
-                            className="ml-3 rounded-lg p-0.5"
-                            id="spaceType"
-                            value={filters.spaceType}
-                            onChange={(e) => handleFilterChange("spaceType", e.target.value)}
-                        >
-                            {<option value="">Tots</option>}
-                            {spacesTypes.map((spaceType) => (
-
-                                    <option key={spaceType.id} value={spaceType.name}>
-                                        {spaceType[`description_${language.toUpperCase()}`]}  
-                                    </option>
-                                ))
-                            }
-                        </select>
-                    </label>
+                <label className="pr-8" htmlFor="typeSpace">Tipus d&apos;espai
+                    <select
+                        className="ml-3 rounded-lg p-0.5"
+                        id="typeSpace"
+                        value={filters.typeSpace}
+                        onChange={(e) => handleFilterChange("typeSpace", e.target.value)}
+                    >
+                        {<option value="">Tots</option>}
+                        {filtros.spaceTypes.map((spaceType) => (
+                                
+                                <option key={spaceType.id} value={spaceType.name}>
+                                    { spaceType[`description_${language.toUpperCase()}`]}
+                                </option>
+                            ))
+                        }
+                    </select>
+                </label>
 
                     <label htmlFor="score">Puntuació
                         <select
@@ -183,7 +178,7 @@ export default function Spaces(){
                     <legend className="text-xl px-1">Modalitats</legend>
                     <div className="grid grid-cols-4 gap-4 pl-5">
                         {
-                        modalities.map( modality => (
+                        filtros.modalities.map( modality => (
                             <label key={modality.id} className="flex items-center">
                                 <input
                                     className="mr-1"
@@ -192,7 +187,7 @@ export default function Spaces(){
                                     checked={filters.modality.includes(modality.name)}
                                     onChange={() => handleFilterChange("modality",modality.name)}
                                 />
-                                {modality[`description_${language.toUpperCase()}`]}
+                                { modality[`description_${language.toUpperCase()}`]}
                             </label>
                         ))}
                     </div>
@@ -202,16 +197,16 @@ export default function Spaces(){
                     <legend className="text-xl px-1">Serveis</legend>
                     <div className="grid grid-cols-4 gap-4 pl-5">
                     {
-                        services.map( service => (
+                        filtros.services.map( service => (
                             <label key={service.id} className="flex items-center">
                                 <input
                                     className="mr-1"
                                     type="checkbox"
-                                    value={service.name}
+                                    value={service}
                                     checked={filters.service.includes(service.name)}
                                     onChange={() => handleFilterChange("service",service.name)}
                                 />
-                                {service[`description_${language.toUpperCase()}`]}
+                                { service[`description_${language.toUpperCase()}`]}
                             </label>
                         ))}
                     </div>

@@ -3,7 +3,6 @@ import { fetchFilters} from "../services/api";
 import { SpacesContext } from "../contexts/SpacesContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useContext } from "react";
-import { useLanguage } from "../contexts/LanguageContext";
 
 import CardList from "../components/CardList";
 
@@ -17,26 +16,12 @@ export default function Spaces(){
 
     const [filters, setFilters] = useState({
         name: "",
-        spaceType: "",
+        typeSpace: "",
         municipality: "",
         score: "",
         modality: [],
         service: [],
     });
-    const [filtros,setFiltros] = useState([]);
-
-    useEffect(() => {
-       
-        const loadFiltros = async () => {
-            
-            try {
-                const data = await fetchFilters();
-                console.log(data);
-                setFiltros(data); 
-            } catch (error) {
-                setErrorFilters(error.message);
-            } finally {
-                setLoadingFilters(false);
     const [filtros,setFiltros] = useState([]);
 
     useEffect(() => {
@@ -84,12 +69,12 @@ export default function Spaces(){
     
 
     const filterspace = spaces.filter((space) => {
-        const { name, spaceType, municipality, score, modality, service } = filters;
+        const { name, typeSpace, municipality, score, modality, service } = filters;
     
         // Filtrar por texto
         const matchesTextFilters = 
             (!name || space.nombre.toLowerCase().includes(name.toLowerCase())) &&
-            (!spaceType || space.tipo_espacio.nombre === spaceType) &&
+            (!typeSpace || space.tipo_espacio.nombre === typeSpace) &&
             (!municipality || space.direccion.municipio === municipality) &&
             (!score || space.puntuacion_total === parseInt(score));
     
@@ -120,16 +105,17 @@ export default function Spaces(){
             <form className="mt-8 p-5 font-semibold bg-gray-400 rounded-tl-lg rounded-tr-lg">
 
                 <div className="mb-5">
-                    <label className="pr-8" htmlFor="name">
-                        Nom
-                    <input
-                        className="ml-3 rounded-lg p-0.5"
-                        type="text"
-                        id="name"
-                        value={filters.name}
-                        onChange={(e) => handleFilterChange("name", e.target.value)}
-                    />
-                    </label>
+
+                <label className="pr-8" htmlFor="name">
+                    Nom
+                <input
+                    className="ml-3 rounded-lg p-0.5"
+                    type="text"
+                    id="name"
+                    value={filters.name}
+                    onChange={(e) => handleFilterChange("name", e.target.value)}
+                />
+                </label>
 
                 <label className="pr-3" htmlFor="typeSpace">Municipis
                     <select
@@ -171,23 +157,24 @@ export default function Spaces(){
                     </select>
                 </label>
 
-                    <label htmlFor="score">Puntuació
-                        <select
-                            className="ml-3 rounded-lg p-0.5"
-                            id="score"
-                            value={filters.score}
-                            onChange={(e) => handleFilterChange("score", e.target.value)}
-                        >
-                            {<option value="">Tots</option>}
-                            <option value="1">1 estrella</option>
-                            <option value="2">2 estrella</option>
-                            <option value="3">3 estrella</option>
-                            <option value="4">4 estrella</option>
-                            <option value="5">5 estrella</option>
-                        </select>
-                    </label>
+                <label htmlFor="score">Puntuació
+                    <select
+                        className="ml-3 rounded-lg p-0.5"
+                        id="score"
+                        value={filters.score}
+                        onChange={(e) => handleFilterChange("score", e.target.value)}
+                    >
+                        {<option value="">Tots</option>}
+                        <option value="1">1 estrella</option>
+                        <option value="2">2 estrella</option>
+                        <option value="3">3 estrella</option>
+                        <option value="4">4 estrella</option>
+                        <option value="5">5 estrella</option>
+                    </select>
+                </label>
+
                 </div>
- 
+
                 <fieldset className="mb-5 pb-3 border-2 border-black rounded-lg">
                     <legend className="text-xl px-1">Modalitats</legend>
                     <div className="grid grid-cols-4 gap-4 pl-5">
@@ -227,8 +214,8 @@ export default function Spaces(){
                 </fieldset>
             </form>
 
-            <CardList 
-                spaces={filterspace} />
-            </>
+            <CardList spaces={filterspace} />
+      
+         </>
     )
 }

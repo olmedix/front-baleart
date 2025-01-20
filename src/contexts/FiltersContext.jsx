@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { fetchModalities, fetchMunicipalities, fetchServices, fetchSpaceTypes} from "../services/api";
 // Crear el contexto
 export const FiltersContext = createContext();
 

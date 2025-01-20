@@ -2,7 +2,6 @@ import { useState,useEffect } from "react";
 import { fetchModalities, fetchMunicipalities, fetchServices, fetchSpaceTypes} from "../services/api";
 import { SpacesContext } from "../contexts/SpacesContext";
 import { useContext } from "react";
-import { useLanguage } from "../contexts/LanguageContext";
 
 import CardList from "../components/CardList";
 
@@ -23,29 +22,20 @@ export default function Spaces(){
         modality: [],
         service: [],
     });
-    //const typeSpaces = ["Museu","Galeria","Sala d’exposicions","Centre Cultural","Seu Institucional","Hotel","Palau","Refugi","Casal","Església","Biblioteca","Teatre","Apartament","Habitatge Unifamiliar","Oficina","Club Esportiu","Castell","Jardins","Hospital","Cementiri","Parc","Piscina","Barri","Passatge","Far"];
-    //const modalities = ["Pintura", "Escultura", "Fotografia", "Videoart", "Grafiti", "Instal·lació", "Performance", "Teixits", "Joies", "Il·lustració", "Música", "Vídeo", "Estampació", "Vidre"];
-    //const services = ["Adaptat discapacitats","Admet mascotes","Aire condicionat","Biblioteca","Arxiu","Tallers","Cafeteria","Aparcament","Concerts","Visites concertades","Wifi","Conferències","Teatre","Banys","Guia"];  
-    const [municipalities,setMunicipalities] = useState([]);
-    const [spacesTypes,setSpaceTypes] = useState([]);
-    const [modalities,setModalities] = useState([]);
-    const [services,setServices] = useState([]);
+    const [filtros,setFiltros] = useState([]);
 
-    const fetchAllData = async () => {
-        setLoad(true);
-        try {
-          const municipalities = await fetchMunicipalities();
-          setMunicipalities(municipalities);
-          const spaceTypes = await fetchSpaceTypes();
-          setSpaceTypes(spaceTypes);
-          const services = await fetchServices();
-          setServices(services);
-          const modalities = await fetchModalities();
-          setModalities(modalities);
-        } catch (error) {
-          setError2("Error al cargar los datos"+ error.message);
-        }finally{
-            setLoad(false);
+    useEffect(() => {
+       
+        const loadFiltros = async () => {
+            
+            try {
+                const data = await fetchFilters();
+                console.log(data);
+                setFiltros(data); 
+            } catch (error) {
+                setErrorFilters(error.message);
+            } finally {
+                setLoadingFilters(false);
             }
       };
       

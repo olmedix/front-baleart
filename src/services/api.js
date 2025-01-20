@@ -43,48 +43,6 @@ export const fetchMunicipalities = async () => {
   return result;
 };
 
-export const fetchSpaceTypes = async () => {
-  const token = localStorage.getItem("authToken");
-  const response = await fetch(`${API_BASE_URL}/spaceTypes`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!response.ok) throw new Error("Error al obtener los tipos de espacio");
-  const result = await response.json();
-  return result;
-};
-
-export const fetchServices = async () => {
-  const token = localStorage.getItem("authToken");
-  const response = await fetch(`${API_BASE_URL}/services`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!response.ok) throw new Error("Error al obtener los servicios");
-  const result = await response.json();
-  return result;
-};
-
-export const fetchModalities = async () => {
-  const token = localStorage.getItem("authToken");
-  const response = await fetch(`${API_BASE_URL}/modalities`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!response.ok) throw new Error("Error al obtener las modalidades");
-  const result = await response.json();
-  return result;
-};
-
 export const fetchGetComments = async (userId) => {
   const token = localStorage.getItem("authToken");
   const response = await fetch(`${API_BASE_URL}/comments/${userId}`, {

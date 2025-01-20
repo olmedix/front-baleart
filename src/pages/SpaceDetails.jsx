@@ -1,10 +1,12 @@
 import { useLocation} from "react-router-dom";
+import { useLanguage } from "../contexts/LanguageContext";
 import { ShowComment } from "../components/ShowComment";
 import AddComment from "../components/AddComment";
 
 export default function SpaceDetails(){
     const location = useLocation();
     const { space } = location.state;
+    const { language } = useLanguage(); 
 
     return (
         <div className="bg-gray-800 p-8 flex flex-col items-center">
@@ -17,8 +19,8 @@ export default function SpaceDetails(){
             </h1>
 
             <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
-                <span className="font-bold">Descripció: </span>  
-                {space.description[0]}
+                <span className="font-bold">Descripció: </span> 
+                {language === "ca" ? space.description[0] : language === "es" ? space.description[1] : space.description[2]   } 
             </p>
 
             <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
@@ -26,12 +28,12 @@ export default function SpaceDetails(){
                 {space.municipality}
             </p>
 
-            { space.description.length > 0 &&
+            { space.services.length > 0 &&
                 <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
                     <span className="font-bold">Serveis: </span>
-                    {
-                        space.services.map((service, index) => (
-                            <li  className="ml-5" key={index}>{service.descripcion_ca} </li>
+                    <li></li>
+                        {space.services.map((service, index) => (      
+                            <li  className="ml-5" key={index}>{service[`descripcion_${language}`]} </li>
                         ))
                     }
                 </ul>
@@ -39,7 +41,7 @@ export default function SpaceDetails(){
                 <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
                 <span className="font-bold">Modalitats: </span>
                     {space.modalities.map((modality, index) => (
-                        <li className="ml-5" key={index}>{modality}</li>
+                        <li className="ml-5" key={index}>{modality[`descripcion_${language}`]}</li>
                     ))}
                 </ul>
             

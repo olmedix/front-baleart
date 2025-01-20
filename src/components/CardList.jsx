@@ -1,11 +1,10 @@
 import Card from "./Card";
 
 import { useState } from "react";
-import { useLanguage } from "../contexts/LanguageContext";
 
 export default function CardList({spaces}) {
+    
 
-    const { language } = useLanguage();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
@@ -27,19 +26,20 @@ export default function CardList({spaces}) {
     return (
         <div className="bg-gray-800 p-8 flex flex-col items-center">
             {currentItems.map((space) => (
+                
                     <Card
                         key={space.id}
                         id={space.id}
                         regNumber= {space.numero_registro}
-                        typeSpace={space.tipo_espacio[`description_${language}`]}
+                        typeSpace={[space.tipo_espacio.description_ca,space.tipo_espacio.description_es,space.tipo_espacio.description_en]}
                         name={space.nombre}
                         municipality={space.direccion.municipio}
                         photo={"/baluard.jpg"}
-                        modalities={space.modalidades.map( modality => modality.nombre)}
+                        modalities={space.modalidades}
                         score={space.puntuacion_total}
                         votes={space.votos_totales}
                         comentarios={space.comentarios}
-                        description = {space[`observacion_${language}`]}
+                        description = {[space.observacion_ca,space.observacion_es,space.observacion_en]}
                         services={space.servicios}
                     />
                 ))

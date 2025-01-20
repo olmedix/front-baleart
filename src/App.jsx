@@ -31,7 +31,7 @@ function App() {
 
   return (
     <SpacesProvider>
-
+    <FiltersProvider>
     <AuthProvider>
     <LanguageProvider>
       
@@ -86,7 +86,7 @@ function App() {
     
     </LanguageProvider>
     </AuthProvider>
-    
+    </FiltersProvider>
     </SpacesProvider>
   )
 }

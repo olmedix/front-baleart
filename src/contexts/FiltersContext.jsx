@@ -1,46 +1,35 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
+import { fetchFilters } from "../services/api";
 // Crear el contexto
 export const FiltersContext = createContext();
 
 export const FiltersProvider = ({ children }) => {
-  const [municipalities, setMunicipalities] = useState([]);
-  const [spacesTypes, setSpaceTypes] = useState([]);
-  const [modalities, setModalities] = useState([]);
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [filtros, setFiltros] = useState([]);
+  const [loadingFilters, setLoadingFilters] = useState(true);
+  const [errorFilters, setErrorFilters] = useState(null);
 
-  const fetchAllData = async () => {
-    setLoading(true);
-    try {
-      const municipalities = await fetchMunicipalities();
-      setMunicipalities(municipalities);
-      const spaceTypes = await fetchSpaceTypes();
-      setSpaceTypes(spaceTypes);
-      const services = await fetchServices();
-      setServices(services);
-      const modalities = await fetchModalities();
-      setModalities(modalities);
-    } catch (err) {
-      setError(`Error al cargar los datos: ${err.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAllData();
-  }, []);
+   useEffect(() => {
+         
+          const loadFiltros = async () => {
+              
+              try {
+                  const data = await fetchFilters();
+                  setFiltros(data); 
+              } catch (error) {
+                  setErrorFilters(error.message);
+              } finally {
+                  setLoadingFilters(false);
+              }
+          };
+          loadFiltros();
+      }, []);
 
   return (
     <FiltersContext.Provider
       value={{
-        municipalities,
-        spacesTypes,
-        modalities,
-        services,
-        loading,
-        error,
+        filtros,
+        loadingFilters,
+        errorFilters,
       }}
     >
       {children}
@@ -48,14 +37,4 @@ export const FiltersProvider = ({ children }) => {
   );
 };
 
-// Custom hook para usar los filtros
-export const useFilters = () => {
-    const context = useContext(FiltersContext);
-  
-    if (!context) {
-      throw new Error("useFilters debe ser usado dentro de FiltersProvider");
-    }
-  
-    return context;
-  };
 

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Card({ typeSpace,name,municipality,photo,modalities,score,votes,id,comentarios,description,services,regNumber }) {
 
@@ -74,6 +75,8 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
 
     }
 
+    const { language } = useLanguage(); 
+
     // Reconstruimos para enviar a la página de detalles
     const space = { typeSpace, name, municipality, photo, modalities, score, votes, id, comentarios,description,services,regNumber };
 
@@ -88,7 +91,9 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                 </div>
                 
                 <div className="absolute top-5 left-0 bg-transparent text-left text-white p-2">
-                    <p>{typeSpace}</p>
+                    <p>{
+                        language === "ca" ? typeSpace[0] : language === "es" ? typeSpace[1] : typeSpace[2]    
+                    }</p>
                     <h3>{name}</h3>
                     <p>{municipality}</p>
                 </div>
@@ -99,7 +104,9 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                 <div className="ml-3">
                     <ul className="text-left">
                         <li>
-                            Tipus de espai: <span className="font-normal">{typeSpace}</span> 
+                            Tipus de espai: <span className="font-normal">{
+                            language === "ca" ? typeSpace[0] : language === "es" ? typeSpace[1] : typeSpace[2] 
+                            }</span> 
                         </li>
                         <li>
                             Nom: <span className="font-normal">{name}</span>
@@ -112,8 +119,8 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                                 Modalitats:
                                     {modalities.map((modality) => (
 
-                                        <li key={modality}>
-                                            {renderModalities(modality)}
+                                        <li key={modality.id}>
+                                            {renderModalities(modality.nombre)}
                                         </li>
                                     ))}
                             </ul>

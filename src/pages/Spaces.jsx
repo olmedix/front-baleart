@@ -1,19 +1,16 @@
-import { useState,useEffect } from "react";
-import { fetchFilters} from "../services/api";
+import { useState } from "react";
 import { SpacesContext } from "../contexts/SpacesContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useContext } from "react";
 
 import CardList from "../components/CardList";
+import { FiltersContext } from "../contexts/FiltersContext";
 
 export default function Spaces(){
 
     const { language } = useLanguage();
     const { spaces, loading, error } = useContext(SpacesContext);
-    const [loadingFilters, setLoadingFilters] = useState(true);
-    const [errorFilters, setErrorFilters] = useState(null);
-
-
+    const {filtros,loadingFilters,errorFilters} = useContext(FiltersContext);
     const [filters, setFilters] = useState({
         name: "",
         typeSpace: "",
@@ -22,23 +19,6 @@ export default function Spaces(){
         modality: [],
         service: [],
     });
-    const [filtros,setFiltros] = useState([]);
-
-    useEffect(() => {
-       
-        const loadFiltros = async () => {
-            
-            try {
-                const data = await fetchFilters();
-                setFiltros(data); 
-            } catch (error) {
-                setErrorFilters(error.message);
-            } finally {
-                setLoadingFilters(false);
-            }
-        };
-        loadFiltros();
-    }, []);
 
     const handleFilterChange = (filterType, value) => {
         setFilters((prevFilters) => {
@@ -65,8 +45,6 @@ export default function Spaces(){
             };
         });
     };
-    
-    
 
     const filterspace = spaces.filter((space) => {
         const { name, typeSpace, municipality, score, modality, service } = filters;

@@ -38,7 +38,7 @@ export const fetchFilters = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  if (!response.ok) throw new Error("Error al obtener los filtros");
+  if (!response.ok) console.error(`Error: ${response.statusText}`);
   const result = await response.json();
   return result;
 };

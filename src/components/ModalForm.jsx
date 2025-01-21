@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useLanguage } from "../contexts/LanguageContext";
 import { updateUserByEmail } from "../services/api";
 
 export default function ModalForm({ userEmail, setUser }) {
 
+    const { language } = useLanguage();
     const [isOpen,setIsOpen] = useState(false);
     const [formData, setFormData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +49,7 @@ export default function ModalForm({ userEmail, setUser }) {
                   onClick={openModal}
             >
                 <i className="fa-solid fa-pencil mr-1"></i>
-                 Editar
+                {language === "ca" ? "Editar" : language === "es" ? "Editar" : "Edit"}
             </button>
 
             { isOpen && (
@@ -65,16 +67,18 @@ export default function ModalForm({ userEmail, setUser }) {
                   ✖
                 </button>
     
-                <h2 className="text-xl font-semibold mb-4">Actualització de dades</h2>
+                <h2 className="text-xl font-semibold mb-4">
+                {language === "ca" ? "Actualització de dades" : language === "es" ? "Actualización de datos" : "Update data"}
+                </h2>
 
                 {isLoading && <p className="text-blue-500">Cargando...</p>}
-                {error && <p className="text-red-500">Error: {error}</p>}
+                {error && <p className="text-red-500">{error}</p>}
     
                 {/* Formulario */}
                 <form onSubmit={handleUpdate}>
                   <div className="mb-4">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                      Nom
+                      {language === "ca" ? "Nom" : language === "es" ? "Nombre" : "Name"}
                     </label>
                     <input
                       type="text"
@@ -88,7 +92,7 @@ export default function ModalForm({ userEmail, setUser }) {
 
                   <div className="mb-4">
                     <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                      Cognoms
+                      {language === "ca" ? "Cognoms" : language === "es" ? "Apellidos" : "Last name"}
                     </label>
                     <input
                       type="text"
@@ -102,7 +106,7 @@ export default function ModalForm({ userEmail, setUser }) {
     
                   <div className="mb-4">
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                      Email
+                      {language === "ca" ? "Email" : language === "es" ? "Correo electrónico" : "Email"}
                     </label>
                     <input
                       type="email"
@@ -116,7 +120,7 @@ export default function ModalForm({ userEmail, setUser }) {
 
                   <div className="mb-4">
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                      Telèfon
+                      {language === "ca" ? "Telèfon" : language === "es" ? "Teléfono" : "Phone"}
                     </label>
                     <input
                       type="phone"
@@ -130,7 +134,7 @@ export default function ModalForm({ userEmail, setUser }) {
 
                   <div className="mb-4">
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                      Contrasenya
+                      {language === "ca" ? "Contrasenya" : language === "es" ? "Contraseña" : "Password"}
                     </label>
                     <input
                       type="text"
@@ -146,7 +150,7 @@ export default function ModalForm({ userEmail, setUser }) {
                     type="submit"
                     className="bg-green-500 text-white px-4 py-2 rounded"
                   >
-                    Enviar
+                    {language === "ca" ? "Enviar" : language === "es" ? "Enviar" : "Send"}
                   </button>
                 </form>
               </div>

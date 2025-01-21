@@ -6,10 +6,12 @@ import 'swiper/css/pagination';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 
 import { useState } from 'react';
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function ShowComment({space}){
     const [pagination,setPagination] = useState(2);
     const [commentsNumber,setCommentsNumber] = useState(space.comentarios.length);
+    const { language } = useLanguage();
     
     const renderStars = () => {
         const stars = [];
@@ -46,7 +48,9 @@ export function ShowComment({space}){
 
                         <div>
                         <p className="text-gray-700">
-                            <span>Data del comentari: </span> 
+                            <span>
+                                { language === "ca" ? "Data del comentari:" : language === "es" ? "Fecha del comentario:" : "Comment date:" }    
+                            </span> 
                             {new Date(comentario.fecha_creacion).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
                         </p>
 
@@ -112,7 +116,7 @@ export function ShowComment({space}){
                 <button
                     className='bg-green-500 text-xl text-white font-semibold rounded-lg p-2 mb-8' 
                     onClick={handleClick}>
-                        Més comentaris ...
+                        { language === "ca" ? "Més comentaris ..." : language === "es" ? "Más comentarios ..." : "More comments ..." }
                 </button>
                 </div>
                 }

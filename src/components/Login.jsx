@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {login, getUser} from '../services/api';
 import { useAuth } from "../hooks/useAuth";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Login() {
 
+  const { language } = useLanguage();
   const {setUser} = useAuth();
   const navigate = useNavigate();
   const [initPassword, setInitPassword] = useState(false);
@@ -59,9 +61,12 @@ export default function Login() {
     setInitPassword(!initPassword);
   };
 
+
   return (
     <div className="w-1/2 mx-auto">
-      <h2 className="text-3xl font-semibold mb-8">Inicia sessió</h2>
+      <h2 className="text-3xl font-semibold mb-8">
+        {language === "ca" ? "Inicia sessió" : language === "es" ? "Inicia sesión" : "Log in"}
+      </h2>
       <form
         className="px-5 bg-gray-300 p-4 rounded-xl"
         onSubmit={handleLoginSubmit}
@@ -70,23 +75,39 @@ export default function Login() {
           htmlFor="email"
           className="block text-left font-bold ml-2 mb-2 text-lg"
         >
-          Email <span className="text-red-500">*</span>
+          {language === "ca"
+            ? "Email"
+            : language === "es"
+            ? "Correo electrónico"
+            : "Email"}{" "}
+          <span className="text-red-500">*</span>
         </label>
         <input
           type="email"
           id="email"
           name="email"
           required
-          placeholder="Email..."
+          placeholder={
+            language === "ca"
+              ? "Email..."
+              : language === "es"
+              ? "Correo electrónico..."
+              : "Email..."
+          }
           className="block p-3 rounded-xl border border-gray-300  w-full"
           onChange={handleLoginChange}
         />
-
+  
         <label
           htmlFor="password"
           className="block text-left font-bold ml-2 mb-2 text-lg"
         >
-          Contrasenya <span className="text-red-500">*</span>
+          {language === "ca"
+            ? "Contrasenya"
+            : language === "es"
+            ? "Contraseña"
+            : "Password"}{" "}
+          <span className="text-red-500">*</span>
         </label>
         <div className="relative w-full">
           <input
@@ -94,7 +115,13 @@ export default function Login() {
             id="password"
             name="password"
             required
-            placeholder="Contrasenya..."
+            placeholder={
+              language === "ca"
+                ? "Contrasenya..."
+                : language === "es"
+                ? "Contraseña..."
+                : "Password..."
+            }
             className="block p-3 rounded-xl border border-gray-300 w-full pr-10"
             onChange={handleLoginChange}
           />
@@ -105,26 +132,39 @@ export default function Login() {
             {initPassword ? "🙈" : "🙉"}
           </span>
         </div>
-
+  
         {loginError && (
           <p className="text-red-500 text-sm mt-2">{loginError}</p>
         )}
-
+  
         <button
           className="my-5 py-4 px-32 bg-slate-600 font-semibold rounded-full"
           type="submit"
           disabled={isSubmitting}
         >
-
-          {isSubmitting ? "Enviant..." : "INICIA SESSIÓ"}
+          {isSubmitting
+            ? language === "ca"
+              ? "Enviant..."
+              : language === "es"
+              ? "Enviando..."
+              : "Sending..."
+            : language === "ca"
+            ? "INICIA SESSIÓ"
+            : language === "es"
+            ? "INICIA SESIÓN"
+            : "LOG IN"}
         </button>
       </form>
       <button
-          className="my-5 py-4 text-red-400 text-xl font-semibold rounded-full"
-          onClick={() => navigate('/forgot-password')}
-        >
-          He oblidat la contrasenya
-        </button>
+        className="my-5 py-4 text-red-400 text-xl font-semibold rounded-full"
+        onClick={() => navigate("/forgot-password")}
+      >
+        {language === "ca"
+          ? "He oblidat la contrasenya"
+          : language === "es"
+          ? "He olvidado la contraseña"
+          : "I forgot my password"}
+      </button>
     </div>
   );
-}
+}  

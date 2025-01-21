@@ -142,9 +142,8 @@ export const getUserByEmail = async (email) => {
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
     throw new Error(
-      errorData.message || "Error al obtener los datos del usuario"
+      "Error al obtener los datos del usuario" || errorData.message
     );
   }
 

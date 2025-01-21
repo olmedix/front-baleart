@@ -6,6 +6,7 @@ import { useContext } from "react";
 import CardList from "../components/CardList";
 import { FiltersContext } from "../contexts/FiltersContext";
 
+
 export default function Spaces(){
 
     const { language } = useLanguage();
@@ -85,7 +86,7 @@ export default function Spaces(){
                 <div className="mb-5">
 
                 <label className="pr-8" htmlFor="name">
-                    Nom
+                {language === "ca" ? "Nom " : language === "es" ? "Nombre " : "Name " }
                 <input
                     className="ml-3 rounded-lg p-0.5"
                     type="text"
@@ -95,14 +96,17 @@ export default function Spaces(){
                 />
                 </label>
 
-                <label className="pr-3" htmlFor="typeSpace">Municipis
+                <label className="pr-3" htmlFor="typeSpace">
+                {language === "ca" ? "Municipi " : language === "es" ? "Municipio " : "Municipality " }
                     <select
                         className="ml-3 rounded-lg p-0.5"
                         id="municipality"
                         value={filters.municipality}
                         onChange={(e) => handleFilterChange("municipality", e.target.value)}
                     >
-                        {<option value="">Tots</option>}
+                        {<option value="">
+                            {language === "ca" ? "Tots " : language === "es" ? "Todos " : "All " }
+                        </option>}
                         {filtros.municipalities.map((municipality) => (
                                 
                                 <option key={municipality.id} value={municipality.name}>
@@ -117,14 +121,17 @@ export default function Spaces(){
 
                 <div className="mb-5">
 
-                <label className="pr-8" htmlFor="typeSpace">Tipus d&apos;espai
+                <label className="pr-8" htmlFor="typeSpace">
+                {language === "ca" ? "Tipus d'espai " : language === "es" ? "Tipo de espacio " : "Type of space " }
                     <select
                         className="ml-3 rounded-lg p-0.5"
                         id="typeSpace"
                         value={filters.typeSpace}
                         onChange={(e) => handleFilterChange("typeSpace", e.target.value)}
                     >
-                        {<option value="">Tots</option>}
+                        {<option value="">
+                            {language === "ca" ? "Tots " : language === "es" ? "Todos " : "All " }
+                        </option>}
                         {filtros.spaceTypes.map((spaceType) => (
                                 
                                 <option key={spaceType.id} value={spaceType.name}>
@@ -135,26 +142,31 @@ export default function Spaces(){
                     </select>
                 </label>
 
-                <label htmlFor="score">Puntuació
+                <label htmlFor="score">
+                    {language === "ca" ? "Puntuació " : language === "es" ? "Puntuación " : "Score " }
                     <select
                         className="ml-3 rounded-lg p-0.5"
                         id="score"
                         value={filters.score}
                         onChange={(e) => handleFilterChange("score", e.target.value)}
                     >
-                        {<option value="">Tots</option>}
-                        <option value="1">1 estrella</option>
-                        <option value="2">2 estrella</option>
-                        <option value="3">3 estrella</option>
-                        <option value="4">4 estrella</option>
-                        <option value="5">5 estrella</option>
+                        <option value="">
+                            {language === "ca" ? "Tots " : language === "es" ? "Todos " : "All "}
+                        </option>
+                        {[...Array(5)].map((_, i) => (
+                            <option key={i + 1} value={i + 1}>
+                                {i + 1} {language === "ca" ? "estrella" : language === "es" ? "estrella" : "star"}
+                            </option>
+                        ))}
                     </select>
                 </label>
 
                 </div>
 
                 <fieldset className="mb-5 pb-3 border-2 border-black rounded-lg">
-                    <legend className="text-xl px-1">Modalitats</legend>
+                    <legend className="text-xl px-1">
+                        {language === "ca" ? "Modalitats" : language === "es" ? "Modalidades" : "Modalities"}
+                    </legend>
                     <div className="grid grid-cols-4 gap-4 pl-5">
                         {
                         filtros.modalities.map( modality => (
@@ -173,7 +185,9 @@ export default function Spaces(){
                 </fieldset>
 
                 <fieldset className="mb-5 pb-3 border-2 border-black rounded-lg">
-                    <legend className="text-xl px-1">Serveis</legend>
+                    <legend className="text-xl px-1">
+                    {language === "ca" ? "Serveis" : language === "es" ? "Servicios" : "Services"}
+                    </legend>
                     <div className="grid grid-cols-4 gap-4 pl-5">
                     {
                         filtros.services.map( service => (

@@ -1,12 +1,14 @@
 import Card from "./Card";
 
 import { useState } from "react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function CardList({spaces}) {
     
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+    const { language } = useLanguage();
 
     // Calcular los índices para la paginación
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -54,7 +56,7 @@ export default function CardList({spaces}) {
                     onClick={() => handlePageChange("prev")}
                     disabled={currentPage === 1}
                 >
-                    Anterior
+                    {language === "ca" || language === "es" ? "Anterior " : "Before " }
                 </button>
                 <button
                     className= {currentPage === totalPages ?
@@ -64,7 +66,7 @@ export default function CardList({spaces}) {
                     onClick={() => handlePageChange("next")}
                     disabled={currentPage === totalPages}
                 >
-                    Següent
+                    {language === "ca" ? "Següent " : language === "es" ? "Siguiente " : "Next " }
                 </button>
             </div>
         </div>

@@ -104,19 +104,23 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                 <div className="ml-3">
                     <ul className="text-left">
                         <li>
-                            Tipus de espai: <span className="font-normal">{
-                            language === "ca" ? typeSpace[0] : language === "es" ? typeSpace[1] : typeSpace[2] 
+                        {language === "ca" ? "Tipus d'espai: " : language === "es" ? "Tipo de espacio: " : "Type of space: " }
+                            <span className="font-normal">{
+                                language === "ca" ? typeSpace[0] : language === "es" ? typeSpace[1] : typeSpace[2] 
                             }</span> 
                         </li>
                         <li>
-                            Nom: <span className="font-normal">{name}</span>
+                            {language === "ca" ? "Nom: " : language === "es" ? "Nombre: " : "Name: " } 
+                            <span className="font-normal">{name}</span>
                         </li>
                         <li>
-                            Municipi: <span className="font-normal">{municipality}</span>
+                            {language === "ca" ? "Municipi: " : language === "es" ? "Municipio: " : "Municipality: " }
+                            <span className="font-normal">{municipality}</span>
                         </li>
                         <li>
                             <ul className="flex gap-2 ">
-                                Modalitats:
+                                {language === "ca" ? "Modalitats: " : language === "es" ? "Modalidades: " : "Modalities: " }
+                                
                                     {modalities.map((modality) => (
 
                                         <li key={modality.id}>
@@ -136,7 +140,12 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                     <p className="pl-2 text-green-800">
                         <i className="fa-solid fa-hashtag text-xl mr-1"></i>
                             {votes} 
-                            {votes === 1 ? "vot": "vots"}
+                            {
+                            votes === 1 ?
+                                language === "ca" ? " vot" : language === "es" ? " voto" : " vote"
+                                :
+                                language === "ca" ? " vots" : language === "es" ? " votos" : " votes"
+                            }
                     </p>
 
                     <div>
@@ -144,7 +153,8 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                             to={`/spaces/${id}`}
                             state={{space}} 
                             className="m-auto mt-5 block bg-green-600 text-white px-4 py-2 rounded-lg hover:text-white hover:bg-green-900 transition duration-300"
-                        >Més informació
+                        >
+                            {language === "ca" ? "Més informació " : language === "es" ? "Más información " : "More information " }
                         </NavLink>
                     </div> 
                     

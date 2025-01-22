@@ -14,23 +14,8 @@ export default function Profile(){
     const [loading,setLoading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorProfile, setErrorProfile] = useState(null);
-
     const userEmail = localStorage.getItem("authEmail");
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        setIsLoading(true);
-        const userFetch = await getUserByEmail(userEmail);
-        setUser(userFetch);
-      } catch (err) {
-        setErrorProfile(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchUserData();
-  }, []);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -63,7 +48,8 @@ export default function Profile(){
     }
   };
 
-    if (loading || isLoading) return <p>Cargando...</p>;
+    if (loading) return <p>Cargando...</p>;
+    if (isLoading) return <p>Cargando...</p>;
     if (errorProfile) return <p>{errorProfile}</p>;
 
     return (
@@ -82,22 +68,22 @@ export default function Profile(){
               <h4 className="font-semibold ml-5">
                 {language === "ca" ? "Nom" : language === "es" ? "Nombre" : "Name"}
               </h4>
-              <p className="ml-5 mb-5">{user.data?.nombre || (language === "ca" ? "Nom no disponible" : language === "es" ? "Nombre no disponible" : "Name not available")}</p>
+              <p className="ml-5 mb-5">{user.data?.nombre}</p>
     
               <h4 className="font-semibold ml-5">
                 {language === "ca" ? "Cognoms" : language === "es" ? "Apellidos" : "Last name"}
               </h4>
-              <p className="ml-5 mb-5">{user.data?.apellido || (language === "ca" ? "Cognoms no disponibles" : language === "es" ? "Apellidos no disponibles" : "Last name not available")}</p>
+              <p className="ml-5 mb-5">{user.data?.apellido}</p>
     
               <h4 className="font-semibold ml-5">
                 {language === "ca" ? "Email" : language === "es" ? "Correo electrónico" : "Email"}
               </h4>
-              <p className="ml-5 mb-5">{user.data?.email || (language === "ca" ? "Email no disponible" : language === "es" ? "Correo no disponible" : "Email not available")}</p>
+              <p className="ml-5 mb-5">{user.data?.email}</p>
     
               <h4 className="font-semibold ml-5">
                 {language === "ca" ? "Telèfon" : language === "es" ? "Teléfono" : "Phone"}
               </h4>
-              <p className="ml-5 mb-5">{user.data?.telefono || (language === "ca" ? "Telèfon no disponible" : language === "es" ? "Teléfono no disponible" : "Phone not available")}</p>
+              <p className="ml-5 mb-5">{user.data?.telefono}</p>
     
               <h4 className="font-semibold ml-5">
                 {language === "ca" ? "Contrasenya" : language === "es" ? "Contraseña" : "Password"}

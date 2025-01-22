@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import {login, getUser} from '../services/api';
+import {login, getUserByEmail} from '../services/api';
 import { useAuth } from "../hooks/useAuth";
 import { useLanguage } from "../contexts/LanguageContext";
 
@@ -13,22 +13,6 @@ export default function Login() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    const validateUser = async () => {
-        try {
-                const userData = await getUser();
-                setUser(userData);
-        } catch (error) {
-            console.error("Error validando usuario:", error.message);
-            setUser(null);
-            localStorage.removeItem("authToken");
-        }
-    };
-
-      validateUser();
-    }, []);
-
 
   const handleLoginChange = (e) => {
     setLoginData({
@@ -45,12 +29,12 @@ export default function Login() {
     try {
             const data = await login(loginData);
             localStorage.setItem("authToken", data.access_token);
-            setUser({ email: loginData.email }); // Simula el usuario autenticado
-            localStorage.setItem("authEmail",loginData.email) //Para usar en el componente Profile
+
+            const user = await getUserByEmail(loginData.email);
+            setUser(user);
+
             navigate('/home');
-            console.log("Login exitoso:", data);
     } catch (error) {
-        console.error("Error durante la conexión:", error.message);
         setLoginError(error.message);
     }finally {
         setIsSubmitting(false);

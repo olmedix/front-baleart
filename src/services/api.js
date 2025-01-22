@@ -98,16 +98,6 @@ export const login = async (loginData) => {
 };
 
 /**
- * Obtiene información del usuario autenticado.
- * @returns {Promise<object>} - Datos del usuario autenticado.
- */
-export const getUser = async () => {
-  const response = await fetchWithAuth("user");
-  if (!response.ok) throw new Error("No autorizado");
-  return response.json();
-};
-
-/**
  * Realiza una petición de registro.
  * @param {object} registerData - Datos de registro (name, email, password).
  * @returns {Promise<object>} - Datos de respuesta del servidor.

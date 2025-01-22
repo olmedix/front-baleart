@@ -33,7 +33,7 @@ export default function AddComment({ regNumber }) {
         SetImageMessage(true);
         setTimeout(() => {
             SetImageMessage(false);
-        }, 5000);
+        }, 3000);
     };
 
     const handleSubmit = async (e) => {
@@ -53,8 +53,11 @@ export default function AddComment({ regNumber }) {
             setMessage(true);
             setComentari({ comment: "", score: 0, images: [] });
             setPuntuacio(0);
+            setTimeout(() => {
+                setMessage(false);
+            }, 3000);
           } catch (err) {
-            setError(err.message || "Error al enviar el comentario.");
+            setError(err.message);
           } finally {
             setLoading(false);
           }
@@ -86,6 +89,7 @@ export default function AddComment({ regNumber }) {
             <textarea 
                 className="w-full border border-gray-700 p-2 rounded-lg" 
                 placeholder="Escriu el teu comentari aquí..."
+                value={comentari.comment}
                  required
                  onChange={(e) => setComentari({ ...comentari, comment: e.target.value })}    
              >

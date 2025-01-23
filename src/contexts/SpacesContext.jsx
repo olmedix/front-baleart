@@ -12,8 +12,6 @@ export const SpacesProvider = ({ children }) => {
     const loadSpaces = async () => {
       try {
         const data = await fetchSpaces();
-
-        console.log("Data: "+data); 
         const sortedData = data.sort((a, b) => b.puntuacion_total - a.puntuacion_total);
         setSpaces(sortedData);
       } catch (err) {

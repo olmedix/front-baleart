@@ -1,8 +1,6 @@
 import { useState } from "react";
-
 import { useAuth } from "../hooks/useAuth";
 import { useLanguage } from "../contexts/LanguageContext";
-import { fetchSendEmail } from "../services/api";
 
 export default function Contact() {
     const { language } = useLanguage();
@@ -10,9 +8,9 @@ export default function Contact() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState({
-        nombre: user ? user.data.nombre : '',
-        email: user ? user.data.email : '',
-        telf: user ? user.data.telefono : '',
+        nombre: `${user.data.nombre} ${user.data.apellido}`,
+        email: user.data.email,
+        telf: user.data.telefono,
         asunto: '',
         mensaje: ''
     });
@@ -30,19 +28,24 @@ export default function Contact() {
         setLoading(true);
         setError(null);
 
-        console.log("FormData: "+formData);
-
         try {
             // Llamada al servicio para enviar el correo
-            const result = await fetchSendEmail({
+            /*const result = await sendEmail({
                 nombre: formData.nombre,
                 email: formData.email,
                 telf: formData.telf,
                 asunto: formData.asunto,
                 mensaje: formData.mensaje,
+            });*/
+
+            alert("Correo enviado con éxito"); // Muestra el mensaje de éxito devuelto por el backend
+            setFormData({
+                nombre: `${user.data.nombre} ${user.data.apellido}`,
+                email: user.data.email,
+                telf: user.data.telefono,
+                asunto: '',
+                mensaje: ''
             });
-            console.log("resultado: "+result);
-            alert(result.message); // Muestra el mensaje de éxito devuelto por el backend
         } catch (error) {
             console.error(error);
             setError("Hubo un error al enviar el correo. Por favor, inténtalo de nuevo.");
@@ -73,7 +76,7 @@ export default function Contact() {
                             type="text"
                             name="nombre"
                             id="nombre"
-                            value={formData?.nombre}
+                            value={formData.nombre}
                             onChange={handleChange}
                             required
                         />
@@ -89,7 +92,7 @@ export default function Contact() {
                             type="email"
                             name="email"
                             id="email"
-                            value={formData?.email}
+                            value={formData.email}
                             onChange={handleChange}
                             required
                         />

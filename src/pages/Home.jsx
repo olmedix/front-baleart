@@ -11,9 +11,45 @@ import '../Slider.css';
 
 // import required modules
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { SpacesContext } from '../contexts/SpacesContext';
+import { useContext,useEffect } from 'react';
+
+
 
 export default function Home() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const { spaces, loading, error } = useContext(SpacesContext);
+  const [photos, setPhotos] = useState([]);
+  const [loadPhotos, setLoadPhotos] = useState(true);
+  const [errorPhotos, setErrorPhotos] = useState(null);
+  
+  const fetchPhotos = async () =>{
+  
+      try {
+        setLoadPhotos(true);
+          const response = await fetch('/spacesPhotos.json');
+          const data = await response.json();
+          setPhotos(data); 
+      } catch (error) {
+        setErrorPhotos("Error al cargar las fotos");
+      }finally{
+        setLoadPhotos(false);
+      }
+    }
+    useEffect(() => {
+        fetchPhotos();
+  }, []);
+
+  const bestSpaces = () => {
+    const espacios = spaces.filter(space => space.puntuacion_total > 2);
+    return espacios;
+  }
+
+
+  if (loading || loadPhotos) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+  if (errorPhotos) return <p>{errorPhotos}</p>;
+
 
   return (
     <>
@@ -32,36 +68,16 @@ export default function Home() {
             className="mySwiper2"
         >
 
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-        </SwiperSlide>
+        {bestSpaces().map((space) => (
+          photos
+            .filter((photo) => photo.registre === space.numero_registro)
+            .map((photo) => (
+              <SwiperSlide key={space.id}>
+                <img src={photo.image} alt="Espacio" />
+              </SwiperSlide>
+            ))
+        ))}
+
       </Swiper>
       <Swiper
         onSwiper={setThumbsSwiper}
@@ -73,36 +89,17 @@ export default function Home() {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-        </SwiperSlide>
+
+        {bestSpaces().map((space) => (
+          photos
+            .filter((photo) => photo.registre === space.numero_registro)
+            .map((photo) => (
+              <SwiperSlide key={space.id}>
+                <img src={photo.image} alt="Espacio" />
+              </SwiperSlide>
+            ))
+        ))}
+
       </Swiper>
       </>
   );

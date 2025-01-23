@@ -32,7 +32,7 @@ export default function Contact(){
                             type="text"
                             name="nombre"
                             id="nombre"
-                            defaultValue={user != null && `${user.data.nombre} ${user.data.apellido}`}
+                            defaultValue={`${user?.data?.nombre} ${user?.data?.apellido}` || ""}
                             required
                         />
                     </div>
@@ -47,7 +47,7 @@ export default function Contact(){
                             type="email"
                             name="email"
                             id="email"
-                            defaultValue={user != null && user.data.email}
+                            defaultValue={user?.data?.email || ""}
                             required
                         />
                     </div>
@@ -63,7 +63,7 @@ export default function Contact(){
                             name="telf"
                             id="telf"
                             placeholder="+34123456789"
-                            defaultValue={user != null && user.data.telefono}
+                            defaultValue={user?.data?.telefono || ""}
                             required
                         />
                     </div>
@@ -95,10 +95,14 @@ export default function Contact(){
                         ></textarea>
                     </div>
 
-                    <div>
-                        <button className="w-full bg-green-600 text-white py-2 px-4 rounded-md shadow-sm transition duration-300 hover:bg-green-800" type="submit">
-                            {language === "ca" ? "Enviar" : language === "es" ? "Enviar" : "Send"}
-                        </button>
+                    <div className="flex items-center justify-center">
+                    <button
+                        type="button"
+                        className="border bg-green-600 text-white p-2 rounded-full mt-3 px-5 block text-center"
+                    >
+                        {language === "ca" ? "Enviar" : language === "es" ? "Enviar" : "Send"}
+                    </button> 
+                       
                     </div>
                 </form>
             </fieldset>

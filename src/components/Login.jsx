@@ -28,11 +28,12 @@ export default function Login() {
 
     try {
             const data = await login(loginData);
+            
             localStorage.setItem("authToken", data.access_token);
 
             const user = await getUserByEmail(loginData.email);
+            localStorage.setItem("authUser", JSON.stringify(user));
             setUser(user);
-
             navigate('/home');
     } catch (error) {
         setLoginError(error.message);

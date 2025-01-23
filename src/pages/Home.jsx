@@ -10,14 +10,17 @@ import 'swiper/css/thumbs';
 import '../Slider.css';
 
 // import required modules
-import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import { SpacesContext } from '../contexts/SpacesContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { useContext,useEffect } from 'react';
+
 
 
 
 export default function Home() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const { language } = useLanguage();
   const { spaces, loading, error } = useContext(SpacesContext);
   const [photos, setPhotos] = useState([]);
   const [loadPhotos, setLoadPhotos] = useState(true);
@@ -52,8 +55,11 @@ export default function Home() {
 
 
   return (
-    <>
-        <h1 className="text-3xl font-bold text-center my-4">Home</h1>
+    <div className="bg-gray-800 mt-8 p-6 flex flex-col items-center rounded-tl-3xl rounded-tr-3xl ">
+
+        <h1 className="text-5xl font-bold text-green-700 text-center my-8 pt-7 rounded-t-lg">
+          {language === "ca" ? "Espais millors puntuats" : language === "es" ? "Espacios mejor puntuados" : "Best rated spaces"}
+        </h1>
 
         <Swiper
             style={{
@@ -64,8 +70,9 @@ export default function Home() {
             navigation={true}
             loop={true}
             thumbs={{ swiper: thumbsSwiper }}
-            modules={[FreeMode, Navigation, Thumbs]}
+            modules={[FreeMode, Navigation, Thumbs, Autoplay]}
             className="mySwiper2"
+            autoplay={{ delay: 3000 }}
         >
 
         {bestSpaces().map((space) => (
@@ -73,7 +80,17 @@ export default function Home() {
             .filter((photo) => photo.registre === space.numero_registro)
             .map((photo) => (
               <SwiperSlide key={space.id}>
-                <img src={photo.image} alt="Espacio" />
+                <div className='w-4/5 mx-auto'>
+                  <h2 className='text-3xl text-white font-bold mb-4'>
+                    <span className="pl-2 text-green-500 mr-3 shadow-xl text-shadow" >
+                      {space.puntuacion_total}
+                      <i className="fa-solid fa-star "></i>
+                    </span> 
+                    {space.nombre}
+                  </h2>
+                  <img className='w-full' src={photo.image} alt="Espacio" />
+                </div>
+                
               </SwiperSlide>
             ))
         ))}
@@ -101,6 +118,6 @@ export default function Home() {
         ))}
 
       </Swiper>
-      </>
+      </div>
   );
 }

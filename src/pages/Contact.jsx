@@ -1,21 +1,20 @@
 import { useState } from "react";
 
-import { useAuth} from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import { useLanguage } from "../contexts/LanguageContext";
 import { fetchSendEmail } from "../services/api";
 
-
-export default function Contact(){
+export default function Contact() {
     const { language } = useLanguage();
-    const {user} = useAuth();
+    const { user } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState({
-        name: user ? `${user.data.nombre} ${user.data.apellido}` : '',
+        nombre: user ? `${user.data.nombre} ${user.data.apellido}` : '',
         email: user ? user.data.email : '',
-        phone: user ? user.data.telefono : '',
-        subject: '',
-        message: ''
+        telf: user ? user.data.telefono : '',
+        asunto: '',
+        mensaje: ''
     });
 
     const handleChange = (e) => {
@@ -34,21 +33,14 @@ export default function Contact(){
         try {
             // Llamada al servicio para enviar el correo
             const result = await fetchSendEmail({
-                name: formData.name,
+                nombre: formData.nombre,
                 email: formData.email,
-                phone: formData.phone,
-                subject: formData.subject,
-                message: formData.message,
+                telf: formData.telf,
+                asunto: formData.asunto,
+                mensaje: formData.mensaje,
             });
 
             alert(result.message); // Muestra el mensaje de éxito devuelto por el backend
-            setFormData({
-                name: user ? `${user.data.nombre} ${user.data.apellido}` : '',
-                email: user ? user.data.email : '',
-                phone: user ? user.data.telefono : '',
-                subject: '',
-                message: '',
-            });
         } catch (error) {
             console.error(error);
             setError("Hubo un error al enviar el correo. Por favor, inténtalo de nuevo.");
@@ -56,15 +48,14 @@ export default function Contact(){
             setLoading(false);
         }
     };
-        
 
-    return(
+    return (
         <>
             <h1 className="text-3xl font-bold mb-6">
                 {language === "ca" ? "Pàgina de contacte" : language === "es" ? "Página de contacto" : "Contact page"}
             </h1>
 
-            <fieldset className="text-left bg-gray-400  my-10 border border-gray-600 p-4 rounded-md shadow-md">
+            <fieldset className="text-left bg-gray-400 my-10 border border-gray-600 p-4 rounded-md shadow-md">
                 <legend className="text-xl text-center font-bold mb-4 px-2">
                     {language === "ca" ? "Informació de contacte" : language === "es" ? "Información de contacto" : "Contact information"}
                 </legend>
@@ -80,7 +71,7 @@ export default function Contact(){
                             type="text"
                             name="nombre"
                             id="nombre"
-                            value={formData.name}
+                            value={formData.nombre}
                             onChange={handleChange}
                             required
                         />
@@ -112,7 +103,7 @@ export default function Contact(){
                             type="tel"
                             name="telf"
                             id="telf"
-                            value={formData.phone}
+                            value={formData.telf}
                             onChange={handleChange}
                             required
                         />
@@ -128,7 +119,7 @@ export default function Contact(){
                             type="text"
                             name="asunto"
                             id="asunto"
-                            value={formData.subject}
+                            value={formData.asunto}
                             onChange={handleChange}
                             required
                         />
@@ -143,14 +134,14 @@ export default function Contact(){
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm text-center"
                             name="mensaje"
                             id="mensaje"
-                            value={formData.message}
+                            value={formData.mensaje}
                             onChange={handleChange}
                             required
                         ></textarea>
                     </div>
 
                     <div>
-                    <button
+                        <button
                             className="w-full bg-green-600 text-white py-2 px-4 rounded-md shadow-sm transition duration-300 hover:bg-green-800"
                             type="submit"
                             disabled={loading}
@@ -169,5 +160,5 @@ export default function Contact(){
                 </form>
             </fieldset>
         </>
-    )
+    );
 }

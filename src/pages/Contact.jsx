@@ -1,10 +1,62 @@
+import { useState } from "react";
+
 import { useAuth} from "../hooks/useAuth";
 import { useLanguage } from "../contexts/LanguageContext";
+import { fetchSendEmail } from "../services/api";
 
 
 export default function Contact(){
     const { language } = useLanguage();
     const {user} = useAuth();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [formData, setFormData] = useState({
+        name: user ? `${user.data.nombre} ${user.data.apellido}` : '',
+        email: user ? user.data.email : '',
+        phone: user ? user.data.telefono : '',
+        subject: '',
+        message: ''
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+
+        try {
+            // Llamada al servicio para enviar el correo
+            const result = await fetchSendEmail({
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                subject: formData.subject,
+                message: formData.message,
+            });
+
+            alert(result.message); // Muestra el mensaje de éxito devuelto por el backend
+            setFormData({
+                name: user ? `${user.data.nombre} ${user.data.apellido}` : '',
+                email: user ? user.data.email : '',
+                phone: user ? user.data.telefono : '',
+                subject: '',
+                message: '',
+            });
+        } catch (error) {
+            console.error(error);
+            setError("Hubo un error al enviar el correo. Por favor, inténtalo de nuevo.");
+        } finally {
+            setLoading(false);
+        }
+    };
+        
 
     return(
         <>
@@ -17,11 +69,7 @@ export default function Contact(){
                     {language === "ca" ? "Informació de contacte" : language === "es" ? "Información de contacto" : "Contact information"}
                 </legend>
 
-                <form
-                    action="https://formsubmit.co/joa00@iesemilidarder.com" 
-                    className="space-y-4 text-lg"
-                    method="POST"
-                >
+                <form onSubmit={handleSubmit} className="space-y-4 text-lg">
                     <div>
                         <label className="block font-medium pl-5" htmlFor="nombre">
                             {language === "ca" ? "Nom " : language === "es" ? "Nombre " : "Name "}
@@ -32,7 +80,8 @@ export default function Contact(){
                             type="text"
                             name="nombre"
                             id="nombre"
-                            defaultValue={`${user?.data?.nombre} ${user?.data?.apellido}` || ""}
+                            value={formData.name}
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -47,7 +96,8 @@ export default function Contact(){
                             type="email"
                             name="email"
                             id="email"
-                            defaultValue={user?.data?.email || ""}
+                            value={formData.email}
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -62,8 +112,8 @@ export default function Contact(){
                             type="tel"
                             name="telf"
                             id="telf"
-                            placeholder="+34123456789"
-                            defaultValue={user?.data?.telefono || ""}
+                            value={formData.phone}
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -78,6 +128,8 @@ export default function Contact(){
                             type="text"
                             name="asunto"
                             id="asunto"
+                            value={formData.subject}
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -91,19 +143,29 @@ export default function Contact(){
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm text-center"
                             name="mensaje"
                             id="mensaje"
+                            value={formData.message}
+                            onChange={handleChange}
                             required
                         ></textarea>
                     </div>
 
-                    <div className="flex items-center justify-center">
+                    <div>
                     <button
-                        type="button"
-                        className="border bg-green-600 text-white p-2 rounded-full mt-3 px-5 block text-center"
-                    >
-                        {language === "ca" ? "Enviar" : language === "es" ? "Enviar" : "Send"}
-                    </button> 
-                       
+                            className="w-full bg-green-600 text-white py-2 px-4 rounded-md shadow-sm transition duration-300 hover:bg-green-800"
+                            type="submit"
+                            disabled={loading}
+                        >
+                            {loading
+                                ? language === "ca" ? "Enviant..." : language === "es" ? "Enviando..." : "Sending..."
+                                : language === "ca" ? "Enviar" : language === "es" ? "Enviar" : "Send"}
+                        </button>
                     </div>
+
+                    {error && (
+                        <p className="text-red-500 text-center mt-4">
+                            {error}
+                        </p>
+                    )}
                 </form>
             </fieldset>
         </>

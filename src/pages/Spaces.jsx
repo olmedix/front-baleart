@@ -20,6 +20,8 @@ export default function Spaces(){
         modality: [],
         service: [],
     });
+    const [showModalities, setShowModalities] = useState(false);
+    const [showServices, setShowServices] = useState(false);
 
     const handleFilterChange = (filterType, value) => {
         setFilters((prevFilters) => {
@@ -81,14 +83,14 @@ export default function Spaces(){
 
     return(
         <>
-            <form className="mt-8 p-5 font-semibold bg-gray-400 rounded-tl-lg rounded-tr-lg">
+            <form className="mt-8 p-5 font-semibold bg-gray-800 text-white rounded-tl-lg rounded-tr-lg">
 
                 <div className="mb-5">
 
-                <label className="pr-8" htmlFor="name">
+                <label className="pr-8 text-green-600" htmlFor="name">
                 {language === "ca" ? "Nom " : language === "es" ? "Nombre " : "Name " }
                 <input
-                    className="ml-3 rounded-lg p-0.5"
+                    className="ml-3 rounded-lg p-0.5 text-black"
                     type="text"
                     id="name"
                     value={filters.name}
@@ -96,10 +98,10 @@ export default function Spaces(){
                 />
                 </label>
 
-                <label className="pr-3" htmlFor="typeSpace">
+                <label className="pr-3 text-green-600" htmlFor="typeSpace">
                 {language === "ca" ? "Municipi " : language === "es" ? "Municipio " : "Municipality " }
                     <select
-                        className="ml-3 rounded-lg p-0.5"
+                        className="ml-3 rounded-lg p-0.5 text-black"
                         id="municipality"
                         value={filters.municipality}
                         onChange={(e) => handleFilterChange("municipality", e.target.value)}
@@ -121,10 +123,10 @@ export default function Spaces(){
 
                 <div className="mb-5">
 
-                <label className="pr-8" htmlFor="typeSpace">
+                <label className="pr-8 text-green-600" htmlFor="typeSpace">
                 {language === "ca" ? "Tipus d'espai " : language === "es" ? "Tipo de espacio " : "Type of space " }
                     <select
-                        className="ml-3 rounded-lg p-0.5"
+                        className="ml-3 rounded-lg p-0.5 text-black"
                         id="typeSpace"
                         value={filters.typeSpace}
                         onChange={(e) => handleFilterChange("typeSpace", e.target.value)}
@@ -142,10 +144,10 @@ export default function Spaces(){
                     </select>
                 </label>
 
-                <label htmlFor="score">
+                <label htmlFor="score" className="pr-3 text-green-600">
                     {language === "ca" ? "Puntuació " : language === "es" ? "Puntuación " : "Score " }
                     <select
-                        className="ml-3 rounded-lg p-0.5"
+                        className="ml-3 rounded-lg p-0.5 text-black"
                         id="score"
                         value={filters.score}
                         onChange={(e) => handleFilterChange("score", e.target.value)}
@@ -163,32 +165,57 @@ export default function Spaces(){
 
                 </div>
 
-                <fieldset className="mb-5 pb-3 border-2 border-black rounded-lg">
-                    <legend className="text-xl px-1">
+                <section className="flex items-center justify-center gap-12">
+                    <div 
+                        className="text-green-600 text-xl px-1 relative -bottom-1"
+                        onMouseEnter={() => setShowModalities(true)}
+                        onMouseLeave={() => setShowModalities(false)}    
+                    >
+                        <span className={showModalities ? "text-white" : "text-green-600"}>
                         {language === "ca" ? "Modalitats" : language === "es" ? "Modalidades" : "Modalities"}
-                    </legend>
-                    <div className="grid grid-cols-4 gap-4 pl-5">
-                        {
-                        filtros.modalities.map( modality => (
-                            <label key={modality.id} className="flex items-center">
-                                <input
-                                    className="mr-1"
-                                    type="checkbox"
-                                    value={modality.name}
-                                    checked={filters.modality.includes(modality.name)}
-                                    onChange={() => handleFilterChange("modality",modality.name)}
-                                />
-                                { modality[`description_${language.toUpperCase()}`]}
-                            </label>
-                        ))}
+                        </span>
+                        
                     </div>
-                </fieldset>
 
-                <fieldset className="mb-5 pb-3 border-2 border-black rounded-lg">
-                    <legend className="text-xl px-1">
-                    {language === "ca" ? "Serveis" : language === "es" ? "Servicios" : "Services"}
-                    </legend>
-                    <div className="grid grid-cols-4 gap-4 pl-5">
+                    <div 
+                        className="text-green-600 text-xl px-1 relative -bottom-1"
+                        onMouseEnter={() => setShowServices(true)}
+                        onMouseLeave={() => setShowServices(false)} 
+                    >
+                        <span className={showServices ? "text-white" : "text-green-600"}>
+                            {language === "ca" ? "Serveis" : language === "es" ? "Servicios" : "Services"}
+                        </span>
+                    </div>
+                </section>
+                    
+                    { showModalities &&
+                        <div 
+                            className="grid grid-cols-4 gap-4 pl-5 pt-5"
+                            onMouseEnter={() => setShowModalities(true)}
+                            onMouseLeave={() => setShowModalities(false)} 
+                        >
+                            {
+                            filtros.modalities.map( modality => (
+                                <label key={modality.id} className="flex items-center">
+                                    <input
+                                        className="mr-1"
+                                        type="checkbox"
+                                        value={modality.name}
+                                        checked={filters.modality.includes(modality.name)}
+                                        onChange={() => handleFilterChange("modality",modality.name)}
+                                    />
+                                    { modality[`description_${language.toUpperCase()}`]}
+                                </label>
+                            ))}
+                        </div>
+                    }
+
+                    { showServices &&
+                    <div 
+                        className="grid grid-cols-4 gap-4 pl-5 pt-5"
+                        onMouseEnter={() => setShowServices(true)}
+                        onMouseLeave={() => setShowServices(false)}
+                    >
                     {
                         filtros.services.map( service => (
                             <label key={service.id} className="flex items-center">
@@ -203,7 +230,7 @@ export default function Spaces(){
                             </label>
                         ))}
                     </div>
-                </fieldset>
+                    }              
             </form>
 
             <CardList spaces={filterspace} />

@@ -81,11 +81,11 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
     const space = { typeSpace, name, municipality, photo, modalities, score, votes, id, comentarios,description,services,regNumber };
 
     return (
-        <article className="w-4/5 py-5 my-5 bg-slate-400 shadow-offset shadow-xl shadow-white rounded-2xl items-center justify-center">
+        <article className="w-4/5 py-5 my-5 bg-slate-400 shadow-offset shadow-md shadow-white rounded-2xl items-center justify-center">
             <section className="w-4/5 mx-auto relative">
                 <div className="my-1 py-5 ">
                 <img
-                    className="rounded-2xl shadow-lg shadow-green-800" 
+                    className="rounded-2xl shadow-lg shadow-green-800 w-full object-cover hover:scale-110 transition duration-300" 
                     src={photo} 
                     alt={name} />
                 </div>

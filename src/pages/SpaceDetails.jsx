@@ -18,18 +18,18 @@ export default function SpaceDetails(){
                 </span> 
             </h1>
 
-            <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
+            <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                 <span className="font-bold">Descripció: </span> 
                 {language === "ca" ? space.description[0] : language === "es" ? space.description[1] : space.description[2]   } 
             </p>
 
-            <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
+            <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                 <span className="font-bold">Municipi: </span>  
                 {space.municipality}
             </p>
 
             { space.services.length > 0 &&
-                <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
+                <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                     <span className="font-bold">Serveis: </span>
                     <li></li>
                         {space.services.map((service, index) => (      
@@ -38,14 +38,14 @@ export default function SpaceDetails(){
                     }
                 </ul>
             }
-                <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
+                <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                 <span className="font-bold">Modalitats: </span>
                     {space.modalities.map((modality, index) => (
                         <li className="ml-5" key={index}>{modality[`descripcion_${language}`]}</li>
                     ))}
                 </ul>
             
-                <section className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-xl shadow-white rounded-xl">
+                <section className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                                 
                     <h4 className="font-bold">Comentaris:</h4>
                 

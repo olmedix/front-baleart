@@ -85,7 +85,10 @@ export default function CardList({spaces}) {
                         "bg-gray-500  text-gray-200 mt-3 py-2 px-5 rounded-full mr-2 font-semibold ": 
                         "bg-white text-green-600 mt-3 py-2 px-5 rounded-full mr-2 font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"   
                     }
-                    onClick={() => handlePageChange("prev")}
+                    onClick={() => {
+                        handlePageChange("prev"); 
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                    }}
                     disabled={currentPage === 1}
                 >
                     {language === "ca" || language === "es" ? "Anterior " : "Before " }
@@ -95,7 +98,10 @@ export default function CardList({spaces}) {
                         "bg-gray-500  text-gray-200 mt-3 py-2 px-5 rounded-full mr-2 font-semibold ":
                         "bg-white text-green-600 mt-3 py-2 px-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"
                     }
-                    onClick={() => handlePageChange("next")}
+                    onClick={() =>{ 
+                        handlePageChange("next"); 
+                        window.scrollTo({ top: 0, behavior: "smooth" }) 
+                    }}
                     disabled={currentPage === totalPages}
                 >
                     {language === "ca" ? "Següent " : language === "es" ? "Siguiente " : "Next " }

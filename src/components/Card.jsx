@@ -151,7 +151,8 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                     <div>
                         <NavLink 
                             to={`/spaces/${id}`}
-                            state={{space}} 
+                            state={{space}}
+                            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} 
                             className="m-auto mt-5 block bg-green-600 text-white px-4 py-2 rounded-lg hover:text-white hover:bg-green-900 transition duration-300"
                         >
                             {language === "ca" ? "Més informació " : language === "es" ? "Más información " : "More information " }

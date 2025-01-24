@@ -55,7 +55,7 @@ export function ShowComment({space}){
                         </p>
 
                         <p className="font-bold text-xl mb-4">{comentario.comentario}</p>
-
+                        {comentario.imagenes.length > 0 &&
                         <div className="overflow-hidden w-full">
                             <Swiper
                             effect={'coverflow'}
@@ -79,7 +79,7 @@ export function ShowComment({space}){
                                 paddingBottom: '50px',
                               }}
                             >
-                             {comentario.imagenes.length > 0 &&
+                             {
                               comentario.imagenes.map((imagen, index) => (
                                  <SwiperSlide
                                   key={index}
@@ -104,7 +104,9 @@ export function ShowComment({space}){
                             </Swiper>
                             
                             </div>
+}
                         </div>
+                            
                     </div>
 
                     
@@ -114,7 +116,7 @@ export function ShowComment({space}){
                 { commentsNumber > 2 &&
                 <div className='flex justify-center'>
                 <button
-                    className='bg-green-500 text-xl text-white font-semibold rounded-lg p-2 mb-8' 
+                    className="bg-white text-green-600 mt-3 py-2 px-5 mb-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"
                     onClick={handleClick}>
                         { language === "ca" ? "Més comentaris ..." : language === "es" ? "Más comentarios ..." : "More comments ..." }
                 </button>

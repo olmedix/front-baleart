@@ -12,7 +12,7 @@ export default function Comments(){
    
     return(
         <div className="bg-gray-800 mt-8 p-12 flex flex-col items-center rounded-tl-3xl rounded-tr-3xl ">
-            <h2 className='text-5xl text-green-700 font-bold py-7 shadow-xl text-shadow'>
+            <h2 className='text-5xl font-bold text-green-700 text-center my-8'>
                 {
                     language === "ca" 
                     ? "Tots els comentaris dels usuaris" 
@@ -27,7 +27,7 @@ export default function Comments(){
                 <div 
                     key={space.id}
                     className={`${index % 2 === 0 ? 'bg-gray-500' : 'bg-gray-400'} 
-                    rounded-2xl mb-14 px-10  shadow-offset shadow-xl shadow-white`}
+                    rounded-2xl mb-14 px-10  shadow-offset shadow-md shadow-white`}
                 >
                     <h3 className='text-4xl text-white font-bold pt-5'>{space.nombre}</h3>
                     <ShowComment space={space}/>
@@ -37,7 +37,7 @@ export default function Comments(){
 
             {pagination < spacesWithCommentsCount && (
                 <button
-                    className='bg-green-500 text-xl text-white font-semibold rounded-lg p-2 mb-8' 
+                    className="bg-white text-green-600 mt-3 py-2 px-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white" 
                     onClick={() => setPagination(pagination + 1)}>
                         {
                             language === "ca" 

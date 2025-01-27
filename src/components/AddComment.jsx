@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchComments } from "../services/api";
+import { SpacesContext } from "../contexts/SpacesContext";
 import { FaRegSmileBeam } from "react-icons/fa";
 
 export default function AddComment({ regNumber }) {
-
+    
     const [puntuacio, setPuntuacio] = useState(0);
     const [isPuntuacio, setIsPuntuacio] = useState(false);
     const [loading, setLoading] = useState(false);

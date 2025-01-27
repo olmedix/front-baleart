@@ -12,6 +12,7 @@ export function ShowComment({space}){
     const [pagination,setPagination] = useState(2);
     const [commentsNumber,setCommentsNumber] = useState(space.comentarios.length);
     const { language } = useLanguage();
+    console.log(space.comentarios);
     
     const renderStars = () => {
         const stars = [];
@@ -24,8 +25,9 @@ export function ShowComment({space}){
     };
 
     const handleClick = () =>{
-        setPagination(pagination + 1);
+        setPagination(pagination + 2);
         setCommentsNumber(commentsNumber - 2);
+        console.log(pagination);
     }
 
     return(
@@ -33,7 +35,7 @@ export function ShowComment({space}){
                     {space.comentarios.slice(0,pagination).map((comentario, index) => (
 
                     <div key={index}
-                         className="flex p-5 my-5 text-left border-b border-gray-300"
+                         className="flex p-5 my-5 text-left border-b border-gray-300 text-wrap"
                     >
                         <div className="px-7 font-semibold flex flex-col items-center justify-center">
                             <p className="rounded-full p-2 text-white bg-green-600 border border-green-700 w-12 h-12 flex items-center justify-center">
@@ -55,6 +57,7 @@ export function ShowComment({space}){
                         </p>
 
                         <p className="font-bold text-xl mb-4">{comentario.comentario}</p>
+
                         {comentario.imagenes.length > 0 &&
                         <div className="overflow-hidden w-full">
                             <Swiper
@@ -93,7 +96,8 @@ export function ShowComment({space}){
                                   <img
                                    src={imagen.url_imagen}
                                    alt={comentario.usuario}
-                                    style={{ display: 'block', width: '100%'}}
+                                    style={{ display: 'block', 
+                                        width: '100%'}}
                                     onError={(e) => {
                                       e.target.onerror = null;
                                      e.target.src = '/imgs/modalities/escultura.jpg';

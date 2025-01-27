@@ -9,7 +9,9 @@ export default function SpaceDetails(){
     const { language } = useLanguage(); 
 
     return (
-        <div className="bg-gray-800 mt-8 p-6 flex flex-col items-center rounded-tl-3xl rounded-tr-3xl ">
+        <div className="bg-gray-800 mt-8 p-6 flex flex-col items-center rounded-tl-3xl rounded-tr-3xl "
+             style={{minWidth: "1100px"}}
+        >
 
             <h1 className="text-white">{space.name} 
                 <span className="pl-2 text-green-500 shadow-xl text-shadow" >

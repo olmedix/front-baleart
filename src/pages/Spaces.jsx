@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { SpacesContext } from "../contexts/SpacesContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useContext } from "react";
@@ -20,42 +20,51 @@ export default function Spaces(){
         modality: [],
         service: [],
     });
+
+    // Estado para la página actual
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
     const [showModalities, setShowModalities] = useState(false);
     const [showServices, setShowServices] = useState(false);
 
     const handleFilterChange = (filterType, value) => {
         setFilters((prevFilters) => {
-            // Si el filtro es un array (como `modality` o `service`), actualízalo correctamente
+            let updatedFilters;
             if (Array.isArray(prevFilters[filterType])) {
                 const currentValues = prevFilters[filterType];
                 if (currentValues.includes(value)) {
-                    return {
+                    updatedFilters = {
                         ...prevFilters,
                         [filterType]: currentValues.filter((item) => item !== value),
                     };
                 } else {
-                    return {
+                    updatedFilters = {
                         ...prevFilters,
                         [filterType]: [...currentValues, value],
                     };
                 }
+            } else {
+                updatedFilters = {
+                    ...prevFilters,
+                    [filterType]: value,
+                };
             }
     
-            // Para filtros de texto o selección única
-            return {
-                ...prevFilters,
-                [filterType]: value,
-            };
+            // Reinicia la página actual
+            setCurrentPage(1);
+            return updatedFilters;
         });
     };
+    
 
     const filterspace = spaces.filter((space) => {
         const { name, typeSpace, municipality, score, modality, service } = filters;
-    
+
         // Filtrar por texto
         const matchesTextFilters = 
             (!name || space.nombre.toLowerCase().includes(name.toLowerCase())) &&
-            (!typeSpace || space.tipo_espacio.nombre === typeSpace) &&
+            (!typeSpace || space.tipo_espacio.name === typeSpace) &&
             (!municipality || space.direccion.municipio === municipality) &&
             (!score || space.puntuacion_total === parseInt(score));
     
@@ -70,6 +79,13 @@ export default function Spaces(){
         return matchesTextFilters && matchesArrayFilters;
     });
     
+    useEffect(() => {
+        const totalPages = Math.ceil(filterspace.length / itemsPerPage);
+
+        if (currentPage > totalPages) {
+            setCurrentPage(1); // Reinicia a la primera página si la actual no es válida
+        }
+    }, [filterspace, currentPage, itemsPerPage]);
 
     
     if (loading || loadingFilters) return <p>Loading...</p>;
@@ -233,7 +249,11 @@ export default function Spaces(){
                     }              
             </form>
 
-            <CardList spaces={filterspace} />
+            <CardList 
+                spaces={filterspace} 
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
       
          </>
     )

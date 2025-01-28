@@ -77,16 +77,16 @@ export default function Contact() {
 
     return (
         <>
-            <h1 className="text-3xl font-bold my-9">
+            <h1 className="text-3xl font-bold mt-9">
                 {language === "ca" ? "Pàgina de contacte" : language === "es" ? "Página de contacto" : "Contact page"}
             </h1>
 
             <fieldset 
                 style={{ maxWidth: "700px" }}
-                className="text-left bg-gray-400 mx-auto my-10 p-4 rounded-md shadow-lg shadow-green-400"    
+                className="text-left bg-gray-400 mx-auto mt-10 mb-20 p-4 rounded-md shadow-lg shadow-green-400"    
             >
 
-                <form onSubmit={handleSubmit} className="my-5 text-lg">
+                <form onSubmit={handleSubmit} className="my-9 text-lg">
                     <div>
                         <label className="block font-medium pl-5" htmlFor="nombre">
                             {language === "ca" ? "Nom " : language === "es" ? "Nombre " : "Name "}

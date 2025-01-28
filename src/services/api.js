@@ -43,20 +43,6 @@ export const fetchFilters = async () => {
   return result;
 };
 
-export const fetchGetComments = async (userId) => {
-  const token = localStorage.getItem("authToken");
-  const response = await fetch(`${API_BASE_URL}/comments/${userId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!response.ok) throw new Error("Error al obtener los comentarios");
-  const result = await response.json();
-  return result;
-};
-
 export const fetchSendEmail = async (formData) => {
   const token = localStorage.getItem("authToken");
   const response = await fetch(`${API_BASE_URL}/send-email`, {
@@ -141,18 +127,17 @@ export const register = async (registerData) => {
  * @param {string} email - Email del usuario.
  * @returns {Promise<object>} - Datos del usuario.
  */
-export const getUserByEmail = async (email) => {
-  const response = await fetchWithAuth(`user/${email}`, {
+export const getUser = async () => {
+  const response = await fetchWithAuth("user", {
     method: "GET",
   });
-
   if (!response.ok) {
     throw new Error(
-      "Error al obtener los datos del usuario" || errorData.message
+      errorData.message || "Error al obtener los datos del usuario"
     );
   }
 
-  return response.json();
+  return await response.json();
 };
 
 export const getUserByEmailOnly = async (email) => {
@@ -167,7 +152,7 @@ export const getUserByEmailOnly = async (email) => {
     );
   }
 
-  return response.json();
+  return response.data.json();
 };
 
 export const updateUserByEmailOnly = async (email, updatedData) => {

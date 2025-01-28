@@ -1,19 +1,44 @@
-import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
+import { useState,useEffect } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { getUser} from "../services/api";
 
 export default function Contact() {
     const { language } = useLanguage();
-    const { user } = useAuth();
+    const [user,setUser] = useState({});
     const [loading, setLoading] = useState(false);
+    const [userLoading, setUserLoading] = useState(false);
+    const [userError, setUserError] = useState(null);
     const [error, setError] = useState(null);
-    const [formData, setFormData] = useState({
-        nombre: `${user.data.nombre} ${user.data.apellido}`,
-        email: user.data.email,
-        telf: user.data.telefono,
-        asunto: '',
-        mensaje: ''
-    });
+    const [formData, setFormData] = useState({});
+    
+        useEffect(() => {
+          const fetchUser = async () => {
+            try {
+                setUserLoading(true);
+              const usuario = await getUser();
+              console.log(usuario);
+              setUser(usuario);
+            } catch (err) {
+                setUserError(err.message);
+            } finally {
+                setUserLoading(false);
+            }
+          };
+          fetchUser();
+        }, []);
+
+        useEffect(() => {
+            if (user.data) {
+                setFormData({
+                    nombre: `${user.data.nombre} ${user.data.apellido}`,
+                    email: user.data.email,
+                    telf: user.data.telefono,
+                    asunto: '',
+                    mensaje: ''
+                });
+            }
+        }, [user]);
+        
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -53,6 +78,9 @@ export default function Contact() {
             setLoading(false);
         }
     };
+
+    if(userLoading) return <p>"Cargando..."</p>;
+    if(userError) return <p>{userError}</p>;
 
     return (
         <>

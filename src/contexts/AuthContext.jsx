@@ -1,31 +1,24 @@
-import { createContext,useState,useEffect } from "react";
+// AuthContext.js
+import { createContext,useContext,useState,useEffect } from "react";
 
-
-//Creamos el contexto
+// Crear el contexto
 const AuthContext = createContext();
 
+// Proveedor del contexto
+export const AuthProvider = ({ children }) => {
+  const [hasToken, setHasToken] = useState(!!localStorage.getItem("authToken"));
+  
+  return (
+    <AuthContext.Provider value={{ hasToken, setHasToken }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-export function AuthProvider({children}){
-    const [user,setUser] = useState(localStorage.getItem("authUser") || null);
-    const [token,setToken] = useState(localStorage.getItem("authToken") || null);
 
-    useEffect(() => { 
-        const restoreSesion = async () => {
-        const storedUser =  localStorage.getItem("authUser");
-        const storedToken = localStorage.getItem("authToken");
-        if(storedUser && storedToken){
-            setUser(JSON.parse(storedUser));
-            setToken(storedToken);
-        }
-    }
-    restoreSesion();
-    },[]);
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 
-    return (
-        <AuthContext.Provider value={{user,setUser}}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
 
 export default AuthContext;

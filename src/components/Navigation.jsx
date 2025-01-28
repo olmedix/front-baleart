@@ -1,17 +1,19 @@
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../hooks/useAuth";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useAuth } from "../contexts/AuthContext";
+
 
 export default function Navigation(){
 
+    const {hasToken, setHasToken} = useAuth();
     const { language } = useLanguage(); 
-    const {user,setUser} = useAuth();
     const navigate = useNavigate();
     //LOGOUT
     const handleLogout = () => {
+      
       localStorage.removeItem("authToken");
-      setUser(null);
+      setHasToken(false);
       navigate('/login'); 
     };
 
@@ -38,7 +40,7 @@ export default function Navigation(){
             {language === "ca" ? "Perfil" : language === "es" ? "Perfil" : "Profile" } 
             </NavLink>
           </li>
-          { !user ? <li className="flex items-center p-2"><NavLink to="/login">
+          { !hasToken ? <li className="flex items-center p-2"><NavLink to="/login">
             {language === "ca" ? "Inicia/Registra't" : language === "es" ? "Inicia/Regístrate" : "Log in/Register" } 
             </NavLink></li> :
             <li className="flex items-center p-2 font-semibold hover:scale-110 hover:text-green-800 "><button onClick={handleLogout}>

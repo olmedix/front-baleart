@@ -1,42 +1,45 @@
 import { useState,useEffect } from "react";
-import { useAuth} from "../hooks/useAuth";
 import { useLanguage } from "../contexts/LanguageContext";
-import { getUserByEmail,deleteUserByEmail } from "../services/api";
+import { getUser,deleteUserByEmail} from "../services/api";
 import ModalForm from "../components/ModalForm";
-import { fetchGetComments } from "../services/api";
+
 
 
 export default function Profile(){
 
     const { language } = useLanguage();
-    const [comments,setComments]= useState([]);
-    const {user,setUser} = useAuth();
-    const [loading,setLoading] = useState(false);
+    const [user,setUser] = useState({});
+    const [userLoading,setUserLoading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorProfile, setErrorProfile] = useState(null);
-    const userEmail = localStorage.getItem("authEmail");
+    const [refresh, setRefresh] = useState(false);
 
+    useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          setUserLoading(true);
+          const usuario = await getUser();
+          console.log(usuario);
+          setUser(usuario);
+        } catch (err) {
+          setErrorProfile(err.message);
+        } finally {
+          setUserLoading(false);
+        }
+      };
+      fetchUser();
+    }, [refresh]);
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        setLoading(true);
-        const comments = await fetchGetComments(user.data.id);
-        if (comments) setComments(comments);
-      } catch (err) {
-        console.error(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchComments();
-  },[]);
+    const handleRefresh = () => {
+      setRefresh((prev) => !prev); 
+  };
+
 
   const handleDelete = async () => {
     if (window.confirm("¿Estàs segur de que desitges eliminar el teu compte?")) {
       try {
         setIsLoading(true);
-        await deleteUserByEmail(userEmail);
+        await deleteUserByEmail(user?.data?.email);
         alert("Compte eliminagt amb èxit");
         localStorage.clear();
         window.location.href = "/login";
@@ -48,8 +51,7 @@ export default function Profile(){
     }
   };
 
-    if (loading) return <p>Cargando...</p>;
-    if (isLoading) return <p>Cargando...</p>;
+   if (userLoading || isLoading) return <p>Cargando...</p>;
     if (errorProfile) return <p>{errorProfile}</p>;
 
     return (
@@ -58,7 +60,7 @@ export default function Profile(){
           {language === "ca" ? "Les meves dades" : language === "es" ? "Mis datos" : "My data"}
         </h2>
     
-        <div>
+    <div>
           <section className="flex justify-between border-b-2 border-stone-500 py-3">
             <div className="w-3/5 text-left">
               <h3 className="ml-5 font-semibold text-2xl mb-5">
@@ -92,11 +94,11 @@ export default function Profile(){
             </div>
     
             <div className="flex items-center">
-              <ModalForm setUser={setUser} userEmail={userEmail} />
+              <ModalForm userEmail={user?.data?.email} onUpdate={handleRefresh}/>
             </div>
           </section>
 
-          {comments.length > 0 && (
+          
             <section className="border-b-2 border-stone-500 mx-auto py-3">
               <h3 className="font-semibold text-2xl mb-5">
                 {language === "ca" ? "Els meus comentaris i valoracions" : language === "es" ? "Mis comentarios y valoraciones" : "My comments and ratings"}
@@ -111,26 +113,31 @@ export default function Profile(){
                   {language === "ca" ? "Comentaris no confirmats" : language === "es" ? "Comentarios no confirmados" : "Unconfirmed comments"}
                 </div>
               </div>
-    
+              {user?.data?.comments.length > 0 ? (
               <div className="block text-left">
                   <ul className="rounded-lg">
-                    {comments.map((comment, index) => (
+                    {user.data.comments.map((comment, index) => (
                       <li
                         key={index}
-                        className={`mb-3 ${comment.status === 'y' ? 'text-green-600' : 'text-red-500'}`}
+                        className={`mb-3 ${comment.estado === 'y' ? 'text-green-600' : 'text-red-500'}`}
                       >
                         <span className="text-yellow-500 font-semibold pr-5">
-                          {comment.score}
+                          {comment.puntuacion}
                           <i className="fa-solid fa-star text-xl text-yellow-500"></i>
                         </span>
-                        <span className="font-bold pr-2">{comment.space}:</span>
-                        {comment.comment}
+                        {comment.comentario}
                       </li>
                     ))}
                   </ul>   
               </div>
+            ) 
+            :
+            <p>{language === "ca" ? "Encara no has realitzat cap comentari" : 
+                language === "es" ? "Aún no has realizado ningún comentario" : 
+                                    "You have not made any comments yet"}</p>
+          }
             </section>
-          )}
+          
           
           <section className="flex items-center h-20 justify-center gap-16">
             <button
@@ -143,6 +150,7 @@ export default function Profile(){
             </button>
           </section>
         </div>
+        
       </>
     );
 }    

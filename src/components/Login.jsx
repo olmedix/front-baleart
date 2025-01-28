@@ -1,13 +1,14 @@
 import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import {login, getUserByEmail} from '../services/api';
-import { useAuth } from "../hooks/useAuth";
+import {login} from '../services/api';
 import { useLanguage } from "../contexts/LanguageContext";
+import { useAuth } from "../contexts/AuthContext";
+
 
 export default function Login() {
 
+  const {setHasToken} = useAuth();
   const { language } = useLanguage();
-  const {setUser} = useAuth();
   const navigate = useNavigate();
   const [initPassword, setInitPassword] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -28,12 +29,9 @@ export default function Login() {
 
     try {
             const data = await login(loginData);
-            
             localStorage.setItem("authToken", data.access_token);
-
-            const user = await getUserByEmail(loginData.email);
-            localStorage.setItem("authUser", JSON.stringify(user));
-            setUser(user);
+            localStorage.setItem("authEmail", loginData.email);
+            setHasToken(true);
             navigate('/home');
     } catch (error) {
         setLoginError(error.message);

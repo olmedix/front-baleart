@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { updateUserByEmail } from "../services/api";
+import { useNavigate } from 'react-router-dom';
 
-export default function ModalForm({ userEmail, setUser }) {
+export default function ModalForm({ userEmail, onUpdate }) {
 
     const { language } = useLanguage();
     const [isOpen,setIsOpen] = useState(false);
     const [formData, setFormData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
@@ -29,11 +31,10 @@ export default function ModalForm({ userEmail, setUser }) {
         const handleUpdate = async (e) => {
             e.preventDefault();
             setError(null); 
-
           try {
             setIsLoading(true);
-            const updatedUser = await updateUserByEmail(userEmail, formData);
-            setUser(updatedUser);
+            await updateUserByEmail(userEmail, formData);
+            if (onUpdate) onUpdate();
             closeModal();
           } catch (err) {
             setError(err.message);
@@ -85,7 +86,7 @@ export default function ModalForm({ userEmail, setUser }) {
                       id="name"
                       name="name"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
-                      placeholder="Nom..."
+                      placeholder="Opcional..."
                       onChange={handleInputChange}
                     />
                   </div>
@@ -99,7 +100,7 @@ export default function ModalForm({ userEmail, setUser }) {
                       id="lastName"
                       name="lastName"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
-                      placeholder="Cognoms..."
+                      placeholder="Opcional..."
                       onChange={handleInputChange}
                     />
                   </div>
@@ -113,7 +114,7 @@ export default function ModalForm({ userEmail, setUser }) {
                       id="email"
                       name="email"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
-                      placeholder="Email..."
+                      placeholder="Opcional..."
                       onChange={handleInputChange}
                     />
                   </div>
@@ -127,7 +128,7 @@ export default function ModalForm({ userEmail, setUser }) {
                       id="phone"
                       name="phone"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
-                      placeholder="Telèfon..."
+                      placeholder="Opcional..."
                       onChange={handleInputChange}
                     />
                   </div>
@@ -141,7 +142,7 @@ export default function ModalForm({ userEmail, setUser }) {
                       id="password"
                       name="password"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
-                      placeholder="Contrasenya..."
+                      placeholder="Opcional..."
                       onChange={handleInputChange}
                     />
                   </div>

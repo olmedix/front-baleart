@@ -29,6 +29,8 @@ export default function AddComment({ regNumber }) {
     };
 
     const handleImageURL = () => {
+
+        if(imagesURL.trim() === "") return;
         setComentari(prev =>({ ...prev,images:[ ...prev.images, imagesURL.trim()]}));
         setImagesURL("");
         SetImageMessage(true);

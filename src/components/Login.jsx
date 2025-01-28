@@ -1,6 +1,6 @@
 import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import {login} from '../services/api';
+import { login} from '../services/api';
 import { useLanguage } from "../contexts/LanguageContext";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -30,9 +30,9 @@ export default function Login() {
     try {
             const data = await login(loginData);
             localStorage.setItem("authToken", data.access_token);
-            localStorage.setItem("authEmail", loginData.email);
             setHasToken(true);
-            navigate('/home');
+            window.location.href = "/home";
+            
     } catch (error) {
         setLoginError(error.message);
     }finally {

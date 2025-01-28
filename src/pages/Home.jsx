@@ -16,8 +16,6 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useContext,useEffect } from 'react';
 
 
-
-
 export default function Home() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const { language } = useLanguage();

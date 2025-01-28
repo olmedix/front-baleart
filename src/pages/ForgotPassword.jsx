@@ -28,6 +28,7 @@ export default function ForgotPassword() {
 
     try {
       const userData = await getUserByEmailOnly(quetions.email);
+      console.log(userData.email);
       
       if (
         userData.email === quetions.email &&

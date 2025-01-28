@@ -16,7 +16,6 @@ export default function Contact() {
             try {
                 setUserLoading(true);
               const usuario = await getUser();
-              console.log(usuario);
               setUser(usuario);
             } catch (err) {
                 setUserError(err.message);
@@ -79,19 +78,16 @@ export default function Contact() {
         }
     };
 
-    if(userLoading) return <p>"Cargando..."</p>;
+    if(userLoading) return <p>Cargando...</p>;
     if(userError) return <p>{userError}</p>;
 
     return (
         <>
-            <h1 className="text-3xl font-bold mb-6">
+            <h1 className="text-3xl font-bold my-9">
                 {language === "ca" ? "Pàgina de contacte" : language === "es" ? "Página de contacto" : "Contact page"}
             </h1>
 
-            <fieldset className="text-left bg-gray-400 my-10 border border-gray-600 p-4 rounded-md shadow-md">
-                <legend className="text-xl text-center font-bold mb-4 px-2">
-                    {language === "ca" ? "Informació de contacte" : language === "es" ? "Información de contacto" : "Contact information"}
-                </legend>
+            <fieldset className="text-left bg-gray-400 my-10 p-4 rounded-md shadow-lg shadow-green-400">
 
                 <form onSubmit={handleSubmit} className="space-y-4 text-lg">
                     <div>

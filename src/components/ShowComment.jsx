@@ -12,7 +12,6 @@ export function ShowComment({space}){
     const [pagination,setPagination] = useState(2);
     const [commentsNumber,setCommentsNumber] = useState(space.comentarios.length);
     const { language } = useLanguage();
-    console.log(space.comentarios);
     
     const renderStars = () => {
         const stars = [];

@@ -19,7 +19,6 @@ export default function Profile(){
         try {
           setUserLoading(true);
           const usuario = await getUser();
-          console.log(usuario);
           setUser(usuario);
         } catch (err) {
           setErrorProfile(err.message);
@@ -56,7 +55,7 @@ export default function Profile(){
 
     return (
       <>
-        <h2 className="my-6 text-3xl font-semibold">
+        <h2 className="my-9 text-3xl font-bold">
           {language === "ca" ? "Les meves dades" : language === "es" ? "Mis datos" : "My data"}
         </h2>
     

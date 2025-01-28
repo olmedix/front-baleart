@@ -43,21 +43,6 @@ export const fetchFilters = async () => {
   return result;
 };
 
-export const fetchSendEmail = async (formData) => {
-  const token = localStorage.getItem("authToken");
-  const response = await fetch(`${API_BASE_URL}/send-email`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(formData),
-  });
-  if (!response.ok) throw new Error("Error al enviar el email");
-  const result = await response.json();
-  return result;
-};
-
 /**
  * Realiza una petición con autenticación.
  * @param {string} endpoint - Endpoint de la API.
@@ -151,8 +136,8 @@ export const getUserByEmailOnly = async (email) => {
       errorData.message || "Error al obtener los datos del usuario"
     );
   }
-
-  return response.data.json();
+  console.log(response);
+  return response.json();
 };
 
 export const updateUserByEmailOnly = async (email, updatedData) => {
@@ -218,3 +203,20 @@ export const deleteUserByEmail = async (email) => {
 
   return response.json();
 };
+
+/*
+export const fetchSendEmail = async (formData) => {
+  const token = localStorage.getItem("authToken");
+  const response = await fetch(`${API_BASE_URL}/send-email`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(formData),
+  });
+  if (!response.ok) throw new Error("Error al enviar el email");
+  const result = await response.json();
+  return result;
+};
+*/

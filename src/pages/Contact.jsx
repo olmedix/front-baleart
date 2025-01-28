@@ -4,6 +4,7 @@ import { getUser} from "../services/api";
 
 export default function Contact() {
     const { language } = useLanguage();
+    const [sendEmail, setSendEmail] = useState(false);
     const [user,setUser] = useState({});
     const [loading, setLoading] = useState(false);
     const [userLoading, setUserLoading] = useState(false);
@@ -12,6 +13,7 @@ export default function Contact() {
     const [formData, setFormData] = useState({});
     
         useEffect(() => {
+            setSendEmail(false);
           const fetchUser = async () => {
             try {
                 setUserLoading(true);
@@ -53,23 +55,15 @@ export default function Contact() {
         setError(null);
 
         try {
-            // Llamada al servicio para enviar el correo
-            /*const result = await sendEmail({
-                nombre: formData.nombre,
-                email: formData.email,
-                telf: formData.telf,
-                asunto: formData.asunto,
-                mensaje: formData.mensaje,
-            });*/
-
-            alert("Correo enviado con éxito"); // Muestra el mensaje de éxito devuelto por el backend
+            setSendEmail(true);
             setFormData({
-                nombre: `${user.data.nombre} ${user.data.apellido}`,
-                email: user.data.email,
-                telf: user.data.telefono,
+                nombre: "",
+                email: "",
+                telf: "",
                 asunto: '',
                 mensaje: ''
             });
+            
         } catch (error) {
             console.error(error);
             setError("Hubo un error al enviar el correo. Por favor, inténtalo de nuevo.");
@@ -87,9 +81,12 @@ export default function Contact() {
                 {language === "ca" ? "Pàgina de contacte" : language === "es" ? "Página de contacto" : "Contact page"}
             </h1>
 
-            <fieldset className="text-left bg-gray-400 my-10 p-4 rounded-md shadow-lg shadow-green-400">
+            <fieldset 
+                style={{ maxWidth: "700px" }}
+                className="text-left bg-gray-400 mx-auto my-10 p-4 rounded-md shadow-lg shadow-green-400"    
+            >
 
-                <form onSubmit={handleSubmit} className="space-y-4 text-lg">
+                <form onSubmit={handleSubmit} className="my-5 text-lg">
                     <div>
                         <label className="block font-medium pl-5" htmlFor="nombre">
                             {language === "ca" ? "Nom " : language === "es" ? "Nombre " : "Name "}
@@ -171,15 +168,21 @@ export default function Contact() {
 
                     <div>
                         <button
-                            className="w-full bg-green-600 text-white py-2 px-4 rounded-md shadow-sm transition duration-300 hover:bg-green-800"
+                            className="font-semibold border bg-green-600 text-white py-2 rounded-full mx-auto mt-4 px-5 block transition duration-300 hover:bg-white hover:text-green-600"
                             type="submit"
-                            disabled={loading}
+                            disabled={loading || sendEmail}
                         >
                             {loading
                                 ? language === "ca" ? "Enviant..." : language === "es" ? "Enviando..." : "Sending..."
                                 : language === "ca" ? "Enviar" : language === "es" ? "Enviar" : "Send"}
                         </button>
                     </div>
+
+                    {sendEmail && (
+                        <p className="text-xl font-semibold text-green-800 text-center mt-4">
+                            {language === "ca" ? "El correu s'ha enviat correctament." : language === "es" ? "El correo se ha enviado correctamente." : "The email has been sent correctly."}
+                        </p>
+                    )}
 
                     {error && (
                         <p className="text-red-500 text-center mt-4">

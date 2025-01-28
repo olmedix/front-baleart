@@ -26,8 +26,8 @@ export default function Comments(){
                 (space.comentarios && space.comentarios.length > 0) &&
                 <div 
                     key={space.id}
-                    className={`${index % 2 === 0 ? 'bg-gray-500' : 'bg-gray-400'} 
-                    rounded-2xl mb-14 px-10  shadow-offset shadow-md shadow-white`}
+                    style={{maxWidth: '900px'}}
+                    className="bg-gray-400 bg-opacity-50 rounded-2xl mb-14 px-10  shadow-offset shadow-md shadow-white"
                 >
                     <h3 className='text-4xl text-white font-bold pt-5'>{space.nombre}</h3>
                     <ShowComment space={space}/>

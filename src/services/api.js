@@ -43,12 +43,6 @@ export const fetchFilters = async () => {
   return result;
 };
 
-/**
- * Realiza una petición con autenticación.
- * @param {string} endpoint - Endpoint de la API.
- * @param {object} [options={}] - Opciones para la petición (headers, método, cuerpo, etc.).
- * @returns {Promise<Response>} - Respuesta de la API.
- */
 export const fetchWithAuth = async (endpoint, options = {}) => {
   const token = localStorage.getItem("authToken");
   if (!token) throw new Error("No se encontró el token de autenticación");
@@ -61,11 +55,6 @@ export const fetchWithAuth = async (endpoint, options = {}) => {
   return fetch(`${API_BASE_URL}/${endpoint}`, { ...options, headers });
 };
 
-/**
- * Realiza una petición de inicio de sesión.
- * @param {object} loginData - Datos de inicio de sesión (email y password).
- * @returns {Promise<object>} - Datos de respuesta del servidor.
- */
 export const login = async (loginData) => {
   const response = await fetch(`${API_BASE_URL}/login`, {
     method: "POST",
@@ -83,11 +72,6 @@ export const login = async (loginData) => {
   return response.json();
 };
 
-/**
- * Realiza una petición de registro.
- * @param {object} registerData - Datos de registro (name, email, password).
- * @returns {Promise<object>} - Datos de respuesta del servidor.
- */
 export const register = async (registerData) => {
   const response = await fetch(`${API_BASE_URL}/register`, {
     method: "POST",
@@ -105,13 +89,6 @@ export const register = async (registerData) => {
   return response.json();
 };
 
-//USER
-
-/**
- * Obtiene los datos de un usuario por su email.
- * @param {string} email - Email del usuario.
- * @returns {Promise<object>} - Datos del usuario.
- */
 export const getUser = async () => {
   const response = await fetchWithAuth("user", {
     method: "GET",
@@ -160,12 +137,6 @@ export const updateUserByEmailOnly = async (email, updatedData) => {
   return response.json();
 };
 
-/**
- * Actualiza los datos de un usuario por su email.
- * @param {string} email - Email del usuario.
- * @param {object} updatedData - Datos a actualizar.
- * @returns {Promise<object>} - Datos actualizados del usuario.
- */
 export const updateUserByEmail = async (email, updatedData) => {
   const response = await fetchWithAuth(`user/${email}`, {
     method: "PUT",
@@ -186,11 +157,6 @@ export const updateUserByEmail = async (email, updatedData) => {
   return response.json();
 };
 
-/**
- * Elimina un usuario por su email.
- * @param {string} email - Email del usuario.
- * @returns {Promise<object>} - Respuesta del servidor tras la eliminación.
- */
 export const deleteUserByEmail = async (email) => {
   const response = await fetchWithAuth(`user/${email}`, {
     method: "DELETE",
@@ -203,20 +169,3 @@ export const deleteUserByEmail = async (email) => {
 
   return response.json();
 };
-
-/*
-export const fetchSendEmail = async (formData) => {
-  const token = localStorage.getItem("authToken");
-  const response = await fetch(`${API_BASE_URL}/send-email`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(formData),
-  });
-  if (!response.ok) throw new Error("Error al enviar el email");
-  const result = await response.json();
-  return result;
-};
-*/

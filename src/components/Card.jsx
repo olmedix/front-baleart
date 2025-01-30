@@ -7,7 +7,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
         const stars = [];
         for (let i = 0; i < 5; i++) {
             stars.push(
-                <i key={i} className={` ${i < score ? 'fa-solid fa-star' : 'fa-regular fa-star'}`} />
+                <i key={i} className={` ${i < score ? 'fa-solid fa-star' : 'fa-regular fa-star'} p-1`} />
             );
         }
         return stars;
@@ -90,12 +90,12 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                     alt={name} />
                 </div>
                 
-                <div className="absolute top-5 left-0 bg-transparent text-left text-white p-2">
-                    <p>{
+                <div className="absolute top-5 left-0 bg-transparent text-left text-white p-2 bg-white opacity-50 rounded-lg">
+                    <p className="text-black text-sm font-bold">{
                         language === "ca" ? typeSpace[0] : language === "es" ? typeSpace[1] : typeSpace[2]    
                     }</p>
-                    <h3>{name}</h3>
-                    <p>{municipality}</p>
+                    <h3 className="text-black text-sm font-bold">{name}</h3>
+                    <p className="text-black text-sm font-bold">{municipality}</p>
                 </div>
             </section>
 
@@ -132,13 +132,13 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                     </ul>
                 </div>
 
-                <div className="ml-auto text-right mr-2">
+                <div className="ml-auto text-right mx-2">
                     <p 
                         className="text-green-800 whitespace-nowrap">{renderStars()} 
                     </p>
                     
-                    <p className="pl-2 text-green-800">
-                        <i className="fa-solid fa-hashtag text-xl mr-1"></i>
+                    <p className="pt-2 pl-2 text-green-800 ">
+                        <i className="fa-solid fa-hashtag text-lg py-2 px-4 mr-1 bg-white bg-opacity-50 rounded-lg border-2 border-white">
                             {votes} 
                             {
                             votes === 1 ?
@@ -146,14 +146,15 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                                 :
                                 language === "ca" ? " vots" : language === "es" ? " votos" : " votes"
                             }
+                            </i>
                     </p>
 
-                    <div>
+                    <div >
                         <NavLink 
                             to={`/spaces/${id}`}
                             state={{space}}
                             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} 
-                            className="m-auto mt-5 block bg-green-600 text-white px-4 py-2 rounded-lg hover:text-white hover:bg-green-900 transition duration-300"
+                            className="m-auto ml-2 mt-5 block bg-green-600 text-white px-4 py-2 rounded-lg border-2 border-green-800 hover:text-white hover:bg-green-900 transition duration-300"
                         >
                             {language === "ca" ? "Més informació " : language === "es" ? "Más información " : "More information " }
                         </NavLink>

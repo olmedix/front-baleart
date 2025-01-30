@@ -41,13 +41,13 @@ export default function AddComment({ regNumber }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
         setError(null);
 
         if (puntuacio === 0) {
             setIsPuntuacio(true);
             return;
         }else{
+            setLoading(true);
             setIsPuntuacio(false);
         }
         
@@ -134,9 +134,9 @@ export default function AddComment({ regNumber }) {
                 className={`border bg-green-600 text-white p-2 mt-3 mx-auto px-5 rounded-full  block ${
                 loading ? "bg-gray-400 cursor-not-allowed" : "hover:bg-white hover:text-green-700"
                 }`}
-                disabled={loading}
+                
             >
-                {loading ? "Enviant..." : "Enviar"}
+                {loading && !isPuntuacio ? "Enviant..." : "Enviar"}
             </button>  
 
             {error && <p className="text-red-500 mt-3">{error}</p>} 

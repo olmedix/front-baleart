@@ -99,7 +99,7 @@ export default function Spaces(){
 
     return(
         <>
-            <form className="mt-8 p-5 font-semibold bg-gray-800 text-white rounded-tl-lg rounded-tr-lg">
+            <form className="mt-8 p-5 font-semibold bg-gray-800 text-white rounded-tl-3xl rounded-tr-3xl">
 
                 <div className="mb-5">
 

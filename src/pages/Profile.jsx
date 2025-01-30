@@ -93,7 +93,7 @@ export default function Profile(){
             </div>
     
             <div className="flex items-center">
-              <ModalForm userEmail={user?.data?.email} onUpdate={handleRefresh}/>
+              <ModalForm user={user.data} onUpdate={handleRefresh}/>
             </div>
           </section>
 
@@ -104,11 +104,11 @@ export default function Profile(){
               </h3>
     
               <div className="flex items-center justify-center mb-7 font-semibold">
-                <div className="w-1/3 p-4 mr-14 border border-green-800 rounded-lg bg-green-500">
+                <div className="w-1/3 p-4 mr-14 border border-green-800 bg-green-500">
                   {language === "ca" ? "Comentaris confirmats" : language === "es" ? "Comentarios confirmados" : "Confirmed comments"}
                 </div>
             
-                <div className="w-1/3 p-4 border border-red-800 rounded-lg bg-red-500">
+                <div className="w-1/3 p-4 border border-red-800 bg-red-500">
                   {language === "ca" ? "Comentaris no confirmats" : language === "es" ? "Comentarios no confirmados" : "Unconfirmed comments"}
                 </div>
               </div>
@@ -120,9 +120,12 @@ export default function Profile(){
                         key={index}
                         className={`mb-3 ${comment.estado === 'y' ? 'text-green-600' : 'text-red-500'}`}
                       >
-                        <span className="text-yellow-500 font-semibold pr-5">
+                        <span className="text-yellow-500 font-semibold">
                           {comment.puntuacion}
                           <i className="fa-solid fa-star text-xl text-yellow-500"></i>
+                        </span>
+                        <span className="font-bold px-2">
+                          {comment.espacio}:
                         </span>
                         {comment.comentario}
                       </li>

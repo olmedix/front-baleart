@@ -85,7 +85,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
             <section className="w-4/5 mx-auto relative">
                 <div className="my-1 py-5 ">
                 <img
-                    className="rounded-2xl shadow-lg shadow-green-800 w-full object-cover hover:scale-110 transition duration-300" 
+                    className="rounded-2xl shadow-lg shadow-green-800 w-full object-cover hover:scale-105 transition duration-300" 
                     src={photo} 
                     alt={name} />
                 </div>

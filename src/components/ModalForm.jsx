@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { updateUserByEmail } from "../services/api";
-import { useNavigate } from 'react-router-dom';
 
-export default function ModalForm({ userEmail, onUpdate }) {
+
+export default function ModalForm({ user, onUpdate }) {
 
     const { language } = useLanguage();
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [isOpen,setIsOpen] = useState(false);
     const [formData, setFormData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
-    const openModal = () => setIsOpen(true);
+    const openModal = () => {
+      setIsOpen(true);
+  };
     const closeModal = () => setIsOpen(false);
 
     // Cerrar modal al hacer clic fuera
@@ -22,6 +24,7 @@ export default function ModalForm({ userEmail, onUpdate }) {
 
       const handleInputChange = (e) => {
         const { name, value } = e.target;
+
         setFormData((prevData) => ({
           ...prevData,
           [name]: value,
@@ -31,9 +34,19 @@ export default function ModalForm({ userEmail, onUpdate }) {
         const handleUpdate = async (e) => {
             e.preventDefault();
             setError(null); 
+
+            if (formData.password !== confirmPassword) {
+              setError("Les contrasenyas no coincideixen");
+              return;
+            }
+
+            // Crear un nuevo objeto solo con los valores no vacíos
+            const filteredData = Object.fromEntries(
+            Object.entries(formData).filter(([key, value]) => value !== "" && value !== undefined)
+            );
           try {
             setIsLoading(true);
-            await updateUserByEmail(userEmail, formData);
+            await updateUserByEmail(user.email, filteredData);
             if (onUpdate) onUpdate();
             closeModal();
           } catch (err) {
@@ -86,7 +99,7 @@ export default function ModalForm({ userEmail, onUpdate }) {
                       id="name"
                       name="name"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
-                      placeholder="Opcional..."
+                      placeholder={user.nombre}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -100,7 +113,7 @@ export default function ModalForm({ userEmail, onUpdate }) {
                       id="lastName"
                       name="lastName"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
-                      placeholder="Opcional..."
+                      placeholder={user.apellido}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -114,7 +127,7 @@ export default function ModalForm({ userEmail, onUpdate }) {
                       id="email"
                       name="email"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
-                      placeholder="Opcional..."
+                      placeholder={user.email}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -128,7 +141,7 @@ export default function ModalForm({ userEmail, onUpdate }) {
                       id="phone"
                       name="phone"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
-                      placeholder="Opcional..."
+                      placeholder={user.telefono}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -138,12 +151,26 @@ export default function ModalForm({ userEmail, onUpdate }) {
                       {language === "ca" ? "Contrasenya" : language === "es" ? "Contraseña" : "Password"}
                     </label>
                     <input
-                      type="text"
+                      type="password"
                       id="password"
                       name="password"
                       className="mt-1 block w-full border border-gray-300 rounded p-2"
                       placeholder="Opcional..."
                       onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label htmlFor="Confirmpassword" className="block text-sm font-medium text-gray-700">
+                      {language === "ca" ? "Contrasenya" : language === "es" ? "Contraseña" : "Password"}
+                    </label>
+                    <input
+                      type="password"
+                      id="Confirmpassword"
+                      name="Confirmpassword"
+                      className="mt-1 block w-full border border-gray-300 rounded p-2"
+                      placeholder="Opcional..."
+                      onChange={e => setConfirmPassword(e.target.value)}
                     />
                   </div>
     

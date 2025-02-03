@@ -21,18 +21,24 @@ export default function SpaceDetails(){
             </h1>
 
             <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
-                <span className="font-bold">Descripció: </span> 
+                <span className="font-bold">
+                {language === "ca" ? "Descripció: " : language === "es" ? "Descripción: " : "Description: "} 
+                </span> 
                 {language === "ca" ? space.description[0] : language === "es" ? space.description[1] : space.description[2]   } 
             </p>
 
             <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
-                <span className="font-bold">Municipi: </span>  
+                <span className="font-bold">
+                {language === "ca" ? "Municipi: " : language === "es" ? "Municipio: " : "Municipality: "} 
+                </span>  
                 {space.municipality}
             </p>
 
             { space.services.length > 0 &&
                 <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
-                    <span className="font-bold">Serveis: </span>
+                    <span className="font-bold">
+                    {language === "ca" ? "Serveis: " : language === "es" ? "Servicios: " : "Services: "} 
+                    </span>
                     <li></li>
                         {space.services.map((service, index) => (      
                             <li  className="ml-5" key={index}>{service[`descripcion_${language}`]} </li>
@@ -41,7 +47,9 @@ export default function SpaceDetails(){
                 </ul>
             }
                 <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
-                <span className="font-bold">Modalitats: </span>
+                <span className="font-bold">
+                {language === "ca" ? "Modalitats: " : language === "es" ? "Modalidades: " : "Modalities: "} 
+                </span>
                     {space.modalities.map((modality, index) => (
                         <li className="ml-5" key={index}>{modality[`descripcion_${language}`]}</li>
                     ))}
@@ -49,7 +57,9 @@ export default function SpaceDetails(){
             
                 <section className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                                 
-                    <h4 className="font-bold">Comentaris:</h4>
+                    <h4 className="font-bold">
+                    {language === "ca" ? "Comentaris: " : language === "es" ? "Comentarios: " : "Comments: "} 
+                    </h4>
                 
                     <AddComment regNumber={space.regNumber}/>
                     <ShowComment space={space}/>

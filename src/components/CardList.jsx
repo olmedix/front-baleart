@@ -82,12 +82,22 @@ export default function CardList({spaces,currentPage,setCurrentPage}) {
                 />
             ))}
 
-            <div>
+            <div className="flex">
+            <button 
+                    className="flex bg-green-600 text-white border-2 mt-3 mx-2 py-3 px-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-800 hover:text-white"
+                    onClick={()=>{
+                        handlePageChange(setCurrentPage(1));
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    >
+                    {"<<"}
+                </button>
+
                 <button
                     className={
                         currentPage === 1
                             ? "bg-gray-500  text-gray-200 mt-3 py-2 px-5 rounded-full mr-2 font-semibold "
-                            : "bg-white text-green-600 mt-3 py-2 px-5 rounded-full mr-2 font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"
+                            : "bg-green-600 text-white border-2  mt-3 py-2 px-5 rounded-full mr-2 font-semibold transition duration-400 ease-in-out hover:bg-green-800 hover:text-white"
                     }
                     onClick={() => {
                         handlePageChange("prev");
@@ -97,11 +107,18 @@ export default function CardList({spaces,currentPage,setCurrentPage}) {
                 >
                     {language === "ca" || language === "es" ? "Anterior " : "Before "}
                 </button>
+
+                <span 
+                    className="flex mr-4 bg-white text-black border-2 mt-3 mx-2 py-3 px-5 rounded-full font-semibold"
+                    >
+                    {currentPage}/{totalPages}
+                </span>
+
                 <button
                     className={
                         currentPage === totalPages
                             ? "bg-gray-500  text-gray-200 mt-3 py-2 px-5 rounded-full mr-2 font-semibold "
-                            : "bg-white text-green-600 mt-3 py-2 px-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"
+                            : "bg-green-600 text-white border-2 mt-3 py-2 px-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-800 hover:text-white"
                     }
                     onClick={() => {
                         handlePageChange("next");
@@ -110,6 +127,16 @@ export default function CardList({spaces,currentPage,setCurrentPage}) {
                     disabled={currentPage === totalPages}
                 >
                     {language === "ca" ? "Següent " : language === "es" ? "Siguiente " : "Next "}
+                </button>
+
+                <button 
+                    className="flex bg-green-600 text-white border-2 mt-3 mx-2 py-3 px-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-800 hover:text-white"
+                    onClick={()=>{
+                        handlePageChange(setCurrentPage(totalPages));
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    >
+                    {">>"}
                 </button>
             </div>
         </div>

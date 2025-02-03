@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { fetchComments } from "../services/api";
-import { SpacesContext } from "../contexts/SpacesContext";
 import { FaRegSmileBeam } from "react-icons/fa";
 
 export default function AddComment({ regNumber }) {
@@ -101,7 +100,7 @@ export default function AddComment({ regNumber }) {
             <label className="block mt-1 font-semibold">
                 Valora aquest espai:
             </label>
-            <p className="text-yellow-500 text-xl pl-3 cursor-pointer">{selectStars()}</p>
+            <p className="text-green-600 text-xl pl-3 cursor-pointer">{selectStars()}</p>
                 {
                     isPuntuacio &&
                     <p className="text-red-500 font-semibold">Selecciona una puntuació</p>

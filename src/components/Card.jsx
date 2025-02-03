@@ -138,7 +138,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                     </p>
                     
                     <p className="pt-2 pl-2 text-green-800 ">
-                        <i className="fa-solid fa-hashtag text-lg py-2 px-4 mr-1 bg-white bg-opacity-50 rounded-lg border-2 border-white">
+                        <span className="text-lg py-1 px-4 mr-1 bg-white bg-opacity-50 rounded-lg border-2 border-white">
                             {votes} 
                             {
                             votes === 1 ?
@@ -146,7 +146,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                                 :
                                 language === "ca" ? " vots" : language === "es" ? " votos" : " votes"
                             }
-                            </i>
+                            </span>
                     </p>
 
                     <div >
@@ -154,7 +154,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                             to={`/spaces/${id}`}
                             state={{space}}
                             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} 
-                            className="m-auto ml-2 mt-5 block bg-green-600 text-white px-4 py-2 rounded-lg border-2 border-green-800 hover:text-white hover:bg-green-900 transition duration-300"
+                            className="m-auto ml-2 mt-5 block bg-green-600 text-white px-4 py-2 rounded-full border-2 border-white hover:text-white hover:bg-green-900 transition duration-300"
                         >
                             {language === "ca" ? "Més informació " : language === "es" ? "Más información " : "More information " }
                         </NavLink>

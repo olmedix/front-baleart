@@ -17,7 +17,7 @@ export function ShowComment({space}){
         const stars = [];
         for (let i = 0; i < 5; i++) {
             stars.push(
-                <i key={i} className={` ${i < space.score || i < space.puntuacion_total ? 'fa-solid fa-star' : 'fa-regular fa-star'}`} />
+                <i key={i} className={` ${i < space.score || i < space.puntuacion_total ? 'fa-solid fa-star' : 'fa-regular fa-star'} text-green-700`} />
             );
         }
         return stars;
@@ -31,7 +31,7 @@ export function ShowComment({space}){
 
     return(
         <>
-                    {space.comentarios.slice(0,pagination).map((comentario, index) => (
+                {space.comentarios.slice(0,pagination).map((comentario, index) => (
 
                     <div key={index}
                          className="flex p-5 my-5 text-left border-b border-gray-300 text-wrap"
@@ -119,7 +119,7 @@ export function ShowComment({space}){
                 { commentsNumber > 2 &&
                 <div className='flex justify-center'>
                 <button
-                    className="bg-white text-green-600 mt-3 py-2 px-5 mb-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white"
+                    className="text-white bg-green-600 border-2 border-white mt-3 py-2 px-5 mb-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-800 hover:text-white"
                     onClick={handleClick}>
                         { language === "ca" ? "Més comentaris ..." : language === "es" ? "Más comentarios ..." : "More comments ..." }
                 </button>

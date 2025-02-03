@@ -22,12 +22,12 @@ export default function Comments(){
                 }
             </h2>
 
-            {spaces.slice(0,pagination).map((space,index) => (
+            {spaces.slice(0,pagination).map((space) => (
                 (space.comentarios && space.comentarios.length > 0) &&
                 <div 
                     key={space.id}
                     style={{maxWidth: '900px'}}
-                    className="bg-gray-400 bg-opacity-50 rounded-2xl mb-14 px-10  shadow-offset shadow-md shadow-white"
+                    className="bg-slate-400 rounded-2xl mb-14 px-10  shadow-offset shadow-md shadow-white"
                 >
                     <h3 className='text-4xl text-white font-bold pt-5'>{space.nombre}</h3>
                     <ShowComment space={space}/>
@@ -37,7 +37,8 @@ export default function Comments(){
 
             {pagination < spacesWithCommentsCount && (
                 <button
-                    className="bg-white text-green-600 mt-3 py-2 px-5 rounded-full font-semibold transition duration-400 ease-in-out hover:bg-green-700 hover:text-white" 
+                    className="bg-green-600 text-white text-600 mt-3 py-2 px-5 rounded-full border-2 border-white font-semibold transition duration-400 ease-in-outhover:text-white hover:bg-green-900" 
+                    
                     onClick={() => setPagination(pagination + 1)}>
                         {
                             language === "ca" 

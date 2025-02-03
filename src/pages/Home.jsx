@@ -110,7 +110,11 @@ export default function Home() {
             .filter((photo) => photo.registre === space.numero_registro)
             .map((photo) => (
               <SwiperSlide key={space.id}>
-                <img src={photo.image} alt="Espacio" />
+                <img
+                  style={{height: '200px'}} 
+                  src={photo.image} 
+                  alt="Espacio" 
+                />
               </SwiperSlide>
             ))
         ))}

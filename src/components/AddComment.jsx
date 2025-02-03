@@ -10,6 +10,7 @@ export default function AddComment({ regNumber }) {
     const [message, setMessage] = useState(false);
     const [imageMessage, SetImageMessage] = useState(false);
     const [error, setError] = useState(null);
+    const [isURLError, setIsURLError] = useState(false);
     const [imagesURL, setImagesURL] = useState("");
     const [comentari, setComentari] = useState({
             comment: '',
@@ -27,9 +28,15 @@ export default function AddComment({ regNumber }) {
         }
     };
 
-    const handleImageURL = () => {
+    const isValidURL = (url) => {
+        const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(\/\S*)?$/i;
+        return urlPattern.test(url);
+    };
 
-        if(imagesURL.trim() === "") return;
+    const handleImageURL = () => {
+        setIsURLError(false);
+        if(imagesURL.trim() === "" || !isValidURL(imagesURL))  return setIsURLError(true);
+        
         setComentari(prev =>({ ...prev,images:[ ...prev.images, imagesURL.trim()]}));
         setImagesURL("");
         SetImageMessage(true);
@@ -91,6 +98,7 @@ export default function AddComment({ regNumber }) {
             <textarea 
                 className="w-full border border-gray-700 p-2 rounded-lg" 
                 placeholder="Escriu el teu comentari aquí..."
+                minLength={10}
                 value={comentari.comment}
                  required
                  onChange={(e) => setComentari({ ...comentari, comment: e.target.value })}    
@@ -106,9 +114,13 @@ export default function AddComment({ regNumber }) {
                     <p className="text-red-500 font-semibold">Selecciona una puntuació</p>
                 }
 
-            <label className="block mt-3 font-semibold mb-2">Afegiu URL de imatges (opcional):
+            <label className="block mt-3 font-semibold mb-2">
+                Afegiu URL de imatges (opcional):
                 <span className="text-green-700 font-semibold pl-3">
                     {imageMessage && "Imatge carregada correctament, afegeix una altre."}
+                </span>
+                <span className="text-red-500 font-semibold">
+                    {isURLError && "No s'ha indroduït una URL vàlida."}
                 </span>
             </label>
             <input 

@@ -15,19 +15,20 @@ export default function Header(){
 
     return(
         <>
-        <header className="flex ">
-            <h1 className="text-green-900 font-bold  cursor-pointer hover:scale-110">
-                Baleart
-            </h1>
+        <header className="flex justify-between">
+            <div className="flex">
+                <h1 className="text-green-900 font-bold  cursor-pointer hover:scale-110">
+                    Baleart
+                </h1>
 
-            <img
+                <img
                     className="h-7 pb-0.5 mr-6 mt-6 text-2xl pl-3 inline-block"  
                     src={"/imgs/language/" + handleLanguage()} 
                     alt="" 
                     onMouseEnter={() => setHover(true)}
                     onMouseLeave={() => setHover(false)}
                 />
-
+            </div>
             <Navigation/>
         </header>
         

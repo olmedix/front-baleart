@@ -40,10 +40,18 @@ export default function ModalForm({ user, onUpdate }) {
               return;
             }
 
-            // Crear un nuevo objeto solo con los valores no vacíos
+            // Filtrar valores vacíos o sin cambios
             const filteredData = Object.fromEntries(
-            Object.entries(formData).filter(([key, value]) => value !== "" && value !== undefined)
+              Object.entries(formData).filter(([key, value]) => 
+                value !== "" && value !== undefined && !(key === "email" && value === user.email)
+              )
             );
+
+            if (Object.keys(filteredData).length === 0) {
+              setError("No hay cambios para actualizar.");
+              return;
+            }
+            
           try {
             setIsLoading(true);
             await updateUserByEmail(user.email, filteredData);
@@ -85,7 +93,7 @@ export default function ModalForm({ user, onUpdate }) {
                 {language === "ca" ? "Actualització de dades" : language === "es" ? "Actualización de datos" : "Update data"}
                 </h2>
 
-                {isLoading && <p className="text-blue-500">Cargando...</p>}
+                {isLoading && <p className="text-green-600">Cargando...</p>}
                 {error && <p className="text-red-500">{error}</p>}
     
                 {/* Formulario */}
@@ -162,7 +170,7 @@ export default function ModalForm({ user, onUpdate }) {
 
                   <div className="mb-4">
                     <label htmlFor="Confirmpassword" className="block text-sm font-medium text-gray-700">
-                      {language === "ca" ? "Contrasenya" : language === "es" ? "Contraseña" : "Password"}
+                      {language === "ca" ? "Confirmar contrasenya" : language === "es" ? "Confirmar contraseña" : "Confirm password"}
                     </label>
                     <input
                       type="password"

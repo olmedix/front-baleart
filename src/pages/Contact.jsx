@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { getUser} from "../services/api";
+import { FlapperSpinner} from "../spinner/FlapperSpinner";
 
 export default function Contact() {
     const { language } = useLanguage();
@@ -72,7 +73,13 @@ export default function Contact() {
         }
     };
 
-    if(userLoading) return <p>Cargando...</p>;
+    if(userLoading) {
+        return ( 
+            <div className='flex w-full h-screen mt-20 justify-center'>
+              <FlapperSpinner size={60} color="#16A34A" />
+            </div>
+          );
+    }
     if(userError) return <p>{userError}</p>;
 
     return (

@@ -2,13 +2,23 @@ import { useContext, useState } from 'react';
 import { SpacesContext } from '../contexts/SpacesContext';
 import { ShowComment } from '../components/ShowComment';
 import { useLanguage } from "../contexts/LanguageContext";
+import { FlapperSpinner } from '../spinner/FlapperSpinner';
+
 
 export default function Comments(){
 
     const { language } = useLanguage();
     const [pagination,setPagination] = useState(1); 
-    const { spaces } = useContext(SpacesContext);
+    const { spaces,loading } = useContext(SpacesContext);
     const spacesWithCommentsCount = spaces.filter(space => space.comentarios && space.comentarios.length > 0).length;
+
+    if(loading) {
+        return ( 
+            <div className='flex w-full h-screen mt-20 justify-center'>
+              <FlapperSpinner size={60} color="#16A34A" />
+            </div>
+          );
+    }
    
     return(
         <div className="bg-gray-800 mt-8 p-12 flex flex-col items-center rounded-tl-3xl rounded-tr-3xl ">

@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { getUser,deleteUserByEmail} from "../services/api";
 import ModalForm from "../components/ModalForm";
-
+import { FlapperSpinner} from "../spinner/FlapperSpinner";
 
 
 export default function Profile(){
@@ -50,7 +50,13 @@ export default function Profile(){
     }
   };
 
-   if (userLoading || isLoading) return <p>Cargando...</p>;
+   if (userLoading || isLoading) {
+    return ( 
+      <div className='flex w-full h-screen mt-20 justify-center'>
+        <FlapperSpinner size={60} color="#16A34A" />
+      </div>
+    );
+   }
     if (errorProfile) return <p>{errorProfile}</p>;
 
     return (

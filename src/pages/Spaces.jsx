@@ -5,6 +5,7 @@ import { useContext } from "react";
 
 import CardList from "../components/CardList";
 import { FiltersContext } from "../contexts/FiltersContext";
+import { FlapperSpinner } from "../spinner/FlapperSpinner";
 
 
 export default function Spaces(){
@@ -88,7 +89,13 @@ export default function Spaces(){
     }, [filterspace, currentPage, itemsPerPage]);
 
     
-    if (loading || loadingFilters) return <p>Loading...</p>;
+    if (loading || loadingFilters) {
+        return ( 
+              <div className='flex w-full h-screen mt-20 justify-center'>
+                <FlapperSpinner size={60} color="#16A34A" />
+              </div>
+            );
+    }
     if (error || errorFilters) {
         return (
             <p>

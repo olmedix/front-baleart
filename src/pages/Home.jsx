@@ -11,6 +11,7 @@ import '../Slider.css';
 
 // import required modules
 import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { FlapperSpinner } from '../spinner/FlapperSpinner';
 import { SpacesContext } from '../contexts/SpacesContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useContext,useEffect } from 'react';
@@ -47,7 +48,14 @@ export default function Home() {
   }
 
 
-  if (loading || loadPhotos) return <p>Loading...</p>;
+  if (loading || loadPhotos) { 
+    return ( 
+      <div className='flex w-full h-screen mt-20 justify-center'>
+        <FlapperSpinner size={60} color="#16A34A" />
+      </div>
+    );
+  }
+
   if (error) return <p>{error}</p>;
   if (errorPhotos) return <p>{errorPhotos}</p>;
 

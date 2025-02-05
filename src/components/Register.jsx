@@ -43,7 +43,13 @@ export default function Register(){
 
         try {
             await register(formData); // Usamos la función del servicio.
-            setMessage('¡Registre amb èxit! Ara pots iniciar sessió.');
+            setMessage(
+              language === "ca"
+              ? '¡Registre amb èxit! Ara pots iniciar sessió.'
+              : language === "es"
+              ? '¡Registro con éxito! Ahora puedes iniciar sessión.'
+              : '¡Registration successful! You can now log in.'
+            );
             setFormData({ name: '', lastName: '', email: '', phone: '', password: '', confirmPassword:'' });
         } catch (error) {
             setMessage(error.message);
@@ -274,7 +280,7 @@ export default function Register(){
                 ? "REGÍSTRATE"
                 : "REGISTER"}
             </button>
-            {message && <p className="mt-4 text-center">{message}</p>}
+            {message && <p className="mt-4 text-xl font-semibold text-center text-green-600">{message}</p>}
           </form>
         </div>
       );

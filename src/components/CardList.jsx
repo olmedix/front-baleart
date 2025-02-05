@@ -55,7 +55,7 @@ export default function CardList({spaces,currentPage,setCurrentPage}) {
       if (errorPhotos) return <p>{errorPhotos}</p>;
 
       return (
-        <div className="bg-gray-800 p-8 flex flex-col items-center">
+        <main className="bg-gray-800 p-8 flex flex-col items-center">
             {currentItems.map((space) => (
                 <Card
                     key={space.id}
@@ -139,6 +139,6 @@ export default function CardList({spaces,currentPage,setCurrentPage}) {
                     {">>"}
                 </button>
             </div>
-        </div>
+        </main>
     );
 }

@@ -20,14 +20,15 @@ export default function SpaceDetails(){
                 </span> 
             </h1>
 
-            <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
+        <main>
+            <p className="w-4/5 p-5 my-5 mx-auto text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                 <span className="font-bold">
                 {language === "ca" ? "Descripció: " : language === "es" ? "Descripción: " : "Description: "} 
                 </span> 
                 {language === "ca" ? space.description[0] : language === "es" ? space.description[1] : space.description[2]   } 
             </p>
 
-            <p className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
+            <p className="w-4/5 p-5 my-5 mx-auto text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                 <span className="font-bold">
                 {language === "ca" ? "Municipi: " : language === "es" ? "Municipio: " : "Municipality: "} 
                 </span>  
@@ -35,7 +36,7 @@ export default function SpaceDetails(){
             </p>
 
             { space.services.length > 0 &&
-                <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
+                <ul className="w-4/5 p-5 my-5 mx-auto text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                     <span className="font-bold">
                     {language === "ca" ? "Serveis: " : language === "es" ? "Servicios: " : "Services: "} 
                     </span>
@@ -46,7 +47,7 @@ export default function SpaceDetails(){
                     }
                 </ul>
             }
-                <ul className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
+                <ul className="w-4/5 p-5 my-5 mx-auto text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                 <span className="font-bold">
                 {language === "ca" ? "Modalitats: " : language === "es" ? "Modalidades: " : "Modalities: "} 
                 </span>
@@ -54,8 +55,8 @@ export default function SpaceDetails(){
                         <li className="ml-5" key={index}>{modality[`descripcion_${language}`]}</li>
                     ))}
                 </ul>
-            
-                <section className="w-4/5 p-5 my-5 text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
+        </main>   
+                <section className="w-4/5 p-5 my-5 mx-auto text-left bg-slate-400 shadow-offset shadow-md shadow-white rounded-xl">
                                 
                     <h4 className="font-bold">
                     {language === "ca" ? "Comentaris: " : language === "es" ? "Comentarios: " : "Comments: "} 

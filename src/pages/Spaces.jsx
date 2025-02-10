@@ -213,7 +213,7 @@ export default function Spaces(){
                     
                     { showModalities &&
                         <div 
-                            className="grid grid-cols-4 gap-4 pl-5 pt-5"
+                            className="grid grid-cols-4 gap-4 pl-16 pt-5"
                             onMouseEnter={() => setShowModalities(true)}
                             onMouseLeave={() => setShowModalities(false)} 
                         >
@@ -235,7 +235,7 @@ export default function Spaces(){
 
                     { showServices &&
                     <div 
-                        className="grid grid-cols-4 gap-4 pl-5 pt-5"
+                        className="grid grid-cols-4 gap-4 pl-16 pt-5"
                         onMouseEnter={() => setShowServices(true)}
                         onMouseLeave={() => setShowServices(false)}
                     >

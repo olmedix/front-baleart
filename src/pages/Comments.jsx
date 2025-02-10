@@ -22,7 +22,7 @@ export default function Comments(){
    
     return(
         <div className="bg-gray-800 mt-8 p-12 flex flex-col items-center rounded-tl-3xl rounded-tr-3xl ">
-            <h2 className='text-5xl font-bold text-green-700 text-center my-8'>
+            <h2 className='text-5xl font-bold text-green-700 text-center my-8 px-32'>
                 {
                     language === "ca" 
                     ? "Tots els comentaris dels usuaris" 

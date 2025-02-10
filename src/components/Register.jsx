@@ -259,7 +259,7 @@ export default function Register(){
             )}
       
             <button
-              className="my-5 py-4 px-32 font-semibold bg-slate-600 rounded-full"
+              className="my-5  font-semibold  bg-green-600 text-white px-4 py-2 rounded-full border-2 border-white hover:text-white hover:bg-green-900 transition duration-300"
               type="submit"
             >
               {isSubmitting

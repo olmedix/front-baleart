@@ -90,7 +90,7 @@ export default function Card({ typeSpace,name,municipality,photo,modalities,scor
                     alt={name} />
                 </div>
                 
-                <div className="absolute top-5 left-0 bg-transparent text-left text-white p-2 bg-white opacity-50 rounded-lg">
+                <div className="absolute top-5 left-0 bg-transparent text-left text-white p-2 bg-white opacity-50 rounded-2xl">
                     <p className="text-black text-sm font-bold">{
                         language === "ca" ? typeSpace[0] : language === "es" ? typeSpace[1] : typeSpace[2]    
                     }</p>

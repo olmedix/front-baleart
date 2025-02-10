@@ -34,7 +34,7 @@ export function ShowComment({space}){
                 {space.comentarios.slice(0,pagination).map((comentario, index) => (
 
                     <div key={index}
-                         className="flex p-5 my-5 text-left border-b border-gray-300 text-wrap"
+                         className="flex w-full p-5 my-5 text-left border-b border-gray-300 text-wrap"
                     >
                         <div className="px-7 font-semibold flex flex-col items-center justify-center">
                             <p className="rounded-full p-2 text-white bg-green-600 border border-green-700 w-12 h-12 flex items-center justify-center">

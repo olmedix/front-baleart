@@ -37,7 +37,7 @@ export default function Comments(){
                 <div 
                     key={space.id}
                     style={{maxWidth: '900px'}}
-                    className="bg-slate-400 rounded-2xl mb-14 px-10  shadow-offset shadow-md shadow-white"
+                    className="w-full bg-slate-400 rounded-2xl mb-14 px-10  shadow-offset shadow-md shadow-white"
                 >
                     <h3 className='text-4xl text-white font-bold pt-5'>{space.nombre}</h3>
                     <ShowComment space={space}/>

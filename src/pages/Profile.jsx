@@ -61,7 +61,7 @@ export default function Profile(){
 
     return (
       <>
-        <h2 className="my-9 text-3xl font-bold">
+        <h2 className="my-9 text-5xl font-bold text-green-700">
           {language === "ca" ? "Les meves dades" : language === "es" ? "Mis datos" : "My data"}
         </h2>
     

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { fetchComments } from "../services/api";
 import { FaRegSmileBeam } from "react-icons/fa";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function AddComment({ regNumber }) {
     
+    const { language } = useLanguage(); 
     const [puntuacio, setPuntuacio] = useState(0);
     const [isPuntuacio, setIsPuntuacio] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -35,7 +37,7 @@ export default function AddComment({ regNumber }) {
 
     const handleImageURL = () => {
         setIsURLError(false);
-        if(imagesURL.trim() === "" || !isValidURL(imagesURL))  return setIsURLError(true);
+        if(imagesURL.trim() === "" || !isValidURL(imagesURL) || imagesURL.length >= 100)  return setIsURLError(true);
         
         setComentari(prev =>({ ...prev,images:[ ...prev.images, imagesURL.trim()]}));
         setImagesURL("");
@@ -93,11 +95,10 @@ export default function AddComment({ regNumber }) {
             onSubmit={handleSubmit}    
         >
             <label className="block font-semibold mb-2">
-                Afegeix un comentari
+            {language === "ca" ? "Afegeix un comentari " : language === "es" ? "Agrega un comentario" : "Add a comment " }
             </label>
             <textarea 
                 className="w-full border border-gray-700 p-2 rounded-lg" 
-                placeholder="Escriu el teu comentari aquí..."
                 minLength={10}
                 value={comentari.comment}
                  required
@@ -106,27 +107,42 @@ export default function AddComment({ regNumber }) {
              </textarea>
 
             <label className="block mt-1 font-semibold">
-                Valora aquest espai:
+            {language === "ca" ? "Valora aquest espai: " : language === "es" ? "Valora este espacio:" : "Value this space: " }
+                
             </label>
             <p className="text-green-600 text-xl pl-3 cursor-pointer">{selectStars()}</p>
                 {
                     isPuntuacio &&
-                    <p className="text-red-500 font-semibold">Selecciona una puntuació</p>
+                    <p className="text-red-500 font-semibold">
+                        {language === "ca" ? "Selecciona una puntuació " : language === "es" ? "Selecciona una puntuación " : "Select a score " }
+                    </p>
                 }
 
             <label className="block mt-3 font-semibold mb-2">
-                Afegiu URL de imatges (opcional):
+            {language === "ca" ? "Afegiu URL de imatges " : language === "es" ? "Agrega URL de imágenes" : "Add image URL " }
+                 (opcional):
                 <span className="text-green-700 font-semibold pl-3">
-                    {imageMessage && "Imatge carregada correctament, afegeix una altre."}
+                    {imageMessage ? 
+                        language === "ca" ? "Imatge carregada correctament, afegeix una altre." 
+                        : language === "es" ? "Imágen agregada correctamente,agrega otra." 
+                        : language === "en" ? "Image added correctly, add another one. "
+                        :"" 
+                        : ""   
+                    }
                 </span>
                 <span className="text-red-500 font-semibold">
-                    {isURLError && "No s'ha indroduït una URL vàlida."}
+                    {isURLError ? 
+                        language === "ca" ? "No s'ha indroduït una URL vàlida o té més de 100 caracters" 
+                        : language === "es" ? "No se ha introducido una URL válida o tiene más de 100 caracteres" 
+                        : language === "en" ? "A valid URL has not been entered or is longer than 100 characters"
+                        : "" 
+                        :""   
+                    }
                 </span>
             </label>
             <input 
                 className="block p-2 w-full text-gray-900 border border-gray-700 rounded-lg bg-white"
                 type="text"
-                placeholder="URL de la imatge"
                 value={imagesURL}
                 onChange={(e) => setImagesURL(e.target.value)}
             />
@@ -138,7 +154,7 @@ export default function AddComment({ regNumber }) {
                 }`}
                 onClick={handleImageURL}  
             >
-                Afegir imatge
+                {language === "ca" ? "Afegir imatge" : language === "es" ? "Agregar imagen" : "Add image" }  
             </button> 
 
             <button
@@ -147,17 +163,23 @@ export default function AddComment({ regNumber }) {
                 }`}
                 
             >
-                {loading && !isPuntuacio ? "Enviant..." : "Enviar"}
+                {loading && !isPuntuacio ? 
+                    language === "ca" ? "Enviar..." : language === "es" ? "Enviar..." : "Sending..." 
+                    : 
+                    language === "ca" ? "Enviar" : language === "es" ? "Enviar" : "Send"
+                }
             </button>  
 
             {error && <p className="text-red-500 mt-3">{error}</p>} 
             {message && <p className="text-green-800 font-semibold mt-3">
                 <span className="font-bold text-xl flex">
-                    ¡¡ Comentari enviat amb èxit!!
+                {language === "ca" ? "¡¡ Comentari enviat amb èxit !!" : language === "es" ? "¡¡ Comentario enviado con éxito !!" : "¡¡ Comment sent successfully !!" }
+                    
                     <FaRegSmileBeam className="text-3xl text-yellow-500 pl-1" />
                 </span>
                 <br />  
-                En breu serà revisat i publicat.
+                {language === "ca" ? "En breu serà revisat i publicat." : language === "es" ? "En breve será revisado y publicado" : "Soon to be revised and published" } 
+                
             </p>} 
         </form>
 

@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://baleart.test/api";
+const API_BASE_URL = "http://baleart-production.up.railway.app/api";
 
 export const fetchSpaces = async () => {
   const token = localStorage.getItem("authToken");
